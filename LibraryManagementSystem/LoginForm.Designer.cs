@@ -73,9 +73,9 @@ namespace LibraryManagementSystem
             this.label2.Font = new System.Drawing.Font("Arial Narrow", 17.25F);
             this.label2.Location = new System.Drawing.Point(561, 198);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(169, 27);
+            this.label2.Size = new System.Drawing.Size(157, 27);
             this.label2.TabIndex = 2;
-            this.label2.Text = "Welcome, Savians!";
+            this.label2.Text = "Welcome, Admin!";
             this.label2.Click += new System.EventHandler(this.label2_Click);
             // 
             // label3

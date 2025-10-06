@@ -98,6 +98,12 @@
     <Compile Include="ReturnBooks.Designer.cs">
       <DependentUpon>ReturnBooks.cs</DependentUpon>
     </Compile>
+    <Compile Include="StudentLogin.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="StudentLogin.Designer.cs">
+      <DependentUpon>StudentLogin.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="AddBooks.resx">
       <DependentUpon>AddBooks.cs</DependentUpon>
     </EmbeddedResource>
@@ -132,6 +138,9 @@
     <EmbeddedResource Include="ReturnBooks.resx">
       <DependentUpon>ReturnBooks.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="StudentLogin.resx">
+      <DependentUpon>StudentLogin.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -147,6 +156,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\551319363_2220571021741076_4897105495816530304_n.png" />
+    <Content Include="Assets\sdsc logo.jpg" />
     <Content Include="Assets\icons8_books_60px_3.png" />
     <Content Include="Assets\icons8_book_100px_1.png" />
     <Content Include="Assets\icons8_book_32px.png" />

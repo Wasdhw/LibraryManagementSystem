@@ -23,6 +23,28 @@ namespace LibraryManagementSystem
 
             displayBooks();
 
+         
+            SetupDataGridViewLayout();
+
+       
+            this.Resize += AddBooks_Resize;
+        }
+
+        private void SetupDataGridViewLayout()
+        {
+          
+            dataGridView1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+
+           
+            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
+            dataGridView1.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+        }
+
+        private void AddBooks_Resize(object sender, EventArgs e)
+        {
+       
+            dataGridView1.AutoResizeColumns();
         }
 
         public void refreshData()
@@ -299,5 +321,11 @@ namespace LibraryManagementSystem
         {
 
         }
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
     }
 }

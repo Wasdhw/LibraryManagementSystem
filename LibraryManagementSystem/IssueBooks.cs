@@ -371,5 +371,45 @@ namespace LibraryManagementSystem
         {
 
         }
+
+        private void bookIssue_picture_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void bookIssue_id_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void bookIssue_status_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void bookIssue_author_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label10_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void bookIssue_returnDate_ValueChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label8_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label4_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
