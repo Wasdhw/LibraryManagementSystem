@@ -9,12 +9,17 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data;
 using System.Data.SqlClient;
+using System.Configuration;
+
 
 namespace LibraryManagementSystem
 {
     public partial class RegisterForm : Form
     {
-        SqlConnection connect = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\Luna\Documents\Library.mdf;Integrated Security=True;Connect Timeout=30");
+        SqlConnection connect = new SqlConnection(
+     ConfigurationManager.ConnectionStrings["LibraryManagementSystem.Properties.Settings.LibraryConnectionString"].ConnectionString
+ );
+
         public RegisterForm()
         {
             InitializeComponent();
@@ -115,6 +120,11 @@ namespace LibraryManagementSystem
         }
 
         private void label7_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void RegisterForm_Load(object sender, EventArgs e)
         {
 
         }

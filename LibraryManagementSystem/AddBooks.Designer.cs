@@ -29,8 +29,9 @@ namespace LibraryManagementSystem
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.panel2 = new System.Windows.Forms.Panel();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.panel1 = new System.Windows.Forms.Panel();
@@ -47,11 +48,16 @@ namespace LibraryManagementSystem
             this.label7 = new System.Windows.Forms.Label();
             this.addBooks_bookTitle = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.addBooks_quantity = new System.Windows.Forms.NumericUpDown();
             this.addBooks_picture = new System.Windows.Forms.PictureBox();
+            this.booksBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.addBooks_quantity)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.addBooks_picture)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.booksBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // panel2
@@ -73,27 +79,27 @@ namespace LibraryManagementSystem
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dataGridView1.BackgroundColor = System.Drawing.SystemColors.ButtonFace;
             this.dataGridView1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(14)))), ((int)(((byte)(128)))), ((int)(((byte)(87)))));
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Arial Rounded MT Bold", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(14)))), ((int)(((byte)(128)))), ((int)(((byte)(87)))));
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Arial Rounded MT Bold", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.dataGridView1.EnableHeadersVisualStyles = false;
             this.dataGridView1.Location = new System.Drawing.Point(15, 45);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.ControlLight;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridView1.RowHeadersDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.ControlLight;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridView1.RowHeadersDefaultCellStyle = dataGridViewCellStyle2;
             this.dataGridView1.RowHeadersVisible = false;
             this.dataGridView1.Size = new System.Drawing.Size(749, 584);
             this.dataGridView1.TabIndex = 1;
@@ -104,6 +110,7 @@ namespace LibraryManagementSystem
             // 
             this.panel1.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(this.addBooks_quantity);
             this.panel1.Controls.Add(this.addBooks_importBtn);
             this.panel1.Controls.Add(this.addBooks_clearBtn);
             this.panel1.Controls.Add(this.addBooks_deleteBtn);
@@ -113,6 +120,7 @@ namespace LibraryManagementSystem
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.addBooks_updateBtn);
             this.panel1.Controls.Add(this.addBooks_addBtn);
+            this.panel1.Controls.Add(this.label1);
             this.panel1.Controls.Add(this.addBooks_author);
             this.panel1.Controls.Add(this.label7);
             this.panel1.Controls.Add(this.addBooks_bookTitle);
@@ -179,25 +187,27 @@ namespace LibraryManagementSystem
             this.addBooks_status.Items.AddRange(new object[] {
             "Available",
             "Not Available"});
-            this.addBooks_status.Location = new System.Drawing.Point(96, 431);
+            this.addBooks_status.Location = new System.Drawing.Point(97, 442);
             this.addBooks_status.Name = "addBooks_status";
             this.addBooks_status.Size = new System.Drawing.Size(168, 24);
             this.addBooks_status.TabIndex = 20;
+            this.addBooks_status.SelectedIndexChanged += new System.EventHandler(this.addBooks_status_SelectedIndexChanged);
             // 
             // label3
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(41, 439);
+            this.label3.Location = new System.Drawing.Point(42, 450);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(48, 16);
             this.label3.TabIndex = 19;
             this.label3.Text = "Status:";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label3.Click += new System.EventHandler(this.label3_Click);
             // 
             // addBooks_published
             // 
-            this.addBooks_published.Location = new System.Drawing.Point(95, 398);
+            this.addBooks_published.Location = new System.Drawing.Point(96, 409);
             this.addBooks_published.Name = "addBooks_published";
             this.addBooks_published.Size = new System.Drawing.Size(167, 20);
             this.addBooks_published.TabIndex = 18;
@@ -206,7 +216,7 @@ namespace LibraryManagementSystem
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(23, 399);
+            this.label2.Location = new System.Drawing.Point(24, 410);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(66, 16);
             this.label2.TabIndex = 17;
@@ -250,7 +260,7 @@ namespace LibraryManagementSystem
             // addBooks_author
             // 
             this.addBooks_author.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.addBooks_author.Location = new System.Drawing.Point(96, 357);
+            this.addBooks_author.Location = new System.Drawing.Point(96, 333);
             this.addBooks_author.Name = "addBooks_author";
             this.addBooks_author.Size = new System.Drawing.Size(168, 22);
             this.addBooks_author.TabIndex = 12;
@@ -259,7 +269,7 @@ namespace LibraryManagementSystem
             // 
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(39, 360);
+            this.label7.Location = new System.Drawing.Point(39, 336);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(50, 16);
             this.label7.TabIndex = 11;
@@ -269,7 +279,7 @@ namespace LibraryManagementSystem
             // addBooks_bookTitle
             // 
             this.addBooks_bookTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.addBooks_bookTitle.Location = new System.Drawing.Point(96, 319);
+            this.addBooks_bookTitle.Location = new System.Drawing.Point(96, 295);
             this.addBooks_bookTitle.Name = "addBooks_bookTitle";
             this.addBooks_bookTitle.Size = new System.Drawing.Size(168, 22);
             this.addBooks_bookTitle.TabIndex = 10;
@@ -278,12 +288,30 @@ namespace LibraryManagementSystem
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(24, 322);
+            this.label6.Location = new System.Drawing.Point(24, 298);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(69, 16);
             this.label6.TabIndex = 9;
             this.label6.Text = "Book TItle:";
             this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(30, 373);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(59, 16);
+            this.label1.TabIndex = 11;
+            this.label1.Text = "Quantity:";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // addBooks_quantity
+            // 
+            this.addBooks_quantity.Location = new System.Drawing.Point(96, 373);
+            this.addBooks_quantity.Name = "addBooks_quantity";
+            this.addBooks_quantity.Size = new System.Drawing.Size(168, 20);
+            this.addBooks_quantity.TabIndex = 2;
             // 
             // addBooks_picture
             // 
@@ -307,7 +335,9 @@ namespace LibraryManagementSystem
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.addBooks_quantity)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.addBooks_picture)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.booksBindingSource)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -331,5 +361,9 @@ namespace LibraryManagementSystem
         private System.Windows.Forms.Button addBooks_clearBtn;
         private System.Windows.Forms.Button addBooks_deleteBtn;
         private System.Windows.Forms.Button addBooks_importBtn;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.NumericUpDown addBooks_quantity;
+        private System.Windows.Forms.BindingSource booksBindingSource;
+
     }
 }

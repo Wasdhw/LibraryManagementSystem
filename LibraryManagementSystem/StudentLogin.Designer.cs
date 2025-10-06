@@ -178,6 +178,7 @@
             this.Controls.Add(this.pictureBox1);
             this.Name = "StudentLogin";
             this.Text = "StudentLogin";
+            this.Load += new System.EventHandler(this.StudentLogin_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();

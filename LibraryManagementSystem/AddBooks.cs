@@ -15,7 +15,7 @@ namespace LibraryManagementSystem
 {
     public partial class AddBooks : UserControl
     {
-        SqlConnection connect = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\Luna\Documents\Library.mdf;Integrated Security=True;Connect Timeout=30");
+        SqlConnection connect = new SqlConnection(@"Server=tcp:sdsc-johnmenardmarcelo.database.windows.net,1433;Initial Catalog=LibrarySystemDB;Persist Security Info=False;User ID=app_user;Password=StrongP@ssw0rd!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
 
         public AddBooks()
         {
@@ -24,28 +24,8 @@ namespace LibraryManagementSystem
             displayBooks();
 
          
-            SetupDataGridViewLayout();
-
-       
-            this.Resize += AddBooks_Resize;
         }
 
-        private void SetupDataGridViewLayout()
-        {
-          
-            dataGridView1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-
-           
-            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-
-            dataGridView1.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
-        }
-
-        private void AddBooks_Resize(object sender, EventArgs e)
-        {
-       
-            dataGridView1.AutoResizeColumns();
-        }
 
         public void refreshData()
         {
@@ -84,6 +64,7 @@ namespace LibraryManagementSystem
                 || addBooks_bookTitle.Text == ""
                 || addBooks_author.Text == ""
                 || addBooks_published.Value == null
+                || addBooks_quantity.Value == 0
                 || addBooks_status.Text == ""
                 || addBooks_picture.Image == null)
             {
@@ -98,10 +79,10 @@ namespace LibraryManagementSystem
                         DateTime today = DateTime.Today;
                         connect.Open();
                         string insertData = "INSERT INTO books " +
-                            "(book_title, author, published_date, status, image, date_insert) " +
-                            "VALUES(@bookTitle, @author, @published_date, @status, @image, @dateInsert)";
+                            "(book_title, author, published_date,quantity,status, image, date_insert) " +
+                            "VALUES(@bookTitle, @author, @published_date, @quantity, @status, @image, @dateInsert)";
 
-                        string path = Path.Combine(@"C:\Users\WINDOWS 10\source\repos\LibraryManagementSystem\LibraryManagementSystem\Books_Directory\" +
+                        string path = Path.Combine(@"E:\SQL2025\Repository\Books_Directory\" +
                             addBooks_bookTitle.Text + addBooks_author.Text.Trim() + ".jpg");
 
                         string directoryPath = Path.GetDirectoryName(path);
@@ -118,6 +99,7 @@ namespace LibraryManagementSystem
                             cmd.Parameters.AddWithValue("@bookTitle", addBooks_bookTitle.Text.Trim());
                             cmd.Parameters.AddWithValue("@author", addBooks_author.Text.Trim());
                             cmd.Parameters.AddWithValue("@published_date", addBooks_published.Value);
+                            cmd.Parameters.AddWithValue("@quantity", addBooks_quantity.Text.Trim());
                             cmd.Parameters.AddWithValue("@status", addBooks_status.Text.Trim());
                             cmd.Parameters.AddWithValue("@image", path);
                             cmd.Parameters.AddWithValue("@dateInsert", today);
@@ -149,6 +131,7 @@ namespace LibraryManagementSystem
         {
             addBooks_bookTitle.Text = "";
             addBooks_author.Text = "";
+            addBooks_quantity.Value = 0;
             addBooks_picture.Image = null;
             addBooks_status.SelectedIndex = -1;
         }
@@ -172,8 +155,9 @@ namespace LibraryManagementSystem
                 addBooks_bookTitle.Text = row.Cells[1].Value.ToString();
                 addBooks_author.Text = row.Cells[2].Value.ToString();
                 addBooks_published.Text = row.Cells[3].Value.ToString();
+                addBooks_quantity.Text = row.Cells[4].Value.ToString();
 
-                string imagePath = row.Cells[4].Value.ToString();
+                string imagePath = row.Cells[5].Value.ToString();
 
 
                 if (imagePath != null || imagePath.Length >= 1)
@@ -184,7 +168,7 @@ namespace LibraryManagementSystem
                 {
                     addBooks_picture.Image = null;
                 }
-                addBooks_status.Text = row.Cells[5].Value.ToString();
+                addBooks_status.Text = row.Cells[6].Value.ToString();
             }
         }
 
@@ -199,6 +183,7 @@ namespace LibraryManagementSystem
                 || addBooks_bookTitle.Text == ""
                 || addBooks_author.Text == ""
                 || addBooks_published.Value == null
+                || addBooks_quantity.Value == 0
                 || addBooks_status.Text == ""
                 || addBooks_picture.Image == null)
             {
@@ -226,6 +211,7 @@ namespace LibraryManagementSystem
                                 cmd.Parameters.AddWithValue("@bookTitle", addBooks_bookTitle.Text.Trim());
                                 cmd.Parameters.AddWithValue("@author", addBooks_author.Text.Trim());
                                 cmd.Parameters.AddWithValue("@published", addBooks_published.Value);
+                                cmd.Parameters.AddWithValue("@quantity", addBooks_quantity.Text.Trim());
                                 cmd.Parameters.AddWithValue("@status", addBooks_status.Text.Trim());
                                 cmd.Parameters.AddWithValue("@dateUpdate", today);
                                 cmd.Parameters.AddWithValue("@id", bookID);
@@ -264,6 +250,7 @@ namespace LibraryManagementSystem
                 || addBooks_bookTitle.Text == ""
                 || addBooks_author.Text == ""
                 || addBooks_published.Value == null
+                || addBooks_quantity.Value == 0
                 || addBooks_status.Text == ""
                 || addBooks_picture.Image == null)
             {
@@ -327,5 +314,19 @@ namespace LibraryManagementSystem
 
         }
 
+        private void label3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void addBooks_status_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }
