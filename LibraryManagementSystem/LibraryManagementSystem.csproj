@@ -146,6 +146,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\551319363_2220571021741076_4897105495816530304_n.png" />
     <Content Include="Assets\icons8_books_60px_3.png" />
     <Content Include="Assets\icons8_book_100px_1.png" />
     <Content Include="Assets\icons8_book_32px.png" />
