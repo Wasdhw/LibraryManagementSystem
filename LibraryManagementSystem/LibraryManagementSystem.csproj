@@ -125,17 +125,17 @@
     <Compile Include="StudentLogin.Designer.cs">
       <DependentUpon>StudentLogin.cs</DependentUpon>
     </Compile>
-    <Compile Include="MainformsUser\Availbooks.cs">
+    <Compile Include="MainformsUser\AvailBooks.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="MainformsUser\Availbooks.Designer.cs">
-      <DependentUpon>Availbooks.cs</DependentUpon>
+    <Compile Include="MainformsUser\AvailBooks.Designer.cs">
+      <DependentUpon>AvailBooks.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="MainformsUser\AddBooks.resx">
       <DependentUpon>AddBooks.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MainformsUser\Availbooks.resx">
-      <DependentUpon>Availbooks.cs</DependentUpon>
+    <EmbeddedResource Include="MainformsUser\AvailBooks.resx">
+      <DependentUpon>AvailBooks.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainformsUser\Dashboard.resx">
       <DependentUpon>Dashboard.cs</DependentUpon>

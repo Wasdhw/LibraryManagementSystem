@@ -171,7 +171,7 @@ namespace LibraryManagementSystem
             this.avail_btn.TabIndex = 3;
             this.avail_btn.Text = "BOOKS";
             this.avail_btn.UseVisualStyleBackColor = true;
-            this.avail_btn.Click += new System.EventHandler(this.addBooks_btn_Click);
+            this.avail_btn.Click += new System.EventHandler(this.Avail_btn_Click);
             // 
             // addBooks_btn
             // 
@@ -247,6 +247,7 @@ namespace LibraryManagementSystem
             this.availBooks1.Name = "availBooks1";
             this.availBooks1.Size = new System.Drawing.Size(1110, 675);
             this.availBooks1.TabIndex = 0;
+            this.availBooks1.Visible = false;
             // 
             // returnBooks1
             // 
@@ -254,6 +255,7 @@ namespace LibraryManagementSystem
             this.returnBooks1.Name = "returnBooks1";
             this.returnBooks1.Size = new System.Drawing.Size(1110, 675);
             this.returnBooks1.TabIndex = 3;
+            this.returnBooks1.Visible = false;
             // 
             // issueBooks1
             // 
@@ -261,6 +263,7 @@ namespace LibraryManagementSystem
             this.issueBooks1.Name = "issueBooks1";
             this.issueBooks1.Size = new System.Drawing.Size(1110, 675);
             this.issueBooks1.TabIndex = 2;
+            this.issueBooks1.Visible = false;
             // 
             // dashboard1
             // 
@@ -275,6 +278,7 @@ namespace LibraryManagementSystem
             this.addBooks1.Name = "addBooks1";
             this.addBooks1.Size = new System.Drawing.Size(1110, 675);
             this.addBooks1.TabIndex = 0;
+            this.addBooks1.Visible = false;
             // 
             // MainForm
             // 
