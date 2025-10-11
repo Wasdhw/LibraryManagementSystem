@@ -57,7 +57,7 @@ namespace LibraryManagementSystem
             issueBooks1.Visible = false;
 
             AddBooks aForm = addBooks1 as AddBooks;
-            if(aForm != null)
+            if (aForm != null)
             {
                 aForm.refreshData();
             }
@@ -97,6 +97,11 @@ namespace LibraryManagementSystem
         }
 
         private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void panel3_Paint(object sender, PaintEventArgs e)
         {
 
         }

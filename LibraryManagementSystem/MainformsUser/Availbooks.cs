@@ -118,6 +118,11 @@ namespace LibraryManagementSystem
             public string Author { get; set; }
             public string ImagePath { get; set; }
         }
+
+        private void flowAvailableBooks_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
     }
 
 }

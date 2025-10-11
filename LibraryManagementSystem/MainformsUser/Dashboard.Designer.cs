@@ -215,6 +215,7 @@ namespace LibraryManagementSystem
             this.Controls.Add(this.panel1);
             this.Name = "Dashboard";
             this.Size = new System.Drawing.Size(1110, 682);
+            this.Load += new System.EventHandler(this.Dashboard_Load);
             this.panel1.ResumeLayout(false);
             this.panel4.ResumeLayout(false);
             this.panel4.PerformLayout();

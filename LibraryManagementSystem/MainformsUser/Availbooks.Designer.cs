@@ -46,6 +46,7 @@
             this.flowAvailableBooks.Name = "flowAvailableBooks";
             this.flowAvailableBooks.Size = new System.Drawing.Size(1110, 682);
             this.flowAvailableBooks.TabIndex = 0;
+            this.flowAvailableBooks.Paint += new System.Windows.Forms.PaintEventHandler(this.flowAvailableBooks_Paint);
             // 
             // pictureBox1
             // 

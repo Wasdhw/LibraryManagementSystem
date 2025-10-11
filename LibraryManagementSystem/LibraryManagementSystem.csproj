@@ -61,16 +61,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AddBooks.cs">
+    <Compile Include="MainformsUser\AddBooks.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="AddBooks.Designer.cs">
+    <Compile Include="MainformsUser\AddBooks.Designer.cs">
       <DependentUpon>AddBooks.cs</DependentUpon>
     </Compile>
-    <Compile Include="Dashboard.cs">
+    <Compile Include="MainformsUser\Dashboard.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Dashboard.Designer.cs">
+    <Compile Include="MainformsUser\Dashboard.Designer.cs">
       <DependentUpon>Dashboard.cs</DependentUpon>
     </Compile>
     <Compile Include="DataAddBooks.cs" />
@@ -87,10 +87,10 @@
     <Compile Include="BookInfoForm.Designer.cs">
       <DependentUpon>BookInfoForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="IssueBooks.cs">
+    <Compile Include="MainformsUser\IssueBooks.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="IssueBooks.Designer.cs">
+    <Compile Include="MainformsUser\IssueBooks.Designer.cs">
       <DependentUpon>IssueBooks.cs</DependentUpon>
     </Compile>
     <Compile Include="LoginForm.cs">
@@ -113,10 +113,10 @@
     <Compile Include="RegisterForm.Designer.cs">
       <DependentUpon>RegisterForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="ReturnBooks.cs">
+    <Compile Include="MainformsUser\ReturnBooks.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="ReturnBooks.Designer.cs">
+    <Compile Include="MainformsUser\ReturnBooks.Designer.cs">
       <DependentUpon>ReturnBooks.cs</DependentUpon>
     </Compile>
     <Compile Include="StudentLogin.cs">
@@ -125,19 +125,19 @@
     <Compile Include="StudentLogin.Designer.cs">
       <DependentUpon>StudentLogin.cs</DependentUpon>
     </Compile>
-    <Compile Include="Availbooks.cs">
+    <Compile Include="MainformsUser\Availbooks.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Availbooks.Designer.cs">
+    <Compile Include="MainformsUser\Availbooks.Designer.cs">
       <DependentUpon>Availbooks.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="AddBooks.resx">
+    <EmbeddedResource Include="MainformsUser\AddBooks.resx">
       <DependentUpon>AddBooks.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Availbooks.resx">
+    <EmbeddedResource Include="MainformsUser\Availbooks.resx">
       <DependentUpon>Availbooks.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Dashboard.resx">
+    <EmbeddedResource Include="MainformsUser\Dashboard.resx">
       <DependentUpon>Dashboard.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
@@ -146,7 +146,7 @@
     <EmbeddedResource Include="BookInfoForm.resx">
       <DependentUpon>BookInfoForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="IssueBooks.resx">
+    <EmbeddedResource Include="MainformsUser\IssueBooks.resx">
       <DependentUpon>IssueBooks.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="LoginForm.resx">
@@ -168,7 +168,7 @@
     <EmbeddedResource Include="RegisterForm.resx">
       <DependentUpon>RegisterForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ReturnBooks.resx">
+    <EmbeddedResource Include="MainformsUser\ReturnBooks.resx">
       <DependentUpon>ReturnBooks.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="StudentLogin.resx">
