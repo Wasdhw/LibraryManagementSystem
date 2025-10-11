@@ -23,7 +23,22 @@ namespace LibraryManagementSystem
 
             // Also hook the Resize event so images or layout adjust if needed
             this.Resize += AvailBooks_Resize;
+
         }
+
+        public void refreshData()
+        {
+            if (InvokeRequired)
+            {
+                Invoke((MethodInvoker)refreshData);
+                return;
+            }
+
+            LoadAvailableBooks();
+
+        }
+
+
 
         private void AvailBooks_Resize(object sender, EventArgs e)
         {
@@ -120,6 +135,31 @@ namespace LibraryManagementSystem
         }
 
         private void flowAvailableBooks_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void panel5_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void panel4_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void pictureBox2_Click(object sender, EventArgs e)
         {
 
         }

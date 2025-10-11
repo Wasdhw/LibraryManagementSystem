@@ -36,11 +36,13 @@ namespace LibraryManagementSystem
             this.logout_btn = new System.Windows.Forms.Button();
             this.returnBooks_btn = new System.Windows.Forms.Button();
             this.issueBooks_btn = new System.Windows.Forms.Button();
+            this.avail_btn = new System.Windows.Forms.Button();
             this.addBooks_btn = new System.Windows.Forms.Button();
             this.dashboard_btn = new System.Windows.Forms.Button();
             this.greet_label = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.availBooks1 = new LibraryManagementSystem.AvailBooks();
             this.returnBooks1 = new LibraryManagementSystem.ReturnBooks();
             this.issueBooks1 = new LibraryManagementSystem.IssueBooks();
             this.dashboard1 = new LibraryManagementSystem.Dashboard();
@@ -82,6 +84,7 @@ namespace LibraryManagementSystem
             this.panel2.Controls.Add(this.logout_btn);
             this.panel2.Controls.Add(this.returnBooks_btn);
             this.panel2.Controls.Add(this.issueBooks_btn);
+            this.panel2.Controls.Add(this.avail_btn);
             this.panel2.Controls.Add(this.addBooks_btn);
             this.panel2.Controls.Add(this.dashboard_btn);
             this.panel2.Controls.Add(this.greet_label);
@@ -127,7 +130,7 @@ namespace LibraryManagementSystem
             this.returnBooks_btn.ForeColor = System.Drawing.Color.White;
             this.returnBooks_btn.Image = global::LibraryManagementSystem.Properties.Resources.icons8_return_32px_3;
             this.returnBooks_btn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.returnBooks_btn.Location = new System.Drawing.Point(8, 338);
+            this.returnBooks_btn.Location = new System.Drawing.Point(8, 392);
             this.returnBooks_btn.Name = "returnBooks_btn";
             this.returnBooks_btn.Size = new System.Drawing.Size(200, 45);
             this.returnBooks_btn.TabIndex = 5;
@@ -144,13 +147,31 @@ namespace LibraryManagementSystem
             this.issueBooks_btn.ForeColor = System.Drawing.Color.White;
             this.issueBooks_btn.Image = global::LibraryManagementSystem.Properties.Resources.icons8_book_32px_1;
             this.issueBooks_btn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.issueBooks_btn.Location = new System.Drawing.Point(8, 287);
+            this.issueBooks_btn.Location = new System.Drawing.Point(8, 341);
             this.issueBooks_btn.Name = "issueBooks_btn";
             this.issueBooks_btn.Size = new System.Drawing.Size(200, 45);
             this.issueBooks_btn.TabIndex = 4;
             this.issueBooks_btn.Text = "ISSUE BOOKS";
             this.issueBooks_btn.UseVisualStyleBackColor = true;
             this.issueBooks_btn.Click += new System.EventHandler(this.issueBooks_btn_Click);
+            // 
+            // avail_btn
+            // 
+            this.avail_btn.AccessibleDescription = "";
+            this.avail_btn.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.avail_btn.FlatAppearance.MouseDownBackColor = System.Drawing.Color.DarkSeaGreen;
+            this.avail_btn.FlatAppearance.MouseOverBackColor = System.Drawing.Color.DarkSeaGreen;
+            this.avail_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.avail_btn.ForeColor = System.Drawing.Color.White;
+            this.avail_btn.Image = global::LibraryManagementSystem.Properties.Resources.icons8_book_32px;
+            this.avail_btn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.avail_btn.Location = new System.Drawing.Point(8, 239);
+            this.avail_btn.Name = "avail_btn";
+            this.avail_btn.Size = new System.Drawing.Size(200, 45);
+            this.avail_btn.TabIndex = 3;
+            this.avail_btn.Text = "BOOKS";
+            this.avail_btn.UseVisualStyleBackColor = true;
+            this.avail_btn.Click += new System.EventHandler(this.addBooks_btn_Click);
             // 
             // addBooks_btn
             // 
@@ -161,7 +182,7 @@ namespace LibraryManagementSystem
             this.addBooks_btn.ForeColor = System.Drawing.Color.White;
             this.addBooks_btn.Image = global::LibraryManagementSystem.Properties.Resources.icons8_book_32px;
             this.addBooks_btn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.addBooks_btn.Location = new System.Drawing.Point(8, 236);
+            this.addBooks_btn.Location = new System.Drawing.Point(8, 290);
             this.addBooks_btn.Name = "addBooks_btn";
             this.addBooks_btn.Size = new System.Drawing.Size(200, 45);
             this.addBooks_btn.TabIndex = 3;
@@ -199,7 +220,7 @@ namespace LibraryManagementSystem
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Image = global::LibraryManagementSystem.Properties.Resources.icons8_library_100px;
+            this.pictureBox1.Image = global::LibraryManagementSystem.Properties.Resources.sdsc_logo;
             this.pictureBox1.Location = new System.Drawing.Point(58, 28);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(100, 100);
@@ -208,6 +229,7 @@ namespace LibraryManagementSystem
             // 
             // panel3
             // 
+            this.panel3.Controls.Add(this.availBooks1);
             this.panel3.Controls.Add(this.returnBooks1);
             this.panel3.Controls.Add(this.issueBooks1);
             this.panel3.Controls.Add(this.dashboard1);
@@ -218,6 +240,13 @@ namespace LibraryManagementSystem
             this.panel3.Size = new System.Drawing.Size(1110, 675);
             this.panel3.TabIndex = 2;
             this.panel3.Paint += new System.Windows.Forms.PaintEventHandler(this.panel3_Paint);
+            // 
+            // availBooks1
+            // 
+            this.availBooks1.Location = new System.Drawing.Point(0, 0);
+            this.availBooks1.Name = "availBooks1";
+            this.availBooks1.Size = new System.Drawing.Size(1110, 675);
+            this.availBooks1.TabIndex = 0;
             // 
             // returnBooks1
             // 
@@ -286,5 +315,7 @@ namespace LibraryManagementSystem
         private AddBooks addBooks1;
         private ReturnBooks returnBooks1;
         private IssueBooks issueBooks1;
+        private System.Windows.Forms.Button avail_btn;
+        private AvailBooks availBooks1;
     }
 }

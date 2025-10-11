@@ -388,6 +388,7 @@ namespace LibraryManagementSystem
             this.dataGridView1.Size = new System.Drawing.Size(1057, 237);
             this.dataGridView1.TabIndex = 2;
             this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellClick_1);
+            this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             // 
             // label1
             // 
@@ -408,6 +409,7 @@ namespace LibraryManagementSystem
             this.Controls.Add(this.panel1);
             this.Name = "IssueBooks";
             this.Size = new System.Drawing.Size(1110, 682);
+            this.Load += new System.EventHandler(this.IssueBooks_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.bookIssue_picture)).EndInit();
