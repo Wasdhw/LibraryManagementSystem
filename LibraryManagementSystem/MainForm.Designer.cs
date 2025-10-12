@@ -42,7 +42,7 @@ namespace LibraryManagementSystem
             this.greet_label = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.panel3 = new System.Windows.Forms.Panel();
-            this.availBooks1 = new LibraryManagementSystem.AvailBooks();
+            this.availBooks2 = new LibraryManagementSystem.AvailBooks();
             this.returnBooks1 = new LibraryManagementSystem.ReturnBooks();
             this.issueBooks1 = new LibraryManagementSystem.IssueBooks();
             this.dashboard1 = new LibraryManagementSystem.Dashboard();
@@ -229,7 +229,7 @@ namespace LibraryManagementSystem
             // 
             // panel3
             // 
-            this.panel3.Controls.Add(this.availBooks1);
+            this.panel3.Controls.Add(this.availBooks2);
             this.panel3.Controls.Add(this.returnBooks1);
             this.panel3.Controls.Add(this.issueBooks1);
             this.panel3.Controls.Add(this.dashboard1);
@@ -241,13 +241,14 @@ namespace LibraryManagementSystem
             this.panel3.TabIndex = 2;
             this.panel3.Paint += new System.Windows.Forms.PaintEventHandler(this.panel3_Paint);
             // 
-            // availBooks1
+            // availBooks2
             // 
-            this.availBooks1.Location = new System.Drawing.Point(0, 0);
-            this.availBooks1.Name = "availBooks1";
-            this.availBooks1.Size = new System.Drawing.Size(1110, 675);
-            this.availBooks1.TabIndex = 0;
-            this.availBooks1.Visible = false;
+            this.availBooks2.AutoScroll = true;
+            this.availBooks2.Location = new System.Drawing.Point(0, 0);
+            this.availBooks2.Name = "availBooks2";
+            this.availBooks2.Size = new System.Drawing.Size(1110, 675);
+            this.availBooks2.TabIndex = 4;
+            this.availBooks2.Visible = false;
             // 
             // returnBooks1
             // 
@@ -320,6 +321,6 @@ namespace LibraryManagementSystem
         private ReturnBooks returnBooks1;
         private IssueBooks issueBooks1;
         private System.Windows.Forms.Button avail_btn;
-        private AvailBooks availBooks1;
+        private AvailBooks availBooks2;
     }
 }

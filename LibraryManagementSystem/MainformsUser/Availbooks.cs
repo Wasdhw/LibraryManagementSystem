@@ -18,10 +18,10 @@ namespace LibraryManagementSystem
         {
             InitializeComponent();
 
-            // Hook load or call method after initialization
+          
             LoadAvailableBooks();
 
-            // Also hook the Resize event so images or layout adjust if needed
+           
             this.Resize += AvailBooks_Resize;
 
         }
@@ -72,16 +72,18 @@ namespace LibraryManagementSystem
                             if (File.Exists(imgPath))
                                 img = Image.FromFile(imgPath);
                         }
-                        catch { }
+                        catch (Exception ex) {
+                            MessageBox.Show("DB or query error: " + ex.Message);
+                        }
 
                         PictureBox pb = new PictureBox();
-                        pb.Size = new Size(120, 160);
+                        pb.Size = new Size(145, 176);
                         pb.SizeMode = PictureBoxSizeMode.Zoom;
-                        pb.Image = img;  // may be null if not found
+                        pb.Image = img;  
                         pb.Cursor = Cursors.Hand;
                         pb.Margin = new Padding(10);
 
-                        // Store info in Tag so click handler can read
+                        // Store info 
                         pb.Tag = new BookTag
                         {
                             Id = id,
@@ -92,15 +94,16 @@ namespace LibraryManagementSystem
 
                         pb.Click += Pb_Click;
 
-                        // Optional: you can have a panel with image + label
+                      
                         Panel pnl = new Panel();
-                        pnl.Width = pb.Width;
+                        pnl.Width = pb.Width + 25;
                         pnl.Height = pb.Height + 25;
                         pnl.Controls.Add(pb);
 
                         Label lbl = new Label();
                         lbl.Text = title;
                         lbl.Dock = DockStyle.Bottom;
+                        lbl.Font = new Font("Arial", 12, FontStyle.Bold);
                         lbl.TextAlign = ContentAlignment.MiddleCenter;
                         pnl.Controls.Add(lbl);
 
@@ -122,7 +125,7 @@ namespace LibraryManagementSystem
 
         private void ShowBookInfo(BookTag tag)
         {
-            // Example: open a new Form with the book data
+    
             BookInfoForm info = new BookInfoForm();
             info.ShowDialog();
         }

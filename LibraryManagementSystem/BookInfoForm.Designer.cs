@@ -110,7 +110,7 @@
             this.panel1.Controls.Add(this.Published);
             this.panel1.Location = new System.Drawing.Point(12, 357);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(442, 238);
+            this.panel1.Size = new System.Drawing.Size(442, 191);
             this.panel1.TabIndex = 2;
             // 
             // BookInfoForm

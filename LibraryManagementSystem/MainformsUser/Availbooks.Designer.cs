@@ -66,7 +66,6 @@
             this.flowAvailableBooks.Controls.Add(this.panel3);
             this.flowAvailableBooks.Controls.Add(this.panel4);
             this.flowAvailableBooks.Controls.Add(this.panel5);
-            this.flowAvailableBooks.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowAvailableBooks.Location = new System.Drawing.Point(0, 0);
             this.flowAvailableBooks.Name = "flowAvailableBooks";
             this.flowAvailableBooks.Size = new System.Drawing.Size(1110, 675);
