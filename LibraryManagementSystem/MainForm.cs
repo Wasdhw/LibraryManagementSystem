@@ -103,6 +103,7 @@ namespace LibraryManagementSystem
             addBooks1.Visible = false;
             returnBooks1.Visible = false;
             issueBooks1.Visible = false;
+            availBooks2.Visible = true;
             availBooks2.BringToFront();
 
            AvailBooks iForm = availBooks2 as AvailBooks;

@@ -10,18 +10,18 @@ using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace LibraryManagementSystem
+namespace LibraryManagementSystem.studentUser
 {
-    public partial class AvailBooks : UserControl
+    public partial class StAvailbooks : UserControl
     {
-        public AvailBooks()
+        public StAvailbooks()
         {
             InitializeComponent();
 
-          
+
             LoadAvailableBooks();
 
-           
+
             this.Resize += AvailBooks_Resize;
 
         }
@@ -34,7 +34,7 @@ namespace LibraryManagementSystem
                 return;
             }
 
-           
+
             LoadAvailableBooks();
 
         }
@@ -72,14 +72,15 @@ namespace LibraryManagementSystem
                             if (File.Exists(imgPath))
                                 img = Image.FromFile(imgPath);
                         }
-                        catch (Exception ex) {
+                        catch (Exception ex)
+                        {
                             MessageBox.Show("DB or query error: " + ex.Message);
                         }
 
                         PictureBox pb = new PictureBox();
                         pb.Size = new Size(145, 176);
                         pb.SizeMode = PictureBoxSizeMode.Zoom;
-                        pb.Image = img;  
+                        pb.Image = img;
                         pb.Cursor = Cursors.Hand;
                         pb.Margin = new Padding(10);
 
@@ -94,7 +95,7 @@ namespace LibraryManagementSystem
 
                         pb.Click += Pb_Click;
 
-                      
+
                         Panel pnl = new Panel();
                         pnl.Width = pb.Width + 25;
                         pnl.Height = pb.Height + 25;
@@ -125,7 +126,7 @@ namespace LibraryManagementSystem
 
         private void ShowBookInfo(BookTag tag)
         {
-    
+
             BookInfoForm info = new BookInfoForm();
             info.ShowDialog();
         }
@@ -142,61 +143,5 @@ namespace LibraryManagementSystem
         {
 
         }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void panel1_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void panel5_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void panel4_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void pictureBox2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void panel2_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void panel3_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void pictureBox1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void pictureBox3_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void pictureBox4_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void pictureBox5_Click(object sender, EventArgs e)
-        {
-
-        }
     }
-
 }

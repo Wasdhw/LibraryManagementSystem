@@ -8,18 +8,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace LibraryManagementSystem
+namespace LibraryManagementSystem.studentUser
 {
-    public partial class StudentLogin : Form
+    public partial class StReturninfo : UserControl
     {
-        public StudentLogin()
+        public StReturninfo()
         {
             InitializeComponent();
-        }
-
-        private void StudentLogin_Load(object sender, EventArgs e)
-        {
-
         }
     }
 }

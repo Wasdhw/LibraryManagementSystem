@@ -61,6 +61,30 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="studentUser\History.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="studentUser\History.Designer.cs">
+      <DependentUpon>History.cs</DependentUpon>
+    </Compile>
+    <Compile Include="studentUser\StReturninfo.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="studentUser\StReturninfo.Designer.cs">
+      <DependentUpon>StReturninfo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="studentUser\StDashboard.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="studentUser\StDashboard.Designer.cs">
+      <DependentUpon>StDashboard.cs</DependentUpon>
+    </Compile>
+    <Compile Include="StudentForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="StudentForm.Designer.cs">
+      <DependentUpon>StudentForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MainformsUser\AddBooks.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -119,17 +143,29 @@
     <Compile Include="MainformsUser\ReturnBooks.Designer.cs">
       <DependentUpon>ReturnBooks.cs</DependentUpon>
     </Compile>
-    <Compile Include="StudentLogin.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="StudentLogin.Designer.cs">
-      <DependentUpon>StudentLogin.cs</DependentUpon>
-    </Compile>
     <Compile Include="MainformsUser\AvailBooks.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="MainformsUser\AvailBooks.Designer.cs">
       <DependentUpon>AvailBooks.cs</DependentUpon>
+    </Compile>
+    <Compile Include="studentUser\StAvailbooks.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="studentUser\StAvailbooks.Designer.cs">
+      <DependentUpon>StAvailbooks.cs</DependentUpon>
+    </Compile>
+    <Compile Include="studentUser\StBookInfo.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="studentUser\StBookInfo.Designer.cs">
+      <DependentUpon>StBookInfo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="studentUser\StReturnBooks.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="studentUser\StReturnBooks.Designer.cs">
+      <DependentUpon>StReturnBooks.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="MainformsUser\AddBooks.resx">
       <DependentUpon>AddBooks.cs</DependentUpon>
@@ -155,6 +191,18 @@
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="studentUser\History.resx">
+      <DependentUpon>History.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="studentUser\StAvailbooks.resx">
+      <DependentUpon>StAvailbooks.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="studentUser\StReturninfo.resx">
+      <DependentUpon>StReturninfo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="studentUser\StDashboard.resx">
+      <DependentUpon>StDashboard.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -171,8 +219,14 @@
     <EmbeddedResource Include="MainformsUser\ReturnBooks.resx">
       <DependentUpon>ReturnBooks.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="StudentLogin.resx">
-      <DependentUpon>StudentLogin.cs</DependentUpon>
+    <EmbeddedResource Include="StudentForm.resx">
+      <DependentUpon>StudentForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="studentUser\StBookInfo.resx">
+      <DependentUpon>StBookInfo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="studentUser\StReturnBooks.resx">
+      <DependentUpon>StReturnBooks.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -189,6 +243,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\551319363_2220571021741076_4897105495816530304_n.png" />
+    <None Include="Assets\sabyo logo.png" />
     <Content Include="Assets\sdsc logo.jpg" />
     <Content Include="Assets\icons8_books_60px_3.png" />
     <Content Include="Assets\icons8_book_100px_1.png" />

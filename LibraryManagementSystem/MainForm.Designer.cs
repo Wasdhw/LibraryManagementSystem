@@ -33,24 +33,24 @@ namespace LibraryManagementSystem
             this.label2 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
             this.label4 = new System.Windows.Forms.Label();
-            this.logout_btn = new System.Windows.Forms.Button();
-            this.returnBooks_btn = new System.Windows.Forms.Button();
-            this.issueBooks_btn = new System.Windows.Forms.Button();
-            this.avail_btn = new System.Windows.Forms.Button();
-            this.addBooks_btn = new System.Windows.Forms.Button();
-            this.dashboard_btn = new System.Windows.Forms.Button();
             this.greet_label = new System.Windows.Forms.Label();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.panel3 = new System.Windows.Forms.Panel();
             this.availBooks2 = new LibraryManagementSystem.AvailBooks();
             this.returnBooks1 = new LibraryManagementSystem.ReturnBooks();
             this.issueBooks1 = new LibraryManagementSystem.IssueBooks();
             this.dashboard1 = new LibraryManagementSystem.Dashboard();
             this.addBooks1 = new LibraryManagementSystem.AddBooks();
+            this.logout_btn = new System.Windows.Forms.Button();
+            this.returnBooks_btn = new System.Windows.Forms.Button();
+            this.issueBooks_btn = new System.Windows.Forms.Button();
+            this.avail_btn = new System.Windows.Forms.Button();
+            this.addBooks_btn = new System.Windows.Forms.Button();
+            this.dashboard_btn = new System.Windows.Forms.Button();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panel3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // panel1
@@ -105,6 +105,71 @@ namespace LibraryManagementSystem
             this.label4.Size = new System.Drawing.Size(49, 16);
             this.label4.TabIndex = 7;
             this.label4.Text = "Log out";
+            // 
+            // greet_label
+            // 
+            this.greet_label.AutoSize = true;
+            this.greet_label.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.greet_label.ForeColor = System.Drawing.Color.White;
+            this.greet_label.Location = new System.Drawing.Point(41, 131);
+            this.greet_label.Name = "greet_label";
+            this.greet_label.Size = new System.Drawing.Size(130, 19);
+            this.greet_label.TabIndex = 1;
+            this.greet_label.Text = "Welcome, Admin";
+            // 
+            // panel3
+            // 
+            this.panel3.Controls.Add(this.availBooks2);
+            this.panel3.Controls.Add(this.returnBooks1);
+            this.panel3.Controls.Add(this.issueBooks1);
+            this.panel3.Controls.Add(this.dashboard1);
+            this.panel3.Controls.Add(this.addBooks1);
+            this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel3.Location = new System.Drawing.Point(220, 35);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(1110, 675);
+            this.panel3.TabIndex = 2;
+            this.panel3.Paint += new System.Windows.Forms.PaintEventHandler(this.panel3_Paint);
+            // 
+            // availBooks2
+            // 
+            this.availBooks2.AutoScroll = true;
+            this.availBooks2.Location = new System.Drawing.Point(0, 0);
+            this.availBooks2.Name = "availBooks2";
+            this.availBooks2.Size = new System.Drawing.Size(1110, 675);
+            this.availBooks2.TabIndex = 4;
+            this.availBooks2.Visible = false;
+            // 
+            // returnBooks1
+            // 
+            this.returnBooks1.Location = new System.Drawing.Point(0, 0);
+            this.returnBooks1.Name = "returnBooks1";
+            this.returnBooks1.Size = new System.Drawing.Size(1110, 675);
+            this.returnBooks1.TabIndex = 3;
+            this.returnBooks1.Visible = false;
+            // 
+            // issueBooks1
+            // 
+            this.issueBooks1.Location = new System.Drawing.Point(0, 0);
+            this.issueBooks1.Name = "issueBooks1";
+            this.issueBooks1.Size = new System.Drawing.Size(1110, 675);
+            this.issueBooks1.TabIndex = 2;
+            this.issueBooks1.Visible = false;
+            // 
+            // dashboard1
+            // 
+            this.dashboard1.Location = new System.Drawing.Point(0, 0);
+            this.dashboard1.Name = "dashboard1";
+            this.dashboard1.Size = new System.Drawing.Size(1110, 675);
+            this.dashboard1.TabIndex = 1;
+            // 
+            // addBooks1
+            // 
+            this.addBooks1.Location = new System.Drawing.Point(0, 0);
+            this.addBooks1.Name = "addBooks1";
+            this.addBooks1.Size = new System.Drawing.Size(1110, 675);
+            this.addBooks1.TabIndex = 0;
+            this.addBooks1.Visible = false;
             // 
             // logout_btn
             // 
@@ -207,79 +272,14 @@ namespace LibraryManagementSystem
             this.dashboard_btn.UseVisualStyleBackColor = true;
             this.dashboard_btn.Click += new System.EventHandler(this.dashboard_btn_Click);
             // 
-            // greet_label
-            // 
-            this.greet_label.AutoSize = true;
-            this.greet_label.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.greet_label.ForeColor = System.Drawing.Color.White;
-            this.greet_label.Location = new System.Drawing.Point(41, 131);
-            this.greet_label.Name = "greet_label";
-            this.greet_label.Size = new System.Drawing.Size(130, 19);
-            this.greet_label.TabIndex = 1;
-            this.greet_label.Text = "Welcome, Admin";
-            // 
             // pictureBox1
             // 
-            this.pictureBox1.Image = global::LibraryManagementSystem.Properties.Resources.sdsc_logo;
-            this.pictureBox1.Location = new System.Drawing.Point(58, 28);
+            this.pictureBox1.Image = global::LibraryManagementSystem.Properties.Resources.sabyo_logo;
+            this.pictureBox1.Location = new System.Drawing.Point(58, 18);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(100, 100);
+            this.pictureBox1.Size = new System.Drawing.Size(100, 110);
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
-            // 
-            // panel3
-            // 
-            this.panel3.Controls.Add(this.availBooks2);
-            this.panel3.Controls.Add(this.returnBooks1);
-            this.panel3.Controls.Add(this.issueBooks1);
-            this.panel3.Controls.Add(this.dashboard1);
-            this.panel3.Controls.Add(this.addBooks1);
-            this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel3.Location = new System.Drawing.Point(220, 35);
-            this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(1110, 675);
-            this.panel3.TabIndex = 2;
-            this.panel3.Paint += new System.Windows.Forms.PaintEventHandler(this.panel3_Paint);
-            // 
-            // availBooks2
-            // 
-            this.availBooks2.AutoScroll = true;
-            this.availBooks2.Location = new System.Drawing.Point(0, 0);
-            this.availBooks2.Name = "availBooks2";
-            this.availBooks2.Size = new System.Drawing.Size(1110, 675);
-            this.availBooks2.TabIndex = 4;
-            this.availBooks2.Visible = false;
-            // 
-            // returnBooks1
-            // 
-            this.returnBooks1.Location = new System.Drawing.Point(0, 0);
-            this.returnBooks1.Name = "returnBooks1";
-            this.returnBooks1.Size = new System.Drawing.Size(1110, 675);
-            this.returnBooks1.TabIndex = 3;
-            this.returnBooks1.Visible = false;
-            // 
-            // issueBooks1
-            // 
-            this.issueBooks1.Location = new System.Drawing.Point(0, 0);
-            this.issueBooks1.Name = "issueBooks1";
-            this.issueBooks1.Size = new System.Drawing.Size(1110, 675);
-            this.issueBooks1.TabIndex = 2;
-            this.issueBooks1.Visible = false;
-            // 
-            // dashboard1
-            // 
-            this.dashboard1.Location = new System.Drawing.Point(0, 0);
-            this.dashboard1.Name = "dashboard1";
-            this.dashboard1.Size = new System.Drawing.Size(1110, 675);
-            this.dashboard1.TabIndex = 1;
-            // 
-            // addBooks1
-            // 
-            this.addBooks1.Location = new System.Drawing.Point(0, 0);
-            this.addBooks1.Name = "addBooks1";
-            this.addBooks1.Size = new System.Drawing.Size(1110, 675);
-            this.addBooks1.TabIndex = 0;
-            this.addBooks1.Visible = false;
             // 
             // MainForm
             // 
@@ -296,8 +296,8 @@ namespace LibraryManagementSystem
             this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.panel3.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }
