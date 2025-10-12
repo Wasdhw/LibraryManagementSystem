@@ -41,6 +41,7 @@ namespace LibraryManagementSystem
             this.dashboard1 = new LibraryManagementSystem.Dashboard();
             this.addBooks1 = new LibraryManagementSystem.AddBooks();
             this.logout_btn = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             this.returnBooks_btn = new System.Windows.Forms.Button();
             this.issueBooks_btn = new System.Windows.Forms.Button();
             this.avail_btn = new System.Windows.Forms.Button();
@@ -82,6 +83,7 @@ namespace LibraryManagementSystem
             this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel2.Controls.Add(this.label4);
             this.panel2.Controls.Add(this.logout_btn);
+            this.panel2.Controls.Add(this.button1);
             this.panel2.Controls.Add(this.returnBooks_btn);
             this.panel2.Controls.Add(this.issueBooks_btn);
             this.panel2.Controls.Add(this.avail_btn);
@@ -186,6 +188,23 @@ namespace LibraryManagementSystem
             this.logout_btn.UseVisualStyleBackColor = true;
             this.logout_btn.Click += new System.EventHandler(this.logout_btn_Click);
             // 
+            // button1
+            // 
+            this.button1.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.button1.FlatAppearance.MouseDownBackColor = System.Drawing.Color.DarkSeaGreen;
+            this.button1.FlatAppearance.MouseOverBackColor = System.Drawing.Color.DarkSeaGreen;
+            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button1.ForeColor = System.Drawing.Color.Transparent;
+            this.button1.Image = global::LibraryManagementSystem.Properties.Resources.conference_32;
+            this.button1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.button1.Location = new System.Drawing.Point(8, 443);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(200, 45);
+            this.button1.TabIndex = 5;
+            this.button1.Text = "ACCOUNTS";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.returnBooks_btn_Click);
+            // 
             // returnBooks_btn
             // 
             this.returnBooks_btn.Cursor = System.Windows.Forms.Cursors.Hand;
@@ -245,7 +264,7 @@ namespace LibraryManagementSystem
             this.addBooks_btn.FlatAppearance.MouseOverBackColor = System.Drawing.Color.DarkSeaGreen;
             this.addBooks_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.addBooks_btn.ForeColor = System.Drawing.Color.White;
-            this.addBooks_btn.Image = global::LibraryManagementSystem.Properties.Resources.icons8_book_32px;
+            this.addBooks_btn.Image = global::LibraryManagementSystem.Properties.Resources.book_2_32;
             this.addBooks_btn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.addBooks_btn.Location = new System.Drawing.Point(8, 290);
             this.addBooks_btn.Name = "addBooks_btn";
@@ -322,5 +341,6 @@ namespace LibraryManagementSystem
         private IssueBooks issueBooks1;
         private System.Windows.Forms.Button avail_btn;
         private AvailBooks availBooks2;
+        private System.Windows.Forms.Button button1;
     }
 }

@@ -61,6 +61,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MainformsUser\Accounts.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MainformsUser\Accounts.Designer.cs">
+      <DependentUpon>Accounts.cs</DependentUpon>
+    </Compile>
     <Compile Include="studentUser\History.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -167,6 +173,9 @@
     <Compile Include="studentUser\StReturnBooks.Designer.cs">
       <DependentUpon>StReturnBooks.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="MainformsUser\Accounts.resx">
+      <DependentUpon>Accounts.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MainformsUser\AddBooks.resx">
       <DependentUpon>AddBooks.cs</DependentUpon>
     </EmbeddedResource>
@@ -243,7 +252,11 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\551319363_2220571021741076_4897105495816530304_n.png" />
+    <None Include="Assets\user-32.jpg" />
     <None Include="Assets\sabyo logo.png" />
+    <None Include="Assets\conference-32.png" />
+    <None Include="Assets\book-2-32.png" />
+    <None Include="Assets\clock-4-32.png" />
     <Content Include="Assets\sdsc logo.jpg" />
     <Content Include="Assets\icons8_books_60px_3.png" />
     <Content Include="Assets\icons8_book_100px_1.png" />

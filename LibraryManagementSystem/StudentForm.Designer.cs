@@ -31,12 +31,6 @@
             this.label4 = new System.Windows.Forms.Label();
             this.greet_label = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.logout_btn = new System.Windows.Forms.Button();
-            this.history_btn = new System.Windows.Forms.Button();
-            this.avail_btn = new System.Windows.Forms.Button();
-            this.borrow_btn = new System.Windows.Forms.Button();
-            this.dashboard_btn = new System.Windows.Forms.Button();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.label2 = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
             this.panel1 = new System.Windows.Forms.Panel();
@@ -44,10 +38,16 @@
             this.stReturnBooks1 = new LibraryManagementSystem.studentUser.StReturnBooks();
             this.history1 = new LibraryManagementSystem.studentUser.History();
             this.stAvailbooks1 = new LibraryManagementSystem.studentUser.StAvailbooks();
+            this.logout_btn = new System.Windows.Forms.Button();
+            this.history_btn = new System.Windows.Forms.Button();
+            this.avail_btn = new System.Windows.Forms.Button();
+            this.borrow_btn = new System.Windows.Forms.Button();
+            this.dashboard_btn = new System.Windows.Forms.Button();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.panel2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panel3.SuspendLayout();
             this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // label4
@@ -66,7 +66,7 @@
             this.greet_label.AutoSize = true;
             this.greet_label.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.greet_label.ForeColor = System.Drawing.Color.White;
-            this.greet_label.Location = new System.Drawing.Point(42, 140);
+            this.greet_label.Location = new System.Drawing.Point(42, 137);
             this.greet_label.Name = "greet_label";
             this.greet_label.Size = new System.Drawing.Size(133, 19);
             this.greet_label.TabIndex = 1;
@@ -89,94 +89,6 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(220, 675);
             this.panel2.TabIndex = 4;
-            // 
-            // logout_btn
-            // 
-            this.logout_btn.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.logout_btn.FlatAppearance.MouseDownBackColor = System.Drawing.Color.DarkSeaGreen;
-            this.logout_btn.FlatAppearance.MouseOverBackColor = System.Drawing.Color.DarkSeaGreen;
-            this.logout_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.logout_btn.ForeColor = System.Drawing.Color.White;
-            this.logout_btn.Image = global::LibraryManagementSystem.Properties.Resources.icons8_logout_rounded_up_filled_20px;
-            this.logout_btn.Location = new System.Drawing.Point(14, 630);
-            this.logout_btn.Name = "logout_btn";
-            this.logout_btn.Size = new System.Drawing.Size(35, 35);
-            this.logout_btn.TabIndex = 6;
-            this.logout_btn.UseVisualStyleBackColor = true;
-            // 
-            // history_btn
-            // 
-            this.history_btn.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.history_btn.FlatAppearance.MouseDownBackColor = System.Drawing.Color.DarkSeaGreen;
-            this.history_btn.FlatAppearance.MouseOverBackColor = System.Drawing.Color.DarkSeaGreen;
-            this.history_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.history_btn.ForeColor = System.Drawing.Color.White;
-            this.history_btn.Image = global::LibraryManagementSystem.Properties.Resources.icons8_book_32px_1;
-            this.history_btn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.history_btn.Location = new System.Drawing.Point(8, 341);
-            this.history_btn.Name = "history_btn";
-            this.history_btn.Size = new System.Drawing.Size(200, 45);
-            this.history_btn.TabIndex = 4;
-            this.history_btn.Text = "HISTORY";
-            this.history_btn.UseVisualStyleBackColor = true;
-            // 
-            // avail_btn
-            // 
-            this.avail_btn.AccessibleDescription = "";
-            this.avail_btn.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.avail_btn.FlatAppearance.MouseDownBackColor = System.Drawing.Color.DarkSeaGreen;
-            this.avail_btn.FlatAppearance.MouseOverBackColor = System.Drawing.Color.DarkSeaGreen;
-            this.avail_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.avail_btn.ForeColor = System.Drawing.Color.White;
-            this.avail_btn.Image = global::LibraryManagementSystem.Properties.Resources.icons8_book_32px;
-            this.avail_btn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.avail_btn.Location = new System.Drawing.Point(8, 239);
-            this.avail_btn.Name = "avail_btn";
-            this.avail_btn.Size = new System.Drawing.Size(200, 45);
-            this.avail_btn.TabIndex = 3;
-            this.avail_btn.Text = "BOOKS";
-            this.avail_btn.UseVisualStyleBackColor = true;
-            // 
-            // borrow_btn
-            // 
-            this.borrow_btn.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.borrow_btn.FlatAppearance.MouseDownBackColor = System.Drawing.Color.DarkSeaGreen;
-            this.borrow_btn.FlatAppearance.MouseOverBackColor = System.Drawing.Color.DarkSeaGreen;
-            this.borrow_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.borrow_btn.ForeColor = System.Drawing.Color.White;
-            this.borrow_btn.Image = global::LibraryManagementSystem.Properties.Resources.icons8_book_32px;
-            this.borrow_btn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.borrow_btn.Location = new System.Drawing.Point(8, 290);
-            this.borrow_btn.Name = "borrow_btn";
-            this.borrow_btn.Size = new System.Drawing.Size(200, 45);
-            this.borrow_btn.TabIndex = 3;
-            this.borrow_btn.Text = "BORROWED";
-            this.borrow_btn.UseVisualStyleBackColor = true;
-            // 
-            // dashboard_btn
-            // 
-            this.dashboard_btn.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.dashboard_btn.FlatAppearance.MouseDownBackColor = System.Drawing.Color.DarkSeaGreen;
-            this.dashboard_btn.FlatAppearance.MouseOverBackColor = System.Drawing.Color.DarkSeaGreen;
-            this.dashboard_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.dashboard_btn.ForeColor = System.Drawing.Color.White;
-            this.dashboard_btn.Image = global::LibraryManagementSystem.Properties.Resources.icons8_dashboard_32px;
-            this.dashboard_btn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.dashboard_btn.Location = new System.Drawing.Point(8, 185);
-            this.dashboard_btn.Name = "dashboard_btn";
-            this.dashboard_btn.Size = new System.Drawing.Size(200, 45);
-            this.dashboard_btn.TabIndex = 2;
-            this.dashboard_btn.Text = "DASHBOARD";
-            this.dashboard_btn.UseVisualStyleBackColor = true;
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Image = global::LibraryManagementSystem.Properties.Resources.sabyo_logo;
-            this.pictureBox1.Location = new System.Drawing.Point(58, 18);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(100, 110);
-            this.pictureBox1.TabIndex = 0;
-            this.pictureBox1.TabStop = false;
             // 
             // label2
             // 
@@ -243,6 +155,94 @@
             this.stAvailbooks1.TabIndex = 3;
             this.stAvailbooks1.Visible = false;
             // 
+            // logout_btn
+            // 
+            this.logout_btn.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.logout_btn.FlatAppearance.MouseDownBackColor = System.Drawing.Color.DarkSeaGreen;
+            this.logout_btn.FlatAppearance.MouseOverBackColor = System.Drawing.Color.DarkSeaGreen;
+            this.logout_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.logout_btn.ForeColor = System.Drawing.Color.White;
+            this.logout_btn.Image = global::LibraryManagementSystem.Properties.Resources.icons8_logout_rounded_up_filled_20px;
+            this.logout_btn.Location = new System.Drawing.Point(14, 630);
+            this.logout_btn.Name = "logout_btn";
+            this.logout_btn.Size = new System.Drawing.Size(35, 35);
+            this.logout_btn.TabIndex = 6;
+            this.logout_btn.UseVisualStyleBackColor = true;
+            // 
+            // history_btn
+            // 
+            this.history_btn.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.history_btn.FlatAppearance.MouseDownBackColor = System.Drawing.Color.DarkSeaGreen;
+            this.history_btn.FlatAppearance.MouseOverBackColor = System.Drawing.Color.DarkSeaGreen;
+            this.history_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.history_btn.ForeColor = System.Drawing.Color.White;
+            this.history_btn.Image = global::LibraryManagementSystem.Properties.Resources.clock_4_32;
+            this.history_btn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.history_btn.Location = new System.Drawing.Point(11, 378);
+            this.history_btn.Name = "history_btn";
+            this.history_btn.Size = new System.Drawing.Size(200, 45);
+            this.history_btn.TabIndex = 4;
+            this.history_btn.Text = "HISTORY";
+            this.history_btn.UseVisualStyleBackColor = true;
+            // 
+            // avail_btn
+            // 
+            this.avail_btn.AccessibleDescription = "";
+            this.avail_btn.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.avail_btn.FlatAppearance.MouseDownBackColor = System.Drawing.Color.DarkSeaGreen;
+            this.avail_btn.FlatAppearance.MouseOverBackColor = System.Drawing.Color.DarkSeaGreen;
+            this.avail_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.avail_btn.ForeColor = System.Drawing.Color.White;
+            this.avail_btn.Image = global::LibraryManagementSystem.Properties.Resources.icons8_book_32px;
+            this.avail_btn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.avail_btn.Location = new System.Drawing.Point(11, 276);
+            this.avail_btn.Name = "avail_btn";
+            this.avail_btn.Size = new System.Drawing.Size(200, 45);
+            this.avail_btn.TabIndex = 3;
+            this.avail_btn.Text = "BOOKS";
+            this.avail_btn.UseVisualStyleBackColor = true;
+            // 
+            // borrow_btn
+            // 
+            this.borrow_btn.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.borrow_btn.FlatAppearance.MouseDownBackColor = System.Drawing.Color.DarkSeaGreen;
+            this.borrow_btn.FlatAppearance.MouseOverBackColor = System.Drawing.Color.DarkSeaGreen;
+            this.borrow_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.borrow_btn.ForeColor = System.Drawing.Color.White;
+            this.borrow_btn.Image = global::LibraryManagementSystem.Properties.Resources.book_2_32;
+            this.borrow_btn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.borrow_btn.Location = new System.Drawing.Point(11, 327);
+            this.borrow_btn.Name = "borrow_btn";
+            this.borrow_btn.Size = new System.Drawing.Size(200, 45);
+            this.borrow_btn.TabIndex = 3;
+            this.borrow_btn.Text = "BORROWED";
+            this.borrow_btn.UseVisualStyleBackColor = true;
+            // 
+            // dashboard_btn
+            // 
+            this.dashboard_btn.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.dashboard_btn.FlatAppearance.MouseDownBackColor = System.Drawing.Color.DarkSeaGreen;
+            this.dashboard_btn.FlatAppearance.MouseOverBackColor = System.Drawing.Color.DarkSeaGreen;
+            this.dashboard_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.dashboard_btn.ForeColor = System.Drawing.Color.White;
+            this.dashboard_btn.Image = global::LibraryManagementSystem.Properties.Resources.icons8_dashboard_32px;
+            this.dashboard_btn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.dashboard_btn.Location = new System.Drawing.Point(11, 222);
+            this.dashboard_btn.Name = "dashboard_btn";
+            this.dashboard_btn.Size = new System.Drawing.Size(200, 45);
+            this.dashboard_btn.TabIndex = 2;
+            this.dashboard_btn.Text = "DASHBOARD";
+            this.dashboard_btn.UseVisualStyleBackColor = true;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = global::LibraryManagementSystem.Properties.Resources.sabyo_logo;
+            this.pictureBox1.Location = new System.Drawing.Point(58, 15);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(100, 110);
+            this.pictureBox1.TabIndex = 0;
+            this.pictureBox1.TabStop = false;
+            // 
             // StudentForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -256,10 +256,10 @@
             this.Text = "Form2";
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.panel3.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }
