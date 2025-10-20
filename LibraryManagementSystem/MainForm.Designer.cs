@@ -40,6 +40,7 @@ namespace LibraryManagementSystem
             this.issueBooks1 = new LibraryManagementSystem.IssueBooks();
             this.dashboard1 = new LibraryManagementSystem.Dashboard();
             this.addBooks1 = new LibraryManagementSystem.AddBooks();
+            this.accounts1 = new LibraryManagementSystem.MainformsUser.Accounts();
             this.logout_btn = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.returnBooks_btn = new System.Windows.Forms.Button();
@@ -126,6 +127,7 @@ namespace LibraryManagementSystem
             this.panel3.Controls.Add(this.issueBooks1);
             this.panel3.Controls.Add(this.dashboard1);
             this.panel3.Controls.Add(this.addBooks1);
+            this.panel3.Controls.Add(this.accounts1);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel3.Location = new System.Drawing.Point(220, 35);
             this.panel3.Name = "panel3";
@@ -173,6 +175,14 @@ namespace LibraryManagementSystem
             this.addBooks1.TabIndex = 0;
             this.addBooks1.Visible = false;
             // 
+            // accounts1
+            // 
+            this.accounts1.Location = new System.Drawing.Point(0, 0);
+            this.accounts1.Name = "accounts1";
+            this.accounts1.Size = new System.Drawing.Size(1110, 675);
+            this.accounts1.TabIndex = 5;
+            this.accounts1.Visible = false;
+            // 
             // logout_btn
             // 
             this.logout_btn.Cursor = System.Windows.Forms.Cursors.Hand;
@@ -203,7 +213,7 @@ namespace LibraryManagementSystem
             this.button1.TabIndex = 5;
             this.button1.Text = "ACCOUNTS";
             this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.returnBooks_btn_Click);
+            this.button1.Click += new System.EventHandler(this.accounts_btn_Click);
             // 
             // returnBooks_btn
             // 
@@ -342,5 +352,6 @@ namespace LibraryManagementSystem
         private System.Windows.Forms.Button avail_btn;
         private AvailBooks availBooks2;
         private System.Windows.Forms.Button button1;
+        private LibraryManagementSystem.MainformsUser.Accounts accounts1;
     }
 }

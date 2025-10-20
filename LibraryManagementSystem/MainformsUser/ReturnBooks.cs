@@ -7,14 +7,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Data;
 using System.Data.SqlClient;
+using LibraryManagementSystem.Utils;
 
 namespace LibraryManagementSystem
 {
     public partial class ReturnBooks : UserControl
     {
-        SqlConnection connect = new SqlConnection(@"Server=tcp:sdsc-johnmenardmarcelo.database.windows.net,1433;Initial Catalog=LibrarySystemDB;Persist Security Info=False;User ID=app_user;Password=StrongP@ssw0rd!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
+        SqlConnection connect = Database.GetConnection();
 
         public ReturnBooks()
         {
@@ -39,7 +39,6 @@ namespace LibraryManagementSystem
             if(returnBooks_issueID.Text == ""
                 || returnBooks_name.Text == ""
                 || returnBooks_contact.Text == ""
-                || returnBooks_email.Text == ""
                 || returnBooks_bookTitle.Text == ""
                 || returnBooks_author.Text == ""
                 || bookIssue_issueDate.Value == null){
@@ -58,24 +57,17 @@ namespace LibraryManagementSystem
                     {
                         try
                         {
-                            DateTime today = DateTime.Today;
                             connect.Open();
 
-                            string updateData = "UPDATE issues SET status = @status, date_update = @dateUpdate " +
-                                "WHERE issue_id = @issueID";
-
-                            using (SqlCommand cmd = new SqlCommand(updateData, connect))
+                            using (SqlCommand cmd = new SqlCommand("sp_ReturnBook", connect))
                             {
-                                cmd.Parameters.AddWithValue("@status", "Return");
-                                cmd.Parameters.AddWithValue("@dateUpdate", today);
-                                cmd.Parameters.AddWithValue("@issueID", returnBooks_issueID.Text);
+                                cmd.CommandType = CommandType.StoredProcedure;
+                                cmd.Parameters.AddWithValue("@issue_id", returnBooks_issueID.Text.Trim());
 
                                 cmd.ExecuteNonQuery();
 
                                 displayIssuedBooksData();
-
                                 MessageBox.Show("Returned successfully!", "Information Message", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
                                 clearFields();
                             }
                         }
@@ -109,7 +101,6 @@ namespace LibraryManagementSystem
                 returnBooks_issueID.Text = row.Cells[1].Value.ToString();
                 returnBooks_name.Text = row.Cells[2].Value.ToString();
                 returnBooks_contact.Text = row.Cells[3].Value.ToString();
-                returnBooks_email.Text = row.Cells[4].Value.ToString();
                 returnBooks_bookTitle.Text = row.Cells[5].Value.ToString();
                 returnBooks_author.Text = row.Cells[6].Value.ToString();
                 bookIssue_issueDate.Text = row.Cells[7].Value.ToString();
@@ -121,7 +112,6 @@ namespace LibraryManagementSystem
             returnBooks_issueID.Text = "";
             returnBooks_name.Text = "";
             returnBooks_contact.Text = "";
-            returnBooks_email.Text = "";
             returnBooks_bookTitle.Text = "";
             returnBooks_author.Text = "";
         }

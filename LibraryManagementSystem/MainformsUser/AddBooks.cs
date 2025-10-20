@@ -7,15 +7,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Data;
 using System.Data.SqlClient;
+using LibraryManagementSystem.Utils;
 using System.IO;
 
 namespace LibraryManagementSystem
 {
     public partial class AddBooks : UserControl
     {
-        SqlConnection connect = new SqlConnection(@"Server=tcp:sdsc-johnmenardmarcelo.database.windows.net,1433;Initial Catalog=LibrarySystemDB;Persist Security Info=False;User ID=app_user;Password=StrongP@ssw0rd!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
+        SqlConnection connect = Database.GetConnection();
 
         public AddBooks()
         {
@@ -82,8 +82,10 @@ namespace LibraryManagementSystem
                             "(book_title, author, published_date,quantity,status, image, date_insert) " +
                             "VALUES(@bookTitle, @author, @published_date, @quantity, @status, @image, @dateInsert)";
 
-                        string path = Path.Combine(@"E:\SQL2025\Repository\Books_Directory\" +
-                            addBooks_bookTitle.Text + addBooks_author.Text.Trim() + ".jpg");
+                        string booksRoot = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Books_Directory");
+                        string safeFileName = string.Concat(string.Join("_", addBooks_bookTitle.Text.Split(Path.GetInvalidFileNameChars())),
+                            "_", string.Join("_", addBooks_author.Text.Split(Path.GetInvalidFileNameChars())) , ".jpg");
+                        string path = Path.Combine(booksRoot, safeFileName);
 
                         string directoryPath = Path.GetDirectoryName(path);
 
@@ -96,10 +98,17 @@ namespace LibraryManagementSystem
 
                         using(SqlCommand cmd = new SqlCommand(insertData, connect))
                         {
+                            // Duplicate check
+                            if (IsDuplicateBook(addBooks_bookTitle.Text.Trim(), addBooks_author.Text.Trim()))
+                            {
+                                MessageBox.Show("Book already exists.", "Error Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                return;
+                            }
+
                             cmd.Parameters.AddWithValue("@bookTitle", addBooks_bookTitle.Text.Trim());
                             cmd.Parameters.AddWithValue("@author", addBooks_author.Text.Trim());
                             cmd.Parameters.AddWithValue("@published_date", addBooks_published.Value);
-                            cmd.Parameters.AddWithValue("@quantity", addBooks_quantity.Text.Trim());
+                            cmd.Parameters.AddWithValue("@quantity", Convert.ToInt32(addBooks_quantity.Value));
                             cmd.Parameters.AddWithValue("@status", addBooks_status.Text.Trim());
                             cmd.Parameters.AddWithValue("@image", path);
                             cmd.Parameters.AddWithValue("@dateInsert", today);
@@ -134,6 +143,34 @@ namespace LibraryManagementSystem
             addBooks_quantity.Value = 0;
             addBooks_picture.Image = null;
             addBooks_status.SelectedIndex = -1;
+        }
+
+        private bool IsDuplicateBook(string title, string author)
+        {
+            if (connect.State == ConnectionState.Closed)
+            {
+                try
+                {
+                    connect.Open();
+                    string sql = "SELECT COUNT(*) FROM books WHERE book_title = @title AND author = @author AND date_delete IS NULL";
+                    using (SqlCommand cmd = new SqlCommand(sql, connect))
+                    {
+                        cmd.Parameters.AddWithValue("@title", title);
+                        cmd.Parameters.AddWithValue("@author", author);
+                        int count = Convert.ToInt32(cmd.ExecuteScalar());
+                        return count > 0;
+                    }
+                }
+                catch
+                {
+                    return false;
+                }
+                finally
+                {
+                    connect.Close();
+                }
+            }
+            return false;
         }
 
         public void displayBooks()
@@ -211,7 +248,7 @@ namespace LibraryManagementSystem
                                 cmd.Parameters.AddWithValue("@bookTitle", addBooks_bookTitle.Text.Trim());
                                 cmd.Parameters.AddWithValue("@author", addBooks_author.Text.Trim());
                                 cmd.Parameters.AddWithValue("@published", addBooks_published.Value);
-                                cmd.Parameters.AddWithValue("@quantity", addBooks_quantity.Text.Trim());
+                                cmd.Parameters.AddWithValue("@quantity", Convert.ToInt32(addBooks_quantity.Value));
                                 cmd.Parameters.AddWithValue("@status", addBooks_status.Text.Trim());
                                 cmd.Parameters.AddWithValue("@dateUpdate", today);
                                 cmd.Parameters.AddWithValue("@id", bookID);

@@ -32,19 +32,19 @@ namespace LibraryManagementSystem
             this.register_showPass = new System.Windows.Forms.CheckBox();
             this.label5 = new System.Windows.Forms.Label();
             this.register_btn = new System.Windows.Forms.Button();
-            this.register_password = new System.Windows.Forms.TextBox();
+            this.confirmpassword_textbox = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
-            this.register_username = new System.Windows.Forms.TextBox();
+            this.username_textbox = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
-            this.register_email = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.idcode_textbox = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.password_textbox = new System.Windows.Forms.TextBox();
+            this.name_teboxxt = new System.Windows.Forms.TextBox();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -89,15 +89,15 @@ namespace LibraryManagementSystem
             this.register_btn.UseVisualStyleBackColor = false;
             this.register_btn.Click += new System.EventHandler(this.register_btn_Click);
             // 
-            // register_password
+            // confirmpassword_textbox
             // 
-            this.register_password.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.register_password.Location = new System.Drawing.Point(498, 362);
-            this.register_password.Multiline = true;
-            this.register_password.Name = "register_password";
-            this.register_password.PasswordChar = '*';
-            this.register_password.Size = new System.Drawing.Size(281, 30);
-            this.register_password.TabIndex = 17;
+            this.confirmpassword_textbox.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.confirmpassword_textbox.Location = new System.Drawing.Point(498, 362);
+            this.confirmpassword_textbox.Multiline = true;
+            this.confirmpassword_textbox.Name = "confirmpassword_textbox";
+            this.confirmpassword_textbox.PasswordChar = '*';
+            this.confirmpassword_textbox.Size = new System.Drawing.Size(281, 30);
+            this.confirmpassword_textbox.TabIndex = 17;
             // 
             // label4
             // 
@@ -109,14 +109,14 @@ namespace LibraryManagementSystem
             this.label4.TabIndex = 16;
             this.label4.Text = "Confirm Password:";
             // 
-            // register_username
+            // username_textbox
             // 
-            this.register_username.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.register_username.Location = new System.Drawing.Point(497, 250);
-            this.register_username.Multiline = true;
-            this.register_username.Name = "register_username";
-            this.register_username.Size = new System.Drawing.Size(281, 30);
-            this.register_username.TabIndex = 15;
+            this.username_textbox.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.username_textbox.Location = new System.Drawing.Point(497, 250);
+            this.username_textbox.Multiline = true;
+            this.username_textbox.Name = "username_textbox";
+            this.username_textbox.Size = new System.Drawing.Size(281, 30);
+            this.username_textbox.TabIndex = 15;
             // 
             // label3
             // 
@@ -161,16 +161,6 @@ namespace LibraryManagementSystem
             this.label1.Text = "X";
             this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
-            // register_email
-            // 
-            this.register_email.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.register_email.Location = new System.Drawing.Point(498, 130);
-            this.register_email.Multiline = true;
-            this.register_email.Name = "register_email";
-            this.register_email.Size = new System.Drawing.Size(281, 30);
-            this.register_email.TabIndex = 23;
-            this.register_email.TextChanged += new System.EventHandler(this.register_email_TextChanged);
-            // 
             // label6
             // 
             this.label6.AutoSize = true;
@@ -192,15 +182,14 @@ namespace LibraryManagementSystem
             this.label7.Text = "ID Code:";
             this.label7.Click += new System.EventHandler(this.label7_Click);
             // 
-            // textBox1
+            // idcode_textbox
             // 
-            this.textBox1.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox1.Location = new System.Drawing.Point(497, 191);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(281, 30);
-            this.textBox1.TabIndex = 23;
-            this.textBox1.TextChanged += new System.EventHandler(this.register_email_TextChanged);
+            this.idcode_textbox.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.idcode_textbox.Location = new System.Drawing.Point(497, 191);
+            this.idcode_textbox.Multiline = true;
+            this.idcode_textbox.Name = "idcode_textbox";
+            this.idcode_textbox.Size = new System.Drawing.Size(281, 30);
+            this.idcode_textbox.TabIndex = 23;
             // 
             // label8
             // 
@@ -212,15 +201,25 @@ namespace LibraryManagementSystem
             this.label8.TabIndex = 16;
             this.label8.Text = "Password:";
             // 
-            // textBox2
+            // password_textbox
             // 
-            this.textBox2.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox2.Location = new System.Drawing.Point(498, 308);
-            this.textBox2.Multiline = true;
-            this.textBox2.Name = "textBox2";
-            this.textBox2.PasswordChar = '*';
-            this.textBox2.Size = new System.Drawing.Size(281, 30);
-            this.textBox2.TabIndex = 17;
+            this.password_textbox.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.password_textbox.Location = new System.Drawing.Point(498, 308);
+            this.password_textbox.Multiline = true;
+            this.password_textbox.Name = "password_textbox";
+            this.password_textbox.PasswordChar = '*';
+            this.password_textbox.Size = new System.Drawing.Size(281, 30);
+            this.password_textbox.TabIndex = 17;
+            // 
+            // name_teboxxt
+            // 
+            this.name_teboxxt.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.name_teboxxt.Location = new System.Drawing.Point(498, 137);
+            this.name_teboxxt.Multiline = true;
+            this.name_teboxxt.Name = "name_teboxxt";
+            this.name_teboxxt.Size = new System.Drawing.Size(281, 30);
+            this.name_teboxxt.TabIndex = 24;
+            this.name_teboxxt.TextChanged += new System.EventHandler(this.textBox3_TextChanged);
             // 
             // RegisterForm
             // 
@@ -228,18 +227,18 @@ namespace LibraryManagementSystem
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(805, 525);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.name_teboxxt);
+            this.Controls.Add(this.idcode_textbox);
             this.Controls.Add(this.label7);
-            this.Controls.Add(this.register_email);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.register_showPass);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.register_btn);
-            this.Controls.Add(this.textBox2);
+            this.Controls.Add(this.password_textbox);
             this.Controls.Add(this.label8);
-            this.Controls.Add(this.register_password);
+            this.Controls.Add(this.confirmpassword_textbox);
             this.Controls.Add(this.label4);
-            this.Controls.Add(this.register_username);
+            this.Controls.Add(this.username_textbox);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.panel1);
@@ -260,18 +259,18 @@ namespace LibraryManagementSystem
         private System.Windows.Forms.CheckBox register_showPass;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Button register_btn;
-        private System.Windows.Forms.TextBox register_password;
+        private System.Windows.Forms.TextBox confirmpassword_textbox;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox register_username;
+        private System.Windows.Forms.TextBox username_textbox;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox register_email;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox idcode_textbox;
         private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox password_textbox;
+        private System.Windows.Forms.TextBox name_teboxxt;
     }
 }

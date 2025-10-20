@@ -49,7 +49,6 @@ namespace LibraryManagementSystem
             this.label6 = new System.Windows.Forms.Label();
             this.bookIssue_id = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
-            this.bookIssue_email = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.bookIssue_contact = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
@@ -85,7 +84,6 @@ namespace LibraryManagementSystem
             this.panel1.Controls.Add(this.label6);
             this.panel1.Controls.Add(this.bookIssue_id);
             this.panel1.Controls.Add(this.label5);
-            this.panel1.Controls.Add(this.bookIssue_email);
             this.panel1.Controls.Add(this.label4);
             this.panel1.Controls.Add(this.bookIssue_contact);
             this.panel1.Controls.Add(this.label3);
@@ -289,13 +287,6 @@ namespace LibraryManagementSystem
             this.label5.TabIndex = 6;
             this.label5.Text = "Issue ID:";
             // 
-            // bookIssue_email
-            // 
-            this.bookIssue_email.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.bookIssue_email.Location = new System.Drawing.Point(98, 190);
-            this.bookIssue_email.Name = "bookIssue_email";
-            this.bookIssue_email.Size = new System.Drawing.Size(196, 23);
-            this.bookIssue_email.TabIndex = 5;
             // 
             // label4
             // 
@@ -429,7 +420,6 @@ namespace LibraryManagementSystem
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox bookIssue_name;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox bookIssue_email;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox bookIssue_id;
         private System.Windows.Forms.Label label5;

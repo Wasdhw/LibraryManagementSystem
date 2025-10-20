@@ -7,14 +7,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Data;
 using System.Data.SqlClient;
+using LibraryManagementSystem.Utils;
 
 namespace LibraryManagementSystem
 {
     public partial class Dashboard : UserControl
     {
-        SqlConnection connect = new SqlConnection(@"Server=tcp:sdsc-johnmenardmarcelo.database.windows.net,1433;Initial Catalog=LibrarySystemDB;Persist Security Info=False;User ID=app_user;Password=StrongP@ssw0rd!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
+        SqlConnection connect = Database.GetConnection();
 
         public Dashboard()
         {
@@ -37,6 +37,7 @@ namespace LibraryManagementSystem
             displayAB();
             displayIB();
             displayRB();
+            displayExtraStats();
         }
 
         public void displayAB()
@@ -138,6 +139,74 @@ namespace LibraryManagementSystem
                 {
                     connect.Close();
                 }
+            }
+        }
+
+        private int GetTotalUsers()
+        {
+            if (connect.State == ConnectionState.Closed)
+            {
+                try
+                {
+                    connect.Open();
+                    string sql = "SELECT COUNT(id) FROM users WHERE is_active = 1 AND date_delete IS NULL";
+                    using (SqlCommand cmd = new SqlCommand(sql, connect))
+                    {
+                        object result = cmd.ExecuteScalar();
+                        return Convert.ToInt32(result);
+                    }
+                }
+                catch
+                {
+                    return 0;
+                }
+                finally
+                {
+                    connect.Close();
+                }
+            }
+            return 0;
+        }
+
+        private int GetOverdueCount()
+        {
+            if (connect.State == ConnectionState.Closed)
+            {
+                try
+                {
+                    connect.Open();
+                    string sql = "SELECT COUNT(id) FROM issues WHERE status = 'Not Return' AND return_date < GETDATE() AND date_delete IS NULL";
+                    using (SqlCommand cmd = new SqlCommand(sql, connect))
+                    {
+                        object result = cmd.ExecuteScalar();
+                        return Convert.ToInt32(result);
+                    }
+                }
+                catch
+                {
+                    return 0;
+                }
+                finally
+                {
+                    connect.Close();
+                }
+            }
+            return 0;
+        }
+
+        public void displayExtraStats()
+        {
+            int totalUsers = GetTotalUsers();
+            int overdue = GetOverdueCount();
+
+            // Update labels if present
+            if (dashboard_TotalUsers != null)
+            {
+                dashboard_TotalUsers.Text = "Users: " + totalUsers;
+            }
+            if (dashboard_Overdue != null)
+            {
+                dashboard_Overdue.Text = "Overdue: " + overdue;
             }
         }
 

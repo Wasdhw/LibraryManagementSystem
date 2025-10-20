@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
+using LibraryManagementSystem.Utils;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -52,7 +53,7 @@ namespace LibraryManagementSystem
 
             string query = "SELECT id, book_title, author, status, image FROM books WHERE date_delete IS NULL AND status = 'Available'";
 
-            using (SqlConnection con = new SqlConnection(@"Server=tcp:sdsc-johnmenardmarcelo.database.windows.net,1433;Initial Catalog=LibrarySystemDB;Persist Security Info=False;User ID=app_user;Password=StrongP@ssw0rd!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"))
+            using (SqlConnection con = Database.GetConnection())
             {
                 con.Open();
                 using (SqlCommand cmd = new SqlCommand(query, con))

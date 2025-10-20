@@ -97,6 +97,18 @@ namespace LibraryManagementSystem
             }
         }
 
+        private void accounts_btn_Click(object sender, EventArgs e)
+        {
+            dashboard1.Visible = false;
+            addBooks1.Visible = false;
+            returnBooks1.Visible = false;
+            issueBooks1.Visible = false;
+            availBooks2.Visible = false;
+            accounts1.Visible = true;
+
+            // Trigger a refresh if Accounts exposes a method later
+        }
+
         private void Avail_btn_Click(object sender, EventArgs e)
         {
             dashboard1.Visible = false;

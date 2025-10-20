@@ -67,6 +67,7 @@
     <Compile Include="MainformsUser\Accounts.Designer.cs">
       <DependentUpon>Accounts.cs</DependentUpon>
     </Compile>
+    <Compile Include="obj\Debug\.NETFramework,Version=v4.7.2.AssemblyAttributes.cs" />
     <Compile Include="studentUser\History.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -149,6 +150,8 @@
     <Compile Include="MainformsUser\ReturnBooks.Designer.cs">
       <DependentUpon>ReturnBooks.cs</DependentUpon>
     </Compile>
+    <Compile Include="Utils\Database.cs" />
+    <Compile Include="Utils\Security.cs" />
     <Compile Include="MainformsUser\AvailBooks.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -200,6 +203,9 @@
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="obj\Debug\LibraryManagementSystem.AddBooks.resources" />
+    <EmbeddedResource Include="obj\Debug\LibraryManagementSystem.AvailBooks.resources" />
+    <EmbeddedResource Include="obj\Debug\LibraryManagementSystem.BookInfoForm.resources" />
     <EmbeddedResource Include="studentUser\History.resx">
       <DependentUpon>History.cs</DependentUpon>
     </EmbeddedResource>
@@ -237,6 +243,11 @@
     <EmbeddedResource Include="studentUser\StReturnBooks.resx">
       <DependentUpon>StReturnBooks.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="bin\Debug\LibraryManagementSystem.exe.config" />
+    <None Include="obj\Debug\DesignTimeResolveAssemblyReferences.cache" />
+    <None Include="obj\Debug\DesignTimeResolveAssemblyReferencesInput.cache" />
+    <None Include="obj\Debug\LibraryManagementSystem.csproj.AssemblyReference.cache" />
+    <None Include="obj\Debug\LibraryManagementSystem.csproj.CoreCompileInputs.cache" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -252,6 +263,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\551319363_2220571021741076_4897105495816530304_n.png" />
+    <Content Include="bin\Debug\LibraryManagementSystem.exe" />
     <None Include="Assets\user-32.jpg" />
     <None Include="Assets\sabyo logo.png" />
     <None Include="Assets\conference-32.png" />
@@ -273,6 +285,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Books_Directory\" />
+    <Folder Include="obj\Debug\TempPE\" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">

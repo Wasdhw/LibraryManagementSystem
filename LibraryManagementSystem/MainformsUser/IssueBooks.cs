@@ -7,14 +7,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Data;
 using System.Data.SqlClient;
+using LibraryManagementSystem.Utils;
 
 namespace LibraryManagementSystem
 {
     public partial class IssueBooks : UserControl
     {
-        SqlConnection connect = new SqlConnection(@"Server=tcp:sdsc-johnmenardmarcelo.database.windows.net,1433;Initial Catalog=LibrarySystemDB;Persist Security Info=False;User ID=app_user;Password=StrongP@ssw0rd!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
+        SqlConnection connect = Database.GetConnection();
         public IssueBooks()
         {
             InitializeComponent();
@@ -47,66 +47,84 @@ namespace LibraryManagementSystem
 
         private void bookIssue_addBtn_Click(object sender, EventArgs e)
         {
-            if(bookIssue_id.Text == ""
-                || bookIssue_name.Text == ""
-                || bookIssue_contact.Text == ""
-                || bookIssue_email.Text == ""
-                || bookIssue_bookTitle.Text == ""
-                || bookIssue_author.Text == ""
+            if (string.IsNullOrWhiteSpace(bookIssue_name.Text)
+                || string.IsNullOrWhiteSpace(bookIssue_contact.Text)
+                || bookIssue_bookTitle.SelectedValue == null
+                || string.IsNullOrWhiteSpace(bookIssue_author.Text)
                 || bookIssue_issueDate.Value == null
                 || bookIssue_returnDate.Value == null
-                || bookIssue_status.Text == ""
-                || bookIssue_picture.Image == null)
+                || string.IsNullOrWhiteSpace(bookIssue_status.Text))
             {
-                MessageBox.Show("Please fill all blank fields", "Error Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Please fill all required fields", "Error Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
             }
-            else
+
+            if (connect.State != ConnectionState.Open)
             {
-                if(connect.State != ConnectionState.Open)
+                try
                 {
-                    try
+                    connect.Open();
+
+                    int selectedBookId = Convert.ToInt32(((DataRowView)bookIssue_bookTitle.SelectedItem)["id"]);
+
+                    int userId = GetUserId(bookIssue_name.Text.Trim(), bookIssue_contact.Text.Trim());
+                    if (userId == 0)
                     {
-                        DateTime today = DateTime.Today;
+                        MessageBox.Show("User not found. Please register the user first or enter the exact registered name.",
+                            "Error Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
 
-                        connect.Open();
+                    using (SqlCommand cmd = new SqlCommand("sp_IssueBook", connect))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@user_id", userId);
+                        cmd.Parameters.AddWithValue("@book_id", selectedBookId);
+                        cmd.Parameters.AddWithValue("@full_name", bookIssue_name.Text.Trim());
+                        cmd.Parameters.AddWithValue("@contact", bookIssue_contact.Text.Trim());
+                        cmd.Parameters.AddWithValue("@issue_date", bookIssue_issueDate.Value.Date);
+                        cmd.Parameters.AddWithValue("@return_date", bookIssue_returnDate.Value.Date);
 
-                        string insertData = "INSERT INTO issues " +
-                            "(issue_id, full_name, contact, email, book_title, author, status, issue_date, return_date, date_insert) " +
-                            "VALUES(@issueID, @fullname, @contact, @email, @bookTitle, @author, @status, @issueDate, @returnDate, @dateInsert)";
-
-                        using(SqlCommand cmd = new SqlCommand(insertData, connect))
+                        SqlParameter outIssue = new SqlParameter("@issue_id", SqlDbType.NVarChar, 50)
                         {
-                            cmd.Parameters.AddWithValue("@issueID", bookIssue_id.Text.Trim());
-                            cmd.Parameters.AddWithValue("@fullname", bookIssue_name.Text.Trim());
-                            cmd.Parameters.AddWithValue("@contact", bookIssue_contact.Text.Trim());
-                            cmd.Parameters.AddWithValue("@email", bookIssue_email.Text.Trim());
-                            cmd.Parameters.AddWithValue("@bookTitle", bookIssue_bookTitle.Text.Trim());
-                            cmd.Parameters.AddWithValue("@author", bookIssue_author.Text.Trim());
-                            cmd.Parameters.AddWithValue("@status", bookIssue_status.Text.Trim());
-                            cmd.Parameters.AddWithValue("@issueDate", bookIssue_issueDate.Value);
-                            cmd.Parameters.AddWithValue("@returnDate", bookIssue_returnDate.Value); ;
-                            cmd.Parameters.AddWithValue("@dateInsert", today);
+                            Direction = ParameterDirection.Output
+                        };
+                        cmd.Parameters.Add(outIssue);
 
-                            cmd.ExecuteNonQuery();
+                        cmd.ExecuteNonQuery();
 
-                            displayBookIssueData();
-
-                            MessageBox.Show("Issued successfully!", "Information Message", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                            clearFields();
-
+                        // Set generated issue id back to UI
+                        if (outIssue.Value != DBNull.Value)
+                        {
+                            bookIssue_id.Text = outIssue.Value.ToString();
                         }
-                    }
-                    catch(Exception ex)
-                    {
-                        MessageBox.Show("Error: " + ex, "Error Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
-                    }
-                    finally
-                    {
-                        connect.Close();
+                        displayBookIssueData();
+                        MessageBox.Show("Issued successfully!", "Information Message", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        clearFields();
                     }
                 }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error: " + ex.Message, "Error Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    connect.Close();
+                }
+            }
+        }
+
+        private int GetUserId(string nameOrUsername, string idcode)
+        {
+            string sql = "SELECT TOP 1 id FROM users WHERE is_active = 1 AND date_delete IS NULL AND (name = @n OR username = @n OR idcode = @c)";
+            using (SqlCommand cmd = new SqlCommand(sql, connect))
+            {
+                cmd.Parameters.AddWithValue("@n", nameOrUsername);
+                cmd.Parameters.AddWithValue("@c", idcode);
+                object result = cmd.ExecuteScalar();
+                if (result == null || result == DBNull.Value) return 0;
+                return Convert.ToInt32(result);
             }
         }
 
@@ -115,7 +133,6 @@ namespace LibraryManagementSystem
             bookIssue_id.Text = "";
             bookIssue_name.Text = "";
             bookIssue_contact.Text = "";
-            bookIssue_email.Text = "";
             bookIssue_bookTitle.SelectedIndex = -1;
             bookIssue_author.SelectedIndex = -1;
             bookIssue_status.SelectedIndex = -1;
@@ -217,7 +234,6 @@ namespace LibraryManagementSystem
                 bookIssue_id.Text = row.Cells[1].Value.ToString();
                 bookIssue_name.Text = row.Cells[2].Value.ToString();
                 bookIssue_contact.Text = row.Cells[3].Value.ToString();
-                bookIssue_email.Text = row.Cells[4].Value.ToString();
                 bookIssue_bookTitle.Text = row.Cells[5].Value.ToString();
                 bookIssue_author.Text = row.Cells[6].Value.ToString();
                 bookIssue_issueDate.Text = row.Cells[7].Value.ToString();
@@ -232,7 +248,6 @@ namespace LibraryManagementSystem
             if (bookIssue_id.Text == ""
                 || bookIssue_name.Text == ""
                 || bookIssue_contact.Text == ""
-                || bookIssue_email.Text == ""
                 || bookIssue_bookTitle.Text == ""
                 || bookIssue_author.Text == ""
                 || bookIssue_issueDate.Value == null
@@ -255,7 +270,7 @@ namespace LibraryManagementSystem
                         {
                             connect.Open();
                             DateTime today = DateTime.Today;
-                            string updateData = "UPDATE issues SET full_name = @fullName, contact = @contact, email = @email" +
+                            string updateData = "UPDATE issues SET full_name = @fullName, contact = @contact" +
                                 ", book_title = @bookTitle, author = @author, status = @status, issue_date = @issueDate" +
                                 ", return_date = @returnDate, date_update = @dateUpdate WHERE issue_id = @issueID";
 
@@ -263,7 +278,6 @@ namespace LibraryManagementSystem
                             {
                                 cmd.Parameters.AddWithValue("@fullName", bookIssue_name.Text.Trim());
                                 cmd.Parameters.AddWithValue("@contact", bookIssue_contact.Text.Trim());
-                                cmd.Parameters.AddWithValue("@email", bookIssue_email.Text.Trim());
                                 cmd.Parameters.AddWithValue("@bookTitle", bookIssue_bookTitle.Text.Trim());
                                 cmd.Parameters.AddWithValue("@author", bookIssue_author.Text.Trim());
                                 cmd.Parameters.AddWithValue("@status", bookIssue_status.Text.Trim());
@@ -305,7 +319,6 @@ namespace LibraryManagementSystem
             if (bookIssue_id.Text == ""
                 || bookIssue_name.Text == ""
                 || bookIssue_contact.Text == ""
-                || bookIssue_email.Text == ""
                 || bookIssue_bookTitle.Text == ""
                 || bookIssue_author.Text == ""
                 || bookIssue_issueDate.Value == null

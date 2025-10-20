@@ -41,7 +41,6 @@ namespace LibraryManagementSystem
             this.label7 = new System.Windows.Forms.Label();
             this.returnBooks_bookTitle = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
-            this.returnBooks_email = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.returnBooks_contact = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
@@ -69,7 +68,6 @@ namespace LibraryManagementSystem
             this.panel1.Controls.Add(this.label7);
             this.panel1.Controls.Add(this.returnBooks_bookTitle);
             this.panel1.Controls.Add(this.label6);
-            this.panel1.Controls.Add(this.returnBooks_email);
             this.panel1.Controls.Add(this.label5);
             this.panel1.Controls.Add(this.returnBooks_contact);
             this.panel1.Controls.Add(this.label4);
@@ -95,9 +93,9 @@ namespace LibraryManagementSystem
             this.label1.Font = new System.Drawing.Font("Tahoma", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(29, 43);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(144, 23);
+            this.label1.Size = new System.Drawing.Size(146, 23);
             this.label1.TabIndex = 0;
-            this.label1.Text = "All Issued Books";
+            this.label1.Text = "All Return Books";
             this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // returnBooks_clearBtn
@@ -182,14 +180,6 @@ namespace LibraryManagementSystem
             this.label6.TabIndex = 9;
             this.label6.Text = "Book TItle:";
             this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // returnBooks_email
-            // 
-            this.returnBooks_email.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.returnBooks_email.Location = new System.Drawing.Point(91, 258);
-            this.returnBooks_email.Name = "returnBooks_email";
-            this.returnBooks_email.Size = new System.Drawing.Size(168, 22);
-            this.returnBooks_email.TabIndex = 7;
             // 
             // label5
             // 
@@ -328,7 +318,6 @@ namespace LibraryManagementSystem
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox returnBooks_contact;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox returnBooks_email;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox returnBooks_author;
         private System.Windows.Forms.Label label7;

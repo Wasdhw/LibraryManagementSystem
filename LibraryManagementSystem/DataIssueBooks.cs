@@ -10,13 +10,12 @@ namespace LibraryManagementSystem
 {
     class DataIssueBooks
     {
-        SqlConnection connect = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\WINDOWS 10\Documents\library.mdf;Integrated Security=True;Connect Timeout=30");
+        SqlConnection connect = new SqlConnection(@"Server=tcp:sdsc-johnmenardmarcelo.database.windows.net,1433;Initial Catalog=LibrarySystemDB;Persist Security Info=False;User ID=app_user;Password=StrongP@ssw0rd!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
 
         public int ID { set; get; }
         public string IssueID { set; get; }
         public string Name { set; get; }
         public string Contact { set; get; }
-        public string Email { set; get; }
         public string BookTitle { set; get; }
         public string Author { set; get; }
         public string DateIssue { set; get; }
@@ -46,7 +45,6 @@ namespace LibraryManagementSystem
                             dib.IssueID = reader["issue_id"].ToString();
                             dib.Name = reader["full_name"].ToString();
                             dib.Contact = reader["contact"].ToString();
-                            dib.Email = reader["email"].ToString();
                             dib.BookTitle = reader["book_title"].ToString();
                             dib.Author = reader["author"].ToString();
                             dib.DateIssue = reader["issue_date"].ToString();
@@ -96,7 +94,6 @@ namespace LibraryManagementSystem
                             dib.IssueID = reader["issue_id"].ToString();
                             dib.Name = reader["full_name"].ToString();
                             dib.Contact = reader["contact"].ToString();
-                            dib.Email = reader["email"].ToString();
                             dib.BookTitle = reader["book_title"].ToString();
                             dib.Author = reader["author"].ToString();
                             dib.DateIssue = reader["issue_date"].ToString();

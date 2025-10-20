@@ -7,14 +7,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Data;
 using System.Data.SqlClient;
+using LibraryManagementSystem.Utils;
 
 namespace LibraryManagementSystem
 {
     public partial class LoginForm : Form
     {
-        SqlConnection connect = new SqlConnection(@"Server=tcp:sdsc-johnmenardmarcelo.database.windows.net,1433;Initial Catalog=LibrarySystemDB;Persist Security Info=False;User ID=app_user;Password=StrongP@ssw0rd!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
+        SqlConnection connect = Database.GetConnection();
         public LoginForm()
         {
             InitializeComponent();
@@ -50,11 +50,11 @@ namespace LibraryManagementSystem
                         connect.Open();
 
                         String selectData
-                            = "SELECT * FROM users WHERE username = @username AND password = @password";
+                            = "SELECT id, name, username, role, password FROM users WHERE username = @username AND is_active = 1 AND date_delete IS NULL";
                         using (SqlCommand cmd = new SqlCommand(selectData, connect))
                         {
                             cmd.Parameters.AddWithValue("@username", login_username.Text.Trim());
-                            cmd.Parameters.AddWithValue("@password", login_password.Text.Trim());
+                            // don't send password, we'll verify hash in app
 
                             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                             DataTable table = new DataTable();
@@ -62,13 +62,58 @@ namespace LibraryManagementSystem
 
                             if (table.Rows.Count >= 1)
                             {
-                                MessageBox.Show("Login Successfully!", "Information Message"
+                                string storedHash = table.Rows[0]["password"].ToString();
+                                string input = login_password.Text.Trim();
+
+                                bool ok = Security.VerifyPassword(input, storedHash) || string.Equals(storedHash, input, StringComparison.Ordinal);
+
+                                if (!ok)
+                                {
+                                    MessageBox.Show("Incorrect Username/Password", "Error Message"
+                                        , MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    return;
+                                }
+
+                                // If DB still stores plaintext, upgrade it to hash
+                                if (string.Equals(storedHash, input, StringComparison.Ordinal))
+                                {
+                                    try
+                                    {
+                                        string up = "UPDATE users SET password=@p, date_update=GETDATE() WHERE id=@id";
+                                        using (SqlCommand upCmd = new SqlCommand(up, connect))
+                                        {
+                                            upCmd.Parameters.AddWithValue("@p", Security.HashPassword(input));
+                                            upCmd.Parameters.AddWithValue("@id", Convert.ToInt32(table.Rows[0]["id"]));
+                                            upCmd.ExecuteNonQuery();
+                                        }
+                                    }
+                                    catch { /* best-effort upgrade */ }
+                                }
+
+                                string userRole = table.Rows[0]["role"].ToString();
+                                string userName = table.Rows[0]["name"].ToString();
+
+                                MessageBox.Show("Login Successfully! Welcome " + userName, "Information Message"
                                     , MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                                MainForm mForm = new MainForm();
-                                mForm.Show();
-                                this.Hide();
-
+                                // Redirect based on user role
+                                if (userRole.ToLower() == "admin")
+                                {
+                                    MainForm mForm = new MainForm();
+                                    mForm.Show();
+                                    this.Hide();
+                                }
+                                else if (userRole.ToLower() == "student")
+                                {
+                                    StudentForm sForm = new StudentForm();
+                                    sForm.Show();
+                                    this.Hide();
+                                }
+                                else
+                                {
+                                    MessageBox.Show("Invalid user role. Please contact administrator.", "Error Message"
+                                        , MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                }
                             }
                             else
                             {
