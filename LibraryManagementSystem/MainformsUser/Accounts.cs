@@ -316,7 +316,7 @@ namespace LibraryManagementSystem.MainformsUser
             bookIssue_id.Text = row.Cells["idcode"].Value?.ToString();
             bookIssue_name.Text = row.Cells["name"].Value?.ToString();
             email.Text = row.Cells["username"].Value?.ToString();
-            if (row.Cells.Contains("grade_course"))
+            if (row.Cells["grade_course"].Value != null)
             {
                 grade_course.Text = row.Cells["grade_course"].Value?.ToString();
             }

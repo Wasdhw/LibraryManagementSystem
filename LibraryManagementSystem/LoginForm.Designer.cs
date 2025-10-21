@@ -37,7 +37,6 @@ namespace LibraryManagementSystem
             this.login_password = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.loginBtn = new System.Windows.Forms.Button();
-            this.label5 = new System.Windows.Forms.Label();
             this.login_showPass = new System.Windows.Forms.CheckBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.panel1.SuspendLayout();
@@ -138,16 +137,6 @@ namespace LibraryManagementSystem
             this.loginBtn.UseVisualStyleBackColor = false;
             this.loginBtn.Click += new System.EventHandler(this.loginBtn_Click);
             // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Tahoma", 9F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Italic | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(287, 483);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(101, 14);
-            this.label5.TabIndex = 8;
-            this.label5.Text = "Register Account";
-            this.label5.Click += new System.EventHandler(this.label5_Click);
             // 
             // login_showPass
             // 
@@ -177,7 +166,6 @@ namespace LibraryManagementSystem
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(671, 525);
             this.Controls.Add(this.login_showPass);
-            this.Controls.Add(this.label5);
             this.Controls.Add(this.loginBtn);
             this.Controls.Add(this.login_password);
             this.Controls.Add(this.label4);
@@ -210,7 +198,6 @@ namespace LibraryManagementSystem
         private System.Windows.Forms.TextBox login_password;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button loginBtn;
-        private System.Windows.Forms.Label label5;
         private System.Windows.Forms.CheckBox login_showPass;
     }
 }

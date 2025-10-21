@@ -168,6 +168,7 @@
             this.logout_btn.Size = new System.Drawing.Size(35, 35);
             this.logout_btn.TabIndex = 6;
             this.logout_btn.UseVisualStyleBackColor = true;
+            this.logout_btn.Click += new System.EventHandler(this.logout_btn_Click);
             // 
             // history_btn
             // 
@@ -184,6 +185,7 @@
             this.history_btn.TabIndex = 4;
             this.history_btn.Text = "HISTORY";
             this.history_btn.UseVisualStyleBackColor = true;
+            this.history_btn.Click += new System.EventHandler(this.history_btn_Click);
             // 
             // avail_btn
             // 
@@ -201,6 +203,7 @@
             this.avail_btn.TabIndex = 3;
             this.avail_btn.Text = "BOOKS";
             this.avail_btn.UseVisualStyleBackColor = true;
+            this.avail_btn.Click += new System.EventHandler(this.avail_btn_Click);
             // 
             // borrow_btn
             // 
@@ -217,6 +220,7 @@
             this.borrow_btn.TabIndex = 3;
             this.borrow_btn.Text = "BORROWED";
             this.borrow_btn.UseVisualStyleBackColor = true;
+            this.borrow_btn.Click += new System.EventHandler(this.borrow_btn_Click);
             // 
             // dashboard_btn
             // 
@@ -233,6 +237,7 @@
             this.dashboard_btn.TabIndex = 2;
             this.dashboard_btn.Text = "DASHBOARD";
             this.dashboard_btn.UseVisualStyleBackColor = true;
+            this.dashboard_btn.Click += new System.EventHandler(this.dashboard_btn_Click);
             // 
             // pictureBox1
             // 

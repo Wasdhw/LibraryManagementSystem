@@ -104,6 +104,7 @@
             this.button1.TabIndex = 23;
             this.button1.Text = "CLOSE";
             this.button1.UseVisualStyleBackColor = false;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // bookreturn_addBtn
             // 
@@ -118,6 +119,7 @@
             this.bookreturn_addBtn.TabIndex = 24;
             this.bookreturn_addBtn.Text = "RETURN";
             this.bookreturn_addBtn.UseVisualStyleBackColor = false;
+            this.bookreturn_addBtn.Click += new System.EventHandler(this.bookreturn_addBtn_Click);
             // 
             // pictureBox1
             // 

@@ -9,6 +9,7 @@ using System.Text;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using LibraryManagementSystem.Utils;
 
 namespace LibraryManagementSystem.studentUser
 {
@@ -52,7 +53,7 @@ namespace LibraryManagementSystem.studentUser
 
             string query = "SELECT id, book_title, author, status, image FROM books WHERE date_delete IS NULL AND status = 'Available'";
 
-            using (SqlConnection con = new SqlConnection(@"Server=tcp:sdsc-johnmenardmarcelo.database.windows.net,1433;Initial Catalog=LibrarySystemDB;Persist Security Info=False;User ID=app_user;Password=StrongP@ssw0rd!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"))
+            using (SqlConnection con = Database.GetConnection())
             {
                 con.Open();
                 using (SqlCommand cmd = new SqlCommand(query, con))
@@ -126,8 +127,9 @@ namespace LibraryManagementSystem.studentUser
 
         private void ShowBookInfo(BookTag tag)
         {
-
+            // Create and show book info form with the selected book
             BookInfoForm info = new BookInfoForm();
+            // You can pass book information to the form if needed
             info.ShowDialog();
         }
 
@@ -140,6 +142,11 @@ namespace LibraryManagementSystem.studentUser
         }
 
         private void flowAvailableBooks_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void panel5_Paint(object sender, PaintEventArgs e)
         {
 
         }

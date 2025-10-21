@@ -25,10 +25,6 @@ namespace LibraryManagementSystem
             Application.Exit();
         }
 
-        private void signupBtn_Click(object sender, EventArgs e)
-        {
-     
-        }
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
@@ -92,6 +88,10 @@ namespace LibraryManagementSystem
 
                                 string userRole = table.Rows[0]["role"].ToString();
                                 string userName = table.Rows[0]["name"].ToString();
+                                int userId = Convert.ToInt32(table.Rows[0]["id"]);
+
+                                // Set user session
+                                SessionManager.SetUserSession(userId, userName, userRole);
 
                                 MessageBox.Show("Login Successfully! Welcome " + userName, "Information Message"
                                     , MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -146,12 +146,6 @@ namespace LibraryManagementSystem
 
         }
 
-        private void label5_Click(object sender, EventArgs e)
-        {
-            RegisterForm rForm = new RegisterForm();
-            rForm.Show();
-            this.Hide();
-        }
 
         private void label3_Click(object sender, EventArgs e)
         {
