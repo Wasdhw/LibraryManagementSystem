@@ -70,7 +70,6 @@
             this.flowAvailableBooks.Name = "flowAvailableBooks";
             this.flowAvailableBooks.Size = new System.Drawing.Size(1110, 675);
             this.flowAvailableBooks.TabIndex = 1;
-            this.flowAvailableBooks.Paint += new System.Windows.Forms.PaintEventHandler(this.flowAvailableBooks_Paint);
             // 
             // panel1
             // 
@@ -212,7 +211,6 @@
             this.panel5.Name = "panel5";
             this.panel5.Size = new System.Drawing.Size(200, 250);
             this.panel5.TabIndex = 6;
-            this.panel5.Paint += new System.Windows.Forms.PaintEventHandler(this.panel5_Paint);
             // 
             // label4
             // 

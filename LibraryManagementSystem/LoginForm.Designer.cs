@@ -75,7 +75,6 @@ namespace LibraryManagementSystem
             this.label2.Size = new System.Drawing.Size(159, 25);
             this.label2.TabIndex = 2;
             this.label2.Text = "Welcome, Admin!";
-            this.label2.Click += new System.EventHandler(this.label2_Click);
             // 
             // label3
             // 
@@ -86,7 +85,6 @@ namespace LibraryManagementSystem
             this.label3.Size = new System.Drawing.Size(80, 18);
             this.label3.TabIndex = 3;
             this.label3.Text = "Username:";
-            this.label3.Click += new System.EventHandler(this.label3_Click);
             // 
             // login_username
             // 
@@ -106,7 +104,6 @@ namespace LibraryManagementSystem
             this.login_password.PasswordChar = '*';
             this.login_password.Size = new System.Drawing.Size(327, 30);
             this.login_password.TabIndex = 6;
-            this.login_password.TextChanged += new System.EventHandler(this.login_password_TextChanged);
             // 
             // label4
             // 
@@ -117,7 +114,6 @@ namespace LibraryManagementSystem
             this.label4.Size = new System.Drawing.Size(74, 18);
             this.label4.TabIndex = 5;
             this.label4.Text = "Password:";
-            this.label4.Click += new System.EventHandler(this.label4_Click);
             // 
             // loginBtn
             // 
@@ -178,7 +174,6 @@ namespace LibraryManagementSystem
             this.Name = "LoginForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "LoginForm";
-            this.Load += new System.EventHandler(this.LoginForm_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
