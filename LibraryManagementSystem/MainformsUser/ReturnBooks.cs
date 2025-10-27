@@ -59,10 +59,13 @@ namespace LibraryManagementSystem
                         {
                             connect.Open();
 
-                            using (SqlCommand cmd = new SqlCommand("sp_ReturnBook", connect))
+                            // Update the issue status to 'Return' and set return date
+                            string updateQuery = "UPDATE issues SET status = 'Return', return_date = @returnDate WHERE issue_id = @issue_id";
+                            
+                            using (SqlCommand cmd = new SqlCommand(updateQuery, connect))
                             {
-                                cmd.CommandType = CommandType.StoredProcedure;
                                 cmd.Parameters.AddWithValue("@issue_id", returnBooks_issueID.Text.Trim());
+                                cmd.Parameters.AddWithValue("@returnDate", DateTime.Today);
 
                                 cmd.ExecuteNonQuery();
 

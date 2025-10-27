@@ -167,6 +167,9 @@
     <Compile Include="studentUser\StReturnBooks.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="studentUser\PasswordChangeForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="studentUser\StReturnBooks.Designer.cs">
       <DependentUpon>StReturnBooks.cs</DependentUpon>
     </Compile>

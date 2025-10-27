@@ -37,7 +37,6 @@ namespace LibraryManagementSystem
             displayAB();
             displayIB();
             displayRB();
-            displayExtraStats();
         }
 
         public void displayAB()
@@ -142,73 +141,6 @@ namespace LibraryManagementSystem
             }
         }
 
-        private int GetTotalUsers()
-        {
-            if (connect.State == ConnectionState.Closed)
-            {
-                try
-                {
-                    connect.Open();
-                    string sql = "SELECT COUNT(id) FROM users WHERE is_active = 1 AND date_delete IS NULL";
-                    using (SqlCommand cmd = new SqlCommand(sql, connect))
-                    {
-                        object result = cmd.ExecuteScalar();
-                        return Convert.ToInt32(result);
-                    }
-                }
-                catch
-                {
-                    return 0;
-                }
-                finally
-                {
-                    connect.Close();
-                }
-            }
-            return 0;
-        }
-
-        private int GetOverdueCount()
-        {
-            if (connect.State == ConnectionState.Closed)
-            {
-                try
-                {
-                    connect.Open();
-                    string sql = "SELECT COUNT(id) FROM issues WHERE status = 'Not Return' AND return_date < GETDATE() AND date_delete IS NULL";
-                    using (SqlCommand cmd = new SqlCommand(sql, connect))
-                    {
-                        object result = cmd.ExecuteScalar();
-                        return Convert.ToInt32(result);
-                    }
-                }
-                catch
-                {
-                    return 0;
-                }
-                finally
-                {
-                    connect.Close();
-                }
-            }
-            return 0;
-        }
-
-        public void displayExtraStats()
-        {
-            int totalUsers = GetTotalUsers();
-            int overdue = GetOverdueCount();
-
-            // Update labels if present
-            if (dashboard_TotalUsers != null)
-            {
-                dashboard_TotalUsers.Text = "Users: " + totalUsers;
-            }
-            if (dashboard_Overdue != null)
-            {
-                dashboard_Overdue.Text = "Overdue: " + overdue;
-            }
-        }
 
         private void panel4_Paint(object sender, PaintEventArgs e)
         {

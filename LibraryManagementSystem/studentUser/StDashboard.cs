@@ -173,5 +173,30 @@ namespace LibraryManagementSystem.MainformsUser
         {
             LoadStudentDashboard();
         }
+
+        private void btnChangePassword_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                int currentUserId = GetCurrentUserId();
+                if (currentUserId == 0)
+                {
+                    MessageBox.Show("Unable to identify current user. Please log in again.", "Error", 
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                // Open password change form
+                using (var passwordForm = new studentUser.PasswordChangeForm(currentUserId))
+                {
+                    passwordForm.ShowDialog();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error opening password change form: " + ex.Message, "Error", 
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
     }
 }

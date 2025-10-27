@@ -192,14 +192,23 @@ namespace LibraryManagementSystem
                 addBooks_bookTitle.Text = row.Cells[1].Value.ToString();
                 addBooks_author.Text = row.Cells[2].Value.ToString();
                 addBooks_published.Text = row.Cells[3].Value.ToString();
-                addBooks_quantity.Text = row.Cells[4].Value.ToString();
+                addBooks_quantity.Value = Convert.ToInt32(row.Cells[4].Value);
 
-                string imagePath = row.Cells[5].Value.ToString();
+                string imagePath = row.Cells[5].Value?.ToString();
 
-
-                if (imagePath != null || imagePath.Length >= 1)
+                // Proper validation for image path
+                if (!string.IsNullOrEmpty(imagePath) && File.Exists(imagePath))
                 {
-                    addBooks_picture.Image = Image.FromFile(imagePath);
+                    try
+                    {
+                        addBooks_picture.Image = Image.FromFile(imagePath);
+                    }
+                    catch (Exception ex)
+                    {
+                        // If image loading fails, set to null and optionally show a message
+                        addBooks_picture.Image = null;
+                        Console.WriteLine($"Failed to load image: {ex.Message}");
+                    }
                 }
                 else
                 {
@@ -228,7 +237,7 @@ namespace LibraryManagementSystem
             }
             else
             {
-                if(connect.State != ConnectionState.Open)
+                if(connect.State == ConnectionState.Closed)
                 {
                     DialogResult check = MessageBox.Show("Are you sure you want to UPDATE Book ID:"
                         + bookID + "?", "Confirmation Message", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
@@ -241,7 +250,26 @@ namespace LibraryManagementSystem
                             DateTime today = DateTime.Today;
                             string updateData = "UPDATE books SET book_title = @bookTitle" +
                                 ", author = @author, published_date = @published" +
-                                ", status = @status, date_update = @dateUpdate WHERE id = @id";
+                                ", quantity = @quantity, status = @status, image = @image, date_update = @dateUpdate WHERE id = @id";
+
+                            // Handle image update
+                            string imagePath = addBooks_picture.ImageLocation;
+                            if (!string.IsNullOrEmpty(imagePath) && File.Exists(imagePath))
+                            {
+                                string booksRoot = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Books_Directory");
+                                string safeFileName = string.Concat(string.Join("_", addBooks_bookTitle.Text.Split(Path.GetInvalidFileNameChars())),
+                                    "_", string.Join("_", addBooks_author.Text.Split(Path.GetInvalidFileNameChars())), ".jpg");
+                                string newPath = Path.Combine(booksRoot, safeFileName);
+                                
+                                string directoryPath = Path.GetDirectoryName(newPath);
+                                if (!Directory.Exists(directoryPath))
+                                {
+                                    Directory.CreateDirectory(directoryPath);
+                                }
+                                
+                                File.Copy(imagePath, newPath, true);
+                                imagePath = newPath;
+                            }
 
                             using (SqlCommand cmd = new SqlCommand(updateData, connect))
                             {
@@ -250,6 +278,7 @@ namespace LibraryManagementSystem
                                 cmd.Parameters.AddWithValue("@published", addBooks_published.Value);
                                 cmd.Parameters.AddWithValue("@quantity", Convert.ToInt32(addBooks_quantity.Value));
                                 cmd.Parameters.AddWithValue("@status", addBooks_status.Text.Trim());
+                                cmd.Parameters.AddWithValue("@image", imagePath);
                                 cmd.Parameters.AddWithValue("@dateUpdate", today);
                                 cmd.Parameters.AddWithValue("@id", bookID);
 
@@ -295,7 +324,7 @@ namespace LibraryManagementSystem
             }
             else
             {
-                if (connect.State != ConnectionState.Open)
+                if (connect.State == ConnectionState.Closed)
                 {
                     DialogResult check = MessageBox.Show("Are you sure you want to DELETE Book ID:"
                         + bookID + "?", "Confirmation Message", MessageBoxButtons.YesNo, MessageBoxIcon.Question);

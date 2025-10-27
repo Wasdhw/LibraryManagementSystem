@@ -75,29 +75,28 @@ namespace LibraryManagementSystem
                         return;
                     }
 
-                    using (SqlCommand cmd = new SqlCommand("sp_IssueBook", connect))
+                    // Generate unique issue ID
+                    string issueId = "ISS" + DateTime.Now.ToString("yyyyMMddHHmmss");
+                    
+                    // Insert new issue record
+                    string insertQuery = "INSERT INTO issues (issue_id, user_id, book_id, full_name, contact, issue_date, return_date, status, date_insert) " +
+                        "VALUES (@issue_id, @user_id, @book_id, @full_name, @contact, @issue_date, @return_date, 'Not Return', @date_insert)";
+                    
+                    using (SqlCommand cmd = new SqlCommand(insertQuery, connect))
                     {
-                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@issue_id", issueId);
                         cmd.Parameters.AddWithValue("@user_id", userId);
                         cmd.Parameters.AddWithValue("@book_id", selectedBookId);
                         cmd.Parameters.AddWithValue("@full_name", bookIssue_name.Text.Trim());
                         cmd.Parameters.AddWithValue("@contact", bookIssue_contact.Text.Trim());
                         cmd.Parameters.AddWithValue("@issue_date", bookIssue_issueDate.Value.Date);
                         cmd.Parameters.AddWithValue("@return_date", bookIssue_returnDate.Value.Date);
-
-                        SqlParameter outIssue = new SqlParameter("@issue_id", SqlDbType.NVarChar, 50)
-                        {
-                            Direction = ParameterDirection.Output
-                        };
-                        cmd.Parameters.Add(outIssue);
+                        cmd.Parameters.AddWithValue("@date_insert", DateTime.Today);
 
                         cmd.ExecuteNonQuery();
 
                         // Set generated issue id back to UI
-                        if (outIssue.Value != DBNull.Value)
-                        {
-                            bookIssue_id.Text = outIssue.Value.ToString();
-                        }
+                        bookIssue_id.Text = issueId;
 
                         displayBookIssueData();
                         MessageBox.Show("Issued successfully!", "Information Message", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -234,11 +233,43 @@ namespace LibraryManagementSystem
                 bookIssue_id.Text = row.Cells[1].Value.ToString();
                 bookIssue_name.Text = row.Cells[2].Value.ToString();
                 bookIssue_contact.Text = row.Cells[3].Value.ToString();
-                bookIssue_bookTitle.Text = row.Cells[5].Value.ToString();
-                bookIssue_author.Text = row.Cells[6].Value.ToString();
-                bookIssue_issueDate.Text = row.Cells[7].Value.ToString();
-                bookIssue_returnDate.Text = row.Cells[8].Value.ToString();
-                bookIssue_status.Text = row.Cells[9].Value.ToString();
+                bookIssue_bookTitle.Text = row.Cells[4].Value.ToString();
+                bookIssue_author.Text = row.Cells[5].Value.ToString();
+                
+                // Handle date parsing with error handling
+                try
+                {
+                    if (row.Cells[6].Value != null && DateTime.TryParse(row.Cells[6].Value.ToString(), out DateTime issueDate))
+                    {
+                        bookIssue_issueDate.Value = issueDate;
+                    }
+                    else
+                    {
+                        bookIssue_issueDate.Value = DateTime.Today;
+                    }
+                }
+                catch
+                {
+                    bookIssue_issueDate.Value = DateTime.Today;
+                }
+
+                try
+                {
+                    if (row.Cells[7].Value != null && DateTime.TryParse(row.Cells[7].Value.ToString(), out DateTime returnDate))
+                    {
+                        bookIssue_returnDate.Value = returnDate;
+                    }
+                    else
+                    {
+                        bookIssue_returnDate.Value = DateTime.Today.AddDays(7); // Default 7 days from today
+                    }
+                }
+                catch
+                {
+                    bookIssue_returnDate.Value = DateTime.Today.AddDays(7);
+                }
+                
+                bookIssue_status.Text = row.Cells[8].Value.ToString();
 
             }
         }

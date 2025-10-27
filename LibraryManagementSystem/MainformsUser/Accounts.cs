@@ -155,13 +155,15 @@ namespace LibraryManagementSystem.MainformsUser
                         return;
                     }
 
+                    // Generate temporary password before using it
+                    string temp = Security.GenerateTemporaryPassword();
+                    
                     string insert = "INSERT INTO users (name, idcode, username, password, role, grade_course, date_register) VALUES (@n, @c, @u, @p, @r, @g, @d)";
                     using (SqlCommand cmd = new SqlCommand(insert, connect))
                     {
                         cmd.Parameters.AddWithValue("@n", name);
                         cmd.Parameters.AddWithValue("@c", idcode);
                         cmd.Parameters.AddWithValue("@u", username);
-                        string temp = Security.GenerateTemporaryPassword();
                         cmd.Parameters.AddWithValue("@p", Security.HashPassword(temp));
                         cmd.Parameters.AddWithValue("@r", "student");
                         if (string.IsNullOrWhiteSpace(grade))
@@ -176,7 +178,7 @@ namespace LibraryManagementSystem.MainformsUser
                         cmd.ExecuteNonQuery();
                     }
 
-                    MessageBox.Show("Student account added. Temporary password set; please reset on first login.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show($"Student account added successfully!\n\nTemporary Password: {temp}\n\nPlease share this password with the student and ask them to reset it on first login.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     LoadUsers();
                     ClearFields();
                 }

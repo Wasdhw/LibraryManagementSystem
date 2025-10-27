@@ -43,8 +43,6 @@ namespace LibraryManagementSystem
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.label1 = new System.Windows.Forms.Label();
             this.pictureBox4 = new System.Windows.Forms.PictureBox();
-            this.dashboard_TotalUsers = new System.Windows.Forms.Label();
-            this.dashboard_Overdue = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.panel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
@@ -209,33 +207,11 @@ namespace LibraryManagementSystem
             this.pictureBox4.TabIndex = 1;
             this.pictureBox4.TabStop = false;
             // 
-            // dashboard_TotalUsers
-            // 
-            this.dashboard_TotalUsers.AutoSize = true;
-            this.dashboard_TotalUsers.Font = new System.Drawing.Font("Tahoma", 10F);
-            this.dashboard_TotalUsers.Location = new System.Drawing.Point(20, 220);
-            this.dashboard_TotalUsers.Name = "dashboard_TotalUsers";
-            this.dashboard_TotalUsers.Size = new System.Drawing.Size(82, 17);
-            this.dashboard_TotalUsers.TabIndex = 2;
-            this.dashboard_TotalUsers.Text = "Users: 0";
-            // 
-            // dashboard_Overdue
-            // 
-            this.dashboard_Overdue.AutoSize = true;
-            this.dashboard_Overdue.Font = new System.Drawing.Font("Tahoma", 10F);
-            this.dashboard_Overdue.Location = new System.Drawing.Point(160, 220);
-            this.dashboard_Overdue.Name = "dashboard_Overdue";
-            this.dashboard_Overdue.Size = new System.Drawing.Size(102, 17);
-            this.dashboard_Overdue.TabIndex = 3;
-            this.dashboard_Overdue.Text = "Overdue: 0";
-            // 
             // Dashboard
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.pictureBox4);
-            this.Controls.Add(this.dashboard_Overdue);
-            this.Controls.Add(this.dashboard_TotalUsers);
             this.Controls.Add(this.panel1);
             this.Name = "Dashboard";
             this.Size = new System.Drawing.Size(1110, 682);
@@ -272,7 +248,5 @@ namespace LibraryManagementSystem
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label dashboard_AB;
         private System.Windows.Forms.PictureBox pictureBox4;
-        private System.Windows.Forms.Label dashboard_TotalUsers;
-        private System.Windows.Forms.Label dashboard_Overdue;
     }
 }

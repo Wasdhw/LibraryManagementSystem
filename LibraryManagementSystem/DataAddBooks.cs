@@ -15,6 +15,7 @@ namespace LibraryManagementSystem
         public string BookTitle { set; get; }
         public string Author { set; get; }
         public string Pulished { set; get; }
+        public int Quantity { set; get; }
         public string image { set; get; }
         public string Status { set; get; }
 
@@ -28,7 +29,7 @@ namespace LibraryManagementSystem
                 {
                     connect.Open();
 
-                    string selectData = "SELECT * FROM books WHERE date_delete IS NULL";
+                    string selectData = "SELECT id, book_title, author, published_date, quantity, image, status FROM books WHERE date_delete IS NULL";
 
                     using (SqlCommand cmd = new SqlCommand(selectData, connect))
                     {
@@ -42,6 +43,7 @@ namespace LibraryManagementSystem
                             dab.BookTitle = reader["book_title"].ToString();
                             dab.Author = reader["author"].ToString();
                             dab.Pulished = reader["published_date"].ToString();
+                            dab.Quantity = (int)reader["quantity"];
                             dab.image = reader["image"].ToString();
                             dab.Status = reader["status"].ToString();
 
