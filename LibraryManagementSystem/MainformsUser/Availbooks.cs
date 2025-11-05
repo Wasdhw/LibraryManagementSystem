@@ -83,6 +83,8 @@ namespace LibraryManagementSystem
                         pb.Image = img;  
                         pb.Cursor = Cursors.Hand;
                         pb.Margin = new Padding(10);
+                        pb.TabStop = false;
+                        pb.Dock = DockStyle.Top;
 
                         // Store info 
                         pb.Tag = new BookTag
@@ -98,15 +100,24 @@ namespace LibraryManagementSystem
                       
                         Panel pnl = new Panel();
                         pnl.Width = pb.Width + 25;
-                        pnl.Height = pb.Height + 25;
+                        pnl.Height = pb.Height + 60;
+                        pnl.BackColor = SystemColors.Control;
+                        pnl.Padding = new Padding(5, 5, 5, 5);
+                        // Create title label first so layout reserves space at the bottom
+                        Label lbl = new Label();
+                        lbl.Text = title; // ensure we show DB title, not file name
+                        lbl.AutoSize = false;
+                        lbl.Dock = DockStyle.Bottom;
+                        lbl.Height = 44;
+                        lbl.Font = new Font("Arial", 11, FontStyle.Bold);
+                        lbl.TextAlign = ContentAlignment.MiddleCenter;
+                        lbl.ForeColor = Color.Black;
+                        lbl.BackColor = SystemColors.Control;
+                        pnl.Controls.Add(lbl);
+
+                        // Add image after so it docks at the top and doesn't overlap the label
                         pnl.Controls.Add(pb);
 
-                        Label lbl = new Label();
-                        lbl.Text = title;
-                        lbl.Dock = DockStyle.Bottom;
-                        lbl.Font = new Font("Arial", 12, FontStyle.Bold);
-                        lbl.TextAlign = ContentAlignment.MiddleCenter;
-                        pnl.Controls.Add(lbl);
 
                         flowAvailableBooks.Controls.Add(pnl);
                     }
@@ -126,8 +137,8 @@ namespace LibraryManagementSystem
 
         private void ShowBookInfo(BookTag tag)
         {
-    
-            BookInfoForm info = new BookInfoForm();
+            // Open info form for the selected book id
+            BookInfoForm info = new BookInfoForm(tag.Id);
             info.ShowDialog();
         }
 

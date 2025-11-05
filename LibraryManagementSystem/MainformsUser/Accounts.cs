@@ -44,6 +44,15 @@ namespace LibraryManagementSystem.MainformsUser
 
         }
 
+        private void Password_TextChanged(object sender, EventArgs e)
+        {
+            // Ensure password is masked while typing
+            if (Password != null)
+            {
+                Password.UseSystemPasswordChar = true;
+            }
+        }
+
         private void LoadUsers()
         {
             if (connect.State == ConnectionState.Closed)
@@ -51,7 +60,7 @@ namespace LibraryManagementSystem.MainformsUser
                 try
                 {
                     connect.Open();
-                    string sql = "SELECT id, name, idcode, username, role, grade_course, date_register, is_active FROM users WHERE date_delete IS NULL";
+                    string sql = "SELECT id, name, idcode, username, password, role, grade_course, date_register, is_active FROM users WHERE date_delete IS NULL";
                     using (SqlCommand cmd = new SqlCommand(sql, connect))
                     {
                         SqlDataAdapter adapter = new SqlDataAdapter(cmd);
@@ -79,7 +88,22 @@ namespace LibraryManagementSystem.MainformsUser
             bookIssue_contact.Text = "";      // unused (no DB column), optional
             email.Text = "";               // maps to username (email)
             grade_course.Text = "";         // maps to grade_course
-            textBox2.Text = "";               // shows date_register (read-only usage)
+            Password.Text = "";               // password textbox
+        }
+
+        // Returns the password to use for create/update based on the Password textbox.
+        // If the textbox is empty on create, we default to the student's idcode.
+        // If empty on update, we do not change the current password.
+        private string GetPasswordInputOrDefaultForCreate(string idcode)
+        {
+            string input = Password.Text?.Trim();
+            return string.IsNullOrWhiteSpace(input) ? idcode : input;
+        }
+
+        private bool TryGetPasswordForUpdate(out string newPassword)
+        {
+            newPassword = Password.Text?.Trim();
+            return !string.IsNullOrWhiteSpace(newPassword);
         }
 
         private bool UsernameExists(string username)
@@ -155,16 +179,14 @@ namespace LibraryManagementSystem.MainformsUser
                         return;
                     }
 
-                    // Generate temporary password before using it
-                    string temp = Security.GenerateTemporaryPassword();
-                    
+                    // Use Password textbox if provided, otherwise default to student's ID code
                     string insert = "INSERT INTO users (name, idcode, username, password, role, grade_course, date_register) VALUES (@n, @c, @u, @p, @r, @g, @d)";
                     using (SqlCommand cmd = new SqlCommand(insert, connect))
                     {
                         cmd.Parameters.AddWithValue("@n", name);
                         cmd.Parameters.AddWithValue("@c", idcode);
                         cmd.Parameters.AddWithValue("@u", username);
-                        cmd.Parameters.AddWithValue("@p", Security.HashPassword(temp));
+                        cmd.Parameters.AddWithValue("@p", GetPasswordInputOrDefaultForCreate(idcode));
                         cmd.Parameters.AddWithValue("@r", "student");
                         if (string.IsNullOrWhiteSpace(grade))
                         {
@@ -177,8 +199,7 @@ namespace LibraryManagementSystem.MainformsUser
                         cmd.Parameters.AddWithValue("@d", DateTime.Now);
                         cmd.ExecuteNonQuery();
                     }
-
-                    MessageBox.Show($"Student account added successfully!\n\nTemporary Password: {temp}\n\nPlease share this password with the student and ask them to reset it on first login.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("Student account added successfully!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     LoadUsers();
                     ClearFields();
                 }
@@ -230,7 +251,12 @@ namespace LibraryManagementSystem.MainformsUser
                         return;
                     }
 
-                    string update = "UPDATE users SET name=@n, idcode=@c, username=@u, grade_course=@g, date_update=@du WHERE id=@id";
+                    bool hasNewPassword = TryGetPasswordForUpdate(out string newPassword);
+
+                    string update = hasNewPassword
+                        ? "UPDATE users SET name=@n, idcode=@c, username=@u, grade_course=@g, password=@p, date_update=@du WHERE id=@id"
+                        : "UPDATE users SET name=@n, idcode=@c, username=@u, grade_course=@g, date_update=@du WHERE id=@id";
+
                     using (SqlCommand cmd = new SqlCommand(update, connect))
                     {
                         cmd.Parameters.AddWithValue("@n", name);
@@ -243,6 +269,10 @@ namespace LibraryManagementSystem.MainformsUser
                         else
                         {
                             cmd.Parameters.AddWithValue("@g", grade);
+                        }
+                        if (hasNewPassword)
+                        {
+                            cmd.Parameters.AddWithValue("@p", newPassword);
                         }
                         cmd.Parameters.AddWithValue("@du", DateTime.Now);
                         cmd.Parameters.AddWithValue("@id", id);
@@ -322,7 +352,10 @@ namespace LibraryManagementSystem.MainformsUser
             {
                 grade_course.Text = row.Cells["grade_course"].Value?.ToString();
             }
-            textBox2.Text = row.Cells["date_register"].Value?.ToString();
+            if (row.Cells["password"] != null)
+            {
+                Password.Text = row.Cells["password"].Value?.ToString();
+            }
         }
     }
 }

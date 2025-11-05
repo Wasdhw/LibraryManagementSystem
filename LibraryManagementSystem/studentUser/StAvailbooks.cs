@@ -81,6 +81,8 @@ namespace LibraryManagementSystem.studentUser
                         pb.Image = img;
                         pb.Cursor = Cursors.Hand;
                         pb.Margin = new Padding(10);
+                        pb.TabStop = false;
+                        pb.Dock = DockStyle.Top;
 
                         // Store info 
                         pb.Tag = new BookTag
@@ -96,15 +98,23 @@ namespace LibraryManagementSystem.studentUser
 
                         Panel pnl = new Panel();
                         pnl.Width = pb.Width + 25;
-                        pnl.Height = pb.Height + 25;
-                        pnl.Controls.Add(pb);
+                        pnl.Height = pb.Height + 60;
+                        pnl.BackColor = SystemColors.Control;
+                        pnl.Padding = new Padding(5, 5, 5, 5);
 
                         Label lbl = new Label();
-                        lbl.Text = title;
+                        lbl.Text = title; // show DB title
+                        lbl.AutoSize = false;
                         lbl.Dock = DockStyle.Bottom;
-                        lbl.Font = new Font("Arial", 12, FontStyle.Bold);
+                        lbl.Height = 44;
+                        lbl.Font = new Font("Arial", 11, FontStyle.Bold);
                         lbl.TextAlign = ContentAlignment.MiddleCenter;
+                        lbl.ForeColor = Color.Black;
+                        lbl.BackColor = SystemColors.Control;
                         pnl.Controls.Add(lbl);
+
+                        // Add image after so it docks at the top and doesn't overlap the label
+                        pnl.Controls.Add(pb);
 
                         flowAvailableBooks.Controls.Add(pnl);
                     }
@@ -124,9 +134,8 @@ namespace LibraryManagementSystem.studentUser
 
         private void ShowBookInfo(BookTag tag)
         {
-            // Create and show book info form with the selected book
-            BookInfoForm info = new BookInfoForm();
-            // You can pass book information to the form if needed
+            // Open admin BookInfoForm with selected book id for consistency
+            BookInfoForm info = new BookInfoForm(tag.Id);
             info.ShowDialog();
         }
 

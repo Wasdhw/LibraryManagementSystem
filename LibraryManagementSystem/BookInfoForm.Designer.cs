@@ -44,7 +44,9 @@
             // 
             this.Title.AutoSize = true;
             this.Title.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Title.Location = new System.Drawing.Point(200, 369);
+            this.Title.Dock = System.Windows.Forms.DockStyle.Top;
+            this.Title.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.Title.Location = new System.Drawing.Point(0, 310);
             this.Title.Name = "Title";
             this.Title.Size = new System.Drawing.Size(61, 24);
             this.Title.TabIndex = 0;
@@ -55,7 +57,9 @@
             // 
             this.Author.AutoSize = true;
             this.Author.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Author.Location = new System.Drawing.Point(200, 405);
+            this.Author.Dock = System.Windows.Forms.DockStyle.Top;
+            this.Author.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.Author.Location = new System.Drawing.Point(0, 334);
             this.Author.Name = "Author";
             this.Author.Size = new System.Drawing.Size(57, 20);
             this.Author.TabIndex = 0;
@@ -66,7 +70,9 @@
             // 
             this.Quantity.AutoSize = true;
             this.Quantity.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Quantity.Location = new System.Drawing.Point(181, 86);
+            this.Quantity.Dock = System.Windows.Forms.DockStyle.Top;
+            this.Quantity.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.Quantity.Location = new System.Drawing.Point(0, 0);
             this.Quantity.Name = "Quantity";
             this.Quantity.Size = new System.Drawing.Size(68, 20);
             this.Quantity.TabIndex = 0;
@@ -77,7 +83,9 @@
             // 
             this.Published.AutoSize = true;
             this.Published.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Published.Location = new System.Drawing.Point(181, 121);
+            this.Published.Dock = System.Windows.Forms.DockStyle.Top;
+            this.Published.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.Published.Location = new System.Drawing.Point(0, 20);
             this.Published.Name = "Published";
             this.Published.Size = new System.Drawing.Size(78, 20);
             this.Published.TabIndex = 0;
@@ -88,7 +96,9 @@
             // 
             this.Availability.AutoSize = true;
             this.Availability.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Availability.Location = new System.Drawing.Point(178, 155);
+            this.Availability.Dock = System.Windows.Forms.DockStyle.Top;
+            this.Availability.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.Availability.Location = new System.Drawing.Point(0, 40);
             this.Availability.Name = "Availability";
             this.Availability.Size = new System.Drawing.Size(81, 20);
             this.Availability.TabIndex = 0;
@@ -97,12 +107,13 @@
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.Quantity);
             this.panel1.Controls.Add(this.Availability);
             this.panel1.Controls.Add(this.Published);
-            this.panel1.Location = new System.Drawing.Point(12, 357);
+            this.panel1.Controls.Add(this.Quantity);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel1.Location = new System.Drawing.Point(0, 354);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(442, 191);
+            this.panel1.Size = new System.Drawing.Size(477, 80);
             this.panel1.TabIndex = 2;
             // 
             // label1
@@ -121,9 +132,11 @@
             // pictureBox1
             // 
             this.pictureBox1.BackColor = System.Drawing.SystemColors.AppWorkspace;
-            this.pictureBox1.Location = new System.Drawing.Point(155, 99);
+            this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.pictureBox1.Location = new System.Drawing.Point(0, 0);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(149, 211);
+            this.pictureBox1.Size = new System.Drawing.Size(477, 310);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox1.TabIndex = 1;
             this.pictureBox1.TabStop = false;
             // 
@@ -132,6 +145,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(477, 636);
+            this.AutoScroll = true;
             this.Controls.Add(this.label1);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.Author);

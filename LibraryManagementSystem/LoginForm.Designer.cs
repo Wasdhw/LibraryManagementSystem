@@ -72,9 +72,10 @@ namespace LibraryManagementSystem
             this.label2.Font = new System.Drawing.Font("Arial Narrow", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.Location = new System.Drawing.Point(267, 207);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(159, 25);
+            this.label2.Size = new System.Drawing.Size(172, 25);
             this.label2.TabIndex = 2;
-            this.label2.Text = "Welcome, Admin!";
+            this.label2.Text = "Welcome, Savians!";
+            this.label2.Click += new System.EventHandler(this.label2_Click);
             // 
             // label3
             // 
@@ -132,7 +133,6 @@ namespace LibraryManagementSystem
             this.loginBtn.Text = "LOGIN";
             this.loginBtn.UseVisualStyleBackColor = false;
             this.loginBtn.Click += new System.EventHandler(this.loginBtn_Click);
-            // 
             // 
             // login_showPass
             // 

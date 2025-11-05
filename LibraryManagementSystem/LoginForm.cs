@@ -50,7 +50,6 @@ namespace LibraryManagementSystem
                         using (SqlCommand cmd = new SqlCommand(selectData, connect))
                         {
                             cmd.Parameters.AddWithValue("@username", login_username.Text.Trim());
-                            // don't send password, we'll verify hash in app
 
                             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                             DataTable table = new DataTable();
@@ -58,32 +57,14 @@ namespace LibraryManagementSystem
 
                             if (table.Rows.Count >= 1)
                             {
-                                string storedHash = table.Rows[0]["password"].ToString();
+                                string stored = table.Rows[0]["password"].ToString();
                                 string input = login_password.Text.Trim();
 
-                                bool ok = Security.VerifyPassword(input, storedHash) || string.Equals(storedHash, input, StringComparison.Ordinal);
-
-                                if (!ok)
+                                if (!string.Equals(stored, input, StringComparison.Ordinal))
                                 {
                                     MessageBox.Show("Incorrect Username/Password", "Error Message"
                                         , MessageBoxButtons.OK, MessageBoxIcon.Error);
                                     return;
-                                }
-
-                                // If DB still stores plaintext, upgrade it to hash
-                                if (string.Equals(storedHash, input, StringComparison.Ordinal))
-                                {
-                                    try
-                                    {
-                                        string up = "UPDATE users SET password=@p, date_update=GETDATE() WHERE id=@id";
-                                        using (SqlCommand upCmd = new SqlCommand(up, connect))
-                                        {
-                                            upCmd.Parameters.AddWithValue("@p", Security.HashPassword(input));
-                                            upCmd.Parameters.AddWithValue("@id", Convert.ToInt32(table.Rows[0]["id"]));
-                                            upCmd.ExecuteNonQuery();
-                                        }
-                                    }
-                                    catch { /* best-effort upgrade */ }
                                 }
 
                                 string userRole = table.Rows[0]["role"].ToString();
@@ -136,8 +117,9 @@ namespace LibraryManagementSystem
             }
         }
 
+        private void label2_Click(object sender, EventArgs e)
+        {
 
-
-
+        }
     }
 }

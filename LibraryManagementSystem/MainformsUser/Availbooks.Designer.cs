@@ -69,8 +69,11 @@
             this.flowAvailableBooks.Location = new System.Drawing.Point(0, 0);
             this.flowAvailableBooks.Name = "flowAvailableBooks";
             this.flowAvailableBooks.Size = new System.Drawing.Size(1110, 675);
+            this.flowAvailableBooks.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowAvailableBooks.TabIndex = 0;
             this.flowAvailableBooks.Paint += new System.Windows.Forms.PaintEventHandler(this.flowAvailableBooks_Paint);
+            // Remove placeholder tiles at runtime so only DB items show
+            this.flowAvailableBooks.Controls.Clear();
             // 
             // panel1
             // 
