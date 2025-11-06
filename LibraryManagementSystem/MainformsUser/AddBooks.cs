@@ -58,7 +58,7 @@ namespace LibraryManagementSystem
             }
         }
 
-        private void addBooks_addBtn_Click(object sender, EventArgs e)
+        private async void addBooks_addBtn_Click(object sender, EventArgs e)
         {
             if(addBooks_picture.Image == null
                 || addBooks_bookTitle.Text == ""
@@ -82,19 +82,9 @@ namespace LibraryManagementSystem
                             "(book_title, author, published_date,quantity,status, image, date_insert) " +
                             "VALUES(@bookTitle, @author, @published_date, @quantity, @status, @image, @dateInsert)";
 
-                        string booksRoot = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Books_Directory");
-                        string safeFileName = string.Concat(string.Join("_", addBooks_bookTitle.Text.Split(Path.GetInvalidFileNameChars())),
-                            "_", string.Join("_", addBooks_author.Text.Split(Path.GetInvalidFileNameChars())) , ".jpg");
-                        string path = Path.Combine(booksRoot, safeFileName);
-
-                        string directoryPath = Path.GetDirectoryName(path);
-
-                        if (!Directory.Exists(directoryPath))
-                        {
-                            Directory.CreateDirectory(directoryPath);
-                        }
-
-                        File.Copy(addBooks_picture.ImageLocation, path, true);
+                        // Upload cover to Azure Blob and store blob name in DB
+                        string blobName = BlobCovers.GenerateBlobName(Guid.NewGuid().ToString("N"));
+                        await BlobCovers.UploadAsync(addBooks_picture.Image, blobName);
 
                         using(SqlCommand cmd = new SqlCommand(insertData, connect))
                         {
@@ -110,7 +100,7 @@ namespace LibraryManagementSystem
                             cmd.Parameters.AddWithValue("@published_date", addBooks_published.Value);
                             cmd.Parameters.AddWithValue("@quantity", Convert.ToInt32(addBooks_quantity.Value));
                             cmd.Parameters.AddWithValue("@status", addBooks_status.Text.Trim());
-                            cmd.Parameters.AddWithValue("@image", path);
+                            cmd.Parameters.AddWithValue("@image", blobName);
                             cmd.Parameters.AddWithValue("@dateInsert", today);
 
                             cmd.ExecuteNonQuery();
@@ -183,7 +173,7 @@ namespace LibraryManagementSystem
         }
 
         private int bookID = 0;
-        private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
+        private async void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if(e.RowIndex != -1)
             {
@@ -196,18 +186,17 @@ namespace LibraryManagementSystem
 
                 string imagePath = row.Cells[5].Value?.ToString();
 
-                // Proper validation for image path
-                if (!string.IsNullOrEmpty(imagePath) && File.Exists(imagePath))
+                // imagePath column now stores the blob name
+                if (!string.IsNullOrWhiteSpace(imagePath))
                 {
                     try
                     {
-                        addBooks_picture.Image = Image.FromFile(imagePath);
+                        addBooks_picture.Image = await BlobCovers.DownloadAsync(imagePath);
                     }
                     catch (Exception ex)
                     {
-                        // If image loading fails, set to null and optionally show a message
                         addBooks_picture.Image = null;
-                        Console.WriteLine($"Failed to load image: {ex.Message}");
+                        Console.WriteLine($"Failed to download image: {ex.Message}");
                     }
                 }
                 else
@@ -223,7 +212,7 @@ namespace LibraryManagementSystem
             clearFields();
         }
 
-        private void addBooks_updateBtn_Click(object sender, EventArgs e)
+        private async void addBooks_updateBtn_Click(object sender, EventArgs e)
         {
             if (addBooks_picture.Image == null
                 || addBooks_bookTitle.Text == ""
@@ -252,23 +241,13 @@ namespace LibraryManagementSystem
                                 ", author = @author, published_date = @published" +
                                 ", quantity = @quantity, status = @status, image = @image, date_update = @dateUpdate WHERE id = @id";
 
-                            // Handle image update
-                            string imagePath = addBooks_picture.ImageLocation;
-                            if (!string.IsNullOrEmpty(imagePath) && File.Exists(imagePath))
+                            // Handle image update: upload to blob and store blob name
+                            string imagePath = null;
+                            if (addBooks_picture.Image != null)
                             {
-                                string booksRoot = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Books_Directory");
-                                string safeFileName = string.Concat(string.Join("_", addBooks_bookTitle.Text.Split(Path.GetInvalidFileNameChars())),
-                                    "_", string.Join("_", addBooks_author.Text.Split(Path.GetInvalidFileNameChars())), ".jpg");
-                                string newPath = Path.Combine(booksRoot, safeFileName);
-                                
-                                string directoryPath = Path.GetDirectoryName(newPath);
-                                if (!Directory.Exists(directoryPath))
-                                {
-                                    Directory.CreateDirectory(directoryPath);
-                                }
-                                
-                                File.Copy(imagePath, newPath, true);
-                                imagePath = newPath;
+                                string blobName = BlobCovers.GenerateBlobName(Guid.NewGuid().ToString("N"));
+                                await BlobCovers.UploadAsync(addBooks_picture.Image, blobName);
+                                imagePath = blobName;
                             }
 
                             using (SqlCommand cmd = new SqlCommand(updateData, connect))
@@ -278,7 +257,7 @@ namespace LibraryManagementSystem
                                 cmd.Parameters.AddWithValue("@published", addBooks_published.Value);
                                 cmd.Parameters.AddWithValue("@quantity", Convert.ToInt32(addBooks_quantity.Value));
                                 cmd.Parameters.AddWithValue("@status", addBooks_status.Text.Trim());
-                                cmd.Parameters.AddWithValue("@image", imagePath);
+                                cmd.Parameters.AddWithValue("@image", (object)imagePath ?? DBNull.Value);
                                 cmd.Parameters.AddWithValue("@dateUpdate", today);
                                 cmd.Parameters.AddWithValue("@id", bookID);
 

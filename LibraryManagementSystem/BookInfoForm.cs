@@ -26,7 +26,7 @@ namespace LibraryManagementSystem
             _bookId = bookId;
         }
 
-        private void BookInfoForm_Load(object sender, EventArgs e)
+        private async void BookInfoForm_Load(object sender, EventArgs e)
         {
             if (_bookId <= 0)
             {
@@ -61,9 +61,11 @@ namespace LibraryManagementSystem
 
                                 try
                                 {
-                                    if (!string.IsNullOrEmpty(imagePath) && System.IO.File.Exists(imagePath))
+                                    if (!string.IsNullOrEmpty(imagePath))
                                     {
-                                        pictureBox1.Image = Image.FromFile(imagePath);
+                                        // image column now stores the blob name; download from Azure Blob Storage
+                                        var cover = await Utils.BlobCovers.DownloadAsync(imagePath);
+                                        pictureBox1.Image = cover;
                                         pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
                                     }
                                     else
