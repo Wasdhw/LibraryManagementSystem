@@ -20,7 +20,7 @@ namespace LibraryManagementSystem
             InitializeComponent();
 
           
-            LoadAvailableBooks();
+            LoadAvailableBooksAsync();
 
            
             this.Resize += AvailBooks_Resize;
@@ -36,7 +36,7 @@ namespace LibraryManagementSystem
             }
 
            
-            LoadAvailableBooks();
+            LoadAvailableBooksAsync();
 
         }
 
@@ -47,7 +47,7 @@ namespace LibraryManagementSystem
             // Optionally, adjust child control sizes or spacing
         }
 
-        private void LoadAvailableBooks()
+        private async void LoadAvailableBooksAsync()
         {
             flowAvailableBooks.Controls.Clear();
 
@@ -64,17 +64,21 @@ namespace LibraryManagementSystem
                         int id = (int)reader["id"];
                         string title = reader["book_title"].ToString();
                         string author = reader["author"].ToString();
-                        string imgPath = reader["image"].ToString();
+                        string blobName = reader["image"]?.ToString();
 
-                        // Check image file exists
+                        // Download image from Azure Blob Storage
                         Image img = null;
                         try
                         {
-                            if (File.Exists(imgPath))
-                                img = Image.FromFile(imgPath);
+                            if (!string.IsNullOrWhiteSpace(blobName))
+                            {
+                                img = await BlobCovers.DownloadAsync(blobName);
+                            }
                         }
-                        catch (Exception ex) {
-                            MessageBox.Show("DB or query error: " + ex.Message);
+                        catch (Exception ex)
+                        {
+                            // Silently fail - just show no image
+                            System.Diagnostics.Debug.WriteLine($"Failed to load image for book {id}: {ex.Message}");
                         }
 
                         PictureBox pb = new PictureBox();
@@ -92,7 +96,7 @@ namespace LibraryManagementSystem
                             Id = id,
                             Title = title,
                             Author = author,
-                            ImagePath = imgPath
+                            ImagePath = blobName
                         };
 
                         pb.Click += Pb_Click;

@@ -31,7 +31,7 @@ namespace LibraryManagementSystem
             login_password.PasswordChar = login_showPass.Checked ? '\0' : '*';
         }
 
-        private void loginBtn_Click(object sender, EventArgs e)
+        private async void loginBtn_Click(object sender, EventArgs e)
         {
             if (login_username.Text == "" || login_password.Text == "")
             {
@@ -77,6 +77,13 @@ namespace LibraryManagementSystem
                                 MessageBox.Show("Login Successfully! Welcome " + userName, "Information Message"
                                     , MessageBoxButtons.OK, MessageBoxIcon.Information);
 
+                                // Check if there are new/updated book covers, then show progress dialog if needed
+                                bool hasUpdates = await BlobCovers.HasNewOrUpdatedCoversAsync();
+                                if (hasUpdates)
+                                {
+                                    await ShowImageDownloadProgressAsync();
+                                }
+
                                 // Redirect based on user role
                                 if (userRole.ToLower() == "admin")
                                 {
@@ -120,6 +127,48 @@ namespace LibraryManagementSystem
         private void label2_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private async Task ShowImageDownloadProgressAsync()
+        {
+            // Create and show progress dialog (non-modal but topmost)
+            var progressForm = new ImageDownloadProgressForm();
+            progressForm.TopMost = true;
+            progressForm.Show();
+            progressForm.BringToFront();
+            progressForm.Update();
+
+            try
+            {
+                // Download new/updated book covers with progress updates
+                await BlobCovers.DownloadAllBookCoversAsync((current, total, bookTitle) =>
+                {
+                    progressForm.UpdateProgress(current, total, bookTitle);
+                });
+
+                // Mark as complete (even if total was 0, this sets it to 100%)
+                progressForm.SetComplete();
+                
+                // Wait a moment so user can see 100%
+                await Task.Delay(500);
+            }
+            catch (Exception ex)
+            {
+                // Even if download fails, continue to main form
+                System.Diagnostics.Debug.WriteLine($"Error downloading covers: {ex.Message}");
+            }
+            finally
+            {
+                // Close progress dialog
+                if (progressForm.InvokeRequired)
+                {
+                    progressForm.Invoke(new Action(() => progressForm.Close()));
+                }
+                else
+                {
+                    progressForm.Close();
+                }
+            }
         }
     }
 }
