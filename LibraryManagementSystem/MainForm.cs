@@ -3,6 +3,8 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using LibraryManagementSystem.Utils;
+using LibraryManagementSystem.MainformsUser;
 
 namespace LibraryManagementSystem
 {
@@ -11,6 +13,68 @@ namespace LibraryManagementSystem
         public MainForm()
         {
             InitializeComponent();
+            InitializeAutoRefresh();
+        }
+
+        private void InitializeAutoRefresh()
+        {
+            // Register refresh callbacks for all DataGridViews
+            RefreshServiceManager.RegisterRefresh("books", () =>
+            {
+                var addBooks = addBooks1 as AddBooks;
+                if (addBooks != null && addBooks.Visible)
+                {
+                    addBooks.refreshData();
+                }
+            });
+
+            RefreshServiceManager.RegisterRefresh("users", () =>
+            {
+                var accounts = accounts1 as Accounts;
+                if (accounts != null && accounts.Visible)
+                {
+                    accounts.LoadUsers();
+                }
+            });
+
+            RefreshServiceManager.RegisterRefresh("issued_books", () =>
+            {
+                var issueBooks = issueBooks1 as IssueBooks;
+                if (issueBooks != null && issueBooks.Visible)
+                {
+                    issueBooks.refreshData();
+                }
+            });
+
+            RefreshServiceManager.RegisterRefresh("returned_books", () =>
+            {
+                var returnBooks = returnBooks1 as ReturnBooks;
+                if (returnBooks != null && returnBooks.Visible)
+                {
+                    returnBooks.refreshData();
+                }
+            });
+
+            RefreshServiceManager.RegisterRefresh("book_covers", () =>
+            {
+                var availBooks = availBooks2 as AvailBooks;
+                if (availBooks != null && availBooks.Visible)
+                {
+                    availBooks.refreshData();
+                }
+            });
+
+            RefreshServiceManager.RegisterRefresh("dashboard", () =>
+            {
+                var dashboard = dashboard1 as Dashboard;
+                if (dashboard != null && dashboard.Visible)
+                {
+                    dashboard.refreshData();
+                }
+            });
+
+            // Start the auto-refresh service
+            RefreshServiceManager.Start();
         }
 
         private void label1_Click(object sender, EventArgs e)
@@ -24,11 +88,20 @@ namespace LibraryManagementSystem
 
             if(check == DialogResult.Yes)
             {
+                // Stop auto-refresh when logging out
+                RefreshServiceManager.Stop();
                 LoginForm lForm = new LoginForm();
                 lForm.Show();
                 this.Hide();
             }
 
+        }
+
+        protected override void OnFormClosed(FormClosedEventArgs e)
+        {
+            base.OnFormClosed(e);
+            // Stop auto-refresh when form closes
+            RefreshServiceManager.Stop();
         }
 
         private void dashboard_btn_Click(object sender, EventArgs e)

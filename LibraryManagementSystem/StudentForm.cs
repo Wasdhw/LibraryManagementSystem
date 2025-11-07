@@ -13,6 +13,65 @@ namespace LibraryManagementSystem
         {
             InitializeComponent();
             InitializeNavigation();
+            InitializeAutoRefresh();
+            
+            // Check for overdue books when student form loads
+            CheckStudentOverdueBooksOnLoad();
+        }
+
+        private void CheckStudentOverdueBooksOnLoad()
+        {
+            try
+            {
+                int userId = SessionManager.CurrentUserId;
+                if (userId > 0)
+                {
+                    // Load borrowed books to trigger overdue check
+                    var returnBooks = stReturnBooks1 as studentUser.StReturnBooks;
+                    if (returnBooks != null)
+                    {
+                        returnBooks.LoadUserBorrowedBooks(userId);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error checking overdue books on load: {ex.Message}");
+            }
+        }
+
+        private void InitializeAutoRefresh()
+        {
+            // Register refresh callbacks for student views
+            RefreshServiceManager.RegisterRefresh("book_covers", () =>
+            {
+                var availBooks = stAvailbooks1 as studentUser.StAvailbooks;
+                if (availBooks != null && availBooks.Visible)
+                {
+                    availBooks.refreshData();
+                }
+            });
+
+            RefreshServiceManager.RegisterRefresh("issued_books", () =>
+            {
+                var returnBooks = stReturnBooks1 as studentUser.StReturnBooks;
+                if (returnBooks != null && returnBooks.Visible)
+                {
+                    returnBooks.LoadUserBorrowedBooks();
+                }
+            });
+
+            RefreshServiceManager.RegisterRefresh("returned_books", () =>
+            {
+                var history = history1 as studentUser.History;
+                if (history != null && history.Visible)
+                {
+                    history.LoadUserHistory();
+                }
+            });
+
+            // Start the auto-refresh service
+            RefreshServiceManager.Start();
         }
 
         private void InitializeNavigation()
@@ -143,12 +202,22 @@ namespace LibraryManagementSystem
             // Clear session
             SessionManager.ClearSession();
 
+            // Stop auto-refresh when logging out
+            RefreshServiceManager.Stop();
+
             // Show login form
             LoginForm loginForm = new LoginForm();
             loginForm.Show();
 
             // Close current form
             this.Close();
+        }
+
+        protected override void OnFormClosed(FormClosedEventArgs e)
+        {
+            base.OnFormClosed(e);
+            // Stop auto-refresh when form closes
+            RefreshServiceManager.Stop();
         }
     }
 }

@@ -44,6 +44,9 @@
             this.panel5 = new System.Windows.Forms.Panel();
             this.label4 = new System.Windows.Forms.Label();
             this.pictureBox5 = new System.Windows.Forms.PictureBox();
+            this.searchPanel = new System.Windows.Forms.Panel();
+            this.searchLabel = new System.Windows.Forms.Label();
+            this.searchTextBox = new System.Windows.Forms.TextBox();
             this.flowAvailableBooks.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
@@ -57,6 +60,34 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
             this.SuspendLayout();
             // 
+            // searchPanel
+            // 
+            this.searchPanel.Controls.Add(this.searchLabel);
+            this.searchPanel.Controls.Add(this.searchTextBox);
+            this.searchPanel.Dock = System.Windows.Forms.DockStyle.Top;
+            this.searchPanel.Location = new System.Drawing.Point(0, 0);
+            this.searchPanel.Name = "searchPanel";
+            this.searchPanel.Size = new System.Drawing.Size(1110, 50);
+            this.searchPanel.TabIndex = 0;
+            // 
+            // searchLabel
+            // 
+            this.searchLabel.AutoSize = true;
+            this.searchLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.searchLabel.Location = new System.Drawing.Point(10, 15);
+            this.searchLabel.Name = "searchLabel";
+            this.searchLabel.Size = new System.Drawing.Size(53, 17);
+            this.searchLabel.TabIndex = 0;
+            this.searchLabel.Text = "Search:";
+            // 
+            // searchTextBox
+            // 
+            this.searchTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.searchTextBox.Location = new System.Drawing.Point(70, 12);
+            this.searchTextBox.Name = "searchTextBox";
+            this.searchTextBox.Size = new System.Drawing.Size(300, 23);
+            this.searchTextBox.TabIndex = 1;
+            // 
             // flowAvailableBooks
             // 
             this.flowAvailableBooks.AutoScroll = true;
@@ -66,9 +97,10 @@
             this.flowAvailableBooks.Controls.Add(this.panel3);
             this.flowAvailableBooks.Controls.Add(this.panel4);
             this.flowAvailableBooks.Controls.Add(this.panel5);
-            this.flowAvailableBooks.Location = new System.Drawing.Point(0, 0);
+            this.flowAvailableBooks.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flowAvailableBooks.Location = new System.Drawing.Point(0, 50);
             this.flowAvailableBooks.Name = "flowAvailableBooks";
-            this.flowAvailableBooks.Size = new System.Drawing.Size(1110, 675);
+            this.flowAvailableBooks.Size = new System.Drawing.Size(1110, 625);
             this.flowAvailableBooks.TabIndex = 1;
             // 
             // panel1
@@ -238,8 +270,11 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.flowAvailableBooks);
+            this.Controls.Add(this.searchPanel);
             this.Name = "StAvailbooks";
             this.Size = new System.Drawing.Size(1110, 675);
+            this.searchPanel.ResumeLayout(false);
+            this.searchPanel.PerformLayout();
             this.flowAvailableBooks.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
@@ -278,5 +313,8 @@
         private System.Windows.Forms.Panel panel5;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.PictureBox pictureBox5;
+        private System.Windows.Forms.Panel searchPanel;
+        private System.Windows.Forms.Label searchLabel;
+        private System.Windows.Forms.TextBox searchTextBox;
     }
 }

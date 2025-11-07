@@ -53,7 +53,7 @@ namespace LibraryManagementSystem.MainformsUser
             }
         }
 
-        private void LoadUsers()
+        public void LoadUsers()
         {
             if (connect.State == ConnectionState.Closed)
             {

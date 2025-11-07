@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using LibraryManagementSystem.Utils;
 
@@ -13,16 +15,21 @@ namespace LibraryManagementSystem.studentUser
     {
         SqlConnection connect = Database.GetConnection();
         private int currentUserId = 0;
+        private static DateTime lastStudentNotificationTime = DateTime.MinValue;
+        private const int StudentNotificationCooldownMinutes = 5; // Only show notification once every 5 minutes
 
         public StReturnBooks()
         {
             InitializeComponent();
+            // Clear placeholder panels at startup
+            flowAvailableBooks.Controls.Clear();
+            this.Resize += StReturnBooks_Resize;
         }
 
         public void LoadUserBorrowedBooks(int userId = 0)
         {
             currentUserId = userId > 0 ? userId : (SessionManager.CurrentUserId > 0 ? SessionManager.CurrentUserId : 1);
-            LoadBorrowedBooks();
+            LoadBorrowedBooksAsync();
         }
 
         public void refreshData()
@@ -32,13 +39,20 @@ namespace LibraryManagementSystem.studentUser
                 Invoke((MethodInvoker)refreshData);
                 return;
             }
-            LoadBorrowedBooks();
+            LoadBorrowedBooksAsync();
         }
 
-        private void LoadBorrowedBooks()
+        private void StReturnBooks_Resize(object sender, EventArgs e)
+        {
+            // Optionally, adjust child control sizes or spacing
+        }
+
+        private async void LoadBorrowedBooksAsync()
         {
             try
             {
+                flowAvailableBooks.Controls.Clear();
+
                 if (connect.State == ConnectionState.Closed)
                 {
                     connect.Open();
@@ -48,8 +62,10 @@ namespace LibraryManagementSystem.studentUser
                     SELECT 
                         i.id,
                         i.issue_id,
+                        b.id as book_id,
                         b.book_title,
                         b.author,
+                        b.image,
                         i.issue_date,
                         i.return_date,
                         i.status,
@@ -65,18 +81,34 @@ namespace LibraryManagementSystem.studentUser
                 {
                     cmd.Parameters.AddWithValue("@userId", currentUserId);
                     
-                    using (SqlDataAdapter adapter = new SqlDataAdapter(cmd))
+                    using (SqlDataReader reader = cmd.ExecuteReader())
                     {
-                        DataTable table = new DataTable();
-                        adapter.Fill(table);
+                        var borrowedBooks = new List<BorrowedBookInfo>();
                         
-                        // Update DataGridView if it exists
-                        if (this.Controls.Find("dataGridView1", true).FirstOrDefault() is DataGridView dgv)
+                        while (reader.Read())
                         {
-                            dgv.DataSource = table;
-                            
-                            // Format the DataGridView
-                            FormatDataGridView(dgv);
+                            var bookInfo = new BorrowedBookInfo
+                            {
+                                IssueId = reader["issue_id"].ToString(),
+                                BookId = Convert.ToInt32(reader["book_id"]),
+                                Title = reader["book_title"].ToString(),
+                                Author = reader["author"].ToString(),
+                                BlobName = reader["image"]?.ToString(),
+                                IssueDate = Convert.ToDateTime(reader["issue_date"]),
+                                ReturnDate = Convert.ToDateTime(reader["return_date"]),
+                                Status = reader["status"].ToString(),
+                                DaysOverdue = reader["days_overdue"] != DBNull.Value ? Convert.ToInt32(reader["days_overdue"]) : 0
+                            };
+                            borrowedBooks.Add(bookInfo);
+                        }
+
+                        // Check for overdue books and notify student
+                        CheckAndNotifyStudentOverdueBooks(borrowedBooks);
+
+                        // Create UI for each borrowed book
+                        foreach (var book in borrowedBooks)
+                        {
+                            await CreateBookPanel(book);
                         }
                     }
                 }
@@ -95,108 +127,167 @@ namespace LibraryManagementSystem.studentUser
             }
         }
 
-        private void FormatDataGridView(DataGridView dgv)
+        private async Task CreateBookPanel(BorrowedBookInfo book)
         {
+            // Download image from Azure Blob Storage
+            Image img = null;
             try
             {
-                // Set column headers
-                if (dgv.Columns.Count > 0)
+                if (!string.IsNullOrWhiteSpace(book.BlobName))
                 {
-                    dgv.Columns["id"].Visible = false; // Hide ID column
-                    dgv.Columns["issue_id"].HeaderText = "Issue ID";
-                    dgv.Columns["book_title"].HeaderText = "Book Title";
-                    dgv.Columns["author"].HeaderText = "Author";
-                    dgv.Columns["issue_date"].HeaderText = "Issue Date";
-                    dgv.Columns["return_date"].HeaderText = "Due Date";
-                    dgv.Columns["status"].HeaderText = "Status";
-                    dgv.Columns["days_overdue"].HeaderText = "Days Overdue";
-                    
-                    // Format date columns
-                    if (dgv.Columns["issue_date"] != null)
-                        dgv.Columns["issue_date"].DefaultCellStyle.Format = "yyyy-MM-dd";
-                    if (dgv.Columns["return_date"] != null)
-                        dgv.Columns["return_date"].DefaultCellStyle.Format = "yyyy-MM-dd";
-                    
-                    // Color code overdue books
-                    dgv.CellFormatting += Dgv_CellFormatting;
+                    img = await BlobCovers.DownloadAsync(book.BlobName);
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error formatting DataGridView: " + ex.Message, "Error Message", 
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                System.Diagnostics.Debug.WriteLine($"Failed to load image for book {book.BookId}: {ex.Message}");
             }
+
+            PictureBox pb = new PictureBox();
+            pb.Size = new Size(145, 176);
+            pb.SizeMode = PictureBoxSizeMode.Zoom;
+            pb.Image = img;
+            pb.Cursor = Cursors.Hand;
+            pb.Margin = new Padding(10);
+            pb.TabStop = false;
+            pb.Dock = DockStyle.Top;
+
+            // Store book info in Tag
+            pb.Tag = new BorrowedBookTag
+            {
+                IssueId = book.IssueId,
+                BookId = book.BookId,
+                Title = book.Title,
+                Author = book.Author,
+                ImagePath = book.BlobName,
+                DaysOverdue = book.DaysOverdue,
+                IsOverdue = book.DaysOverdue > 3
+            };
+
+            pb.Click += Pb_Click;
+
+            Panel pnl = new Panel();
+            pnl.Width = pb.Width + 25;
+            pnl.Height = pb.Height + 80; // Extra height for additional info
+            pnl.BackColor = book.DaysOverdue > 3 ? Color.LightCoral : SystemColors.Control;
+            pnl.Padding = new Padding(5, 5, 5, 5);
+            pnl.BorderStyle = book.DaysOverdue > 3 ? BorderStyle.FixedSingle : BorderStyle.None;
+
+            // Create title label
+            Label lblTitle = new Label();
+            lblTitle.Text = book.Title;
+            lblTitle.AutoSize = false;
+            lblTitle.Dock = DockStyle.Bottom;
+            lblTitle.Height = 44;
+            lblTitle.Font = new Font("Arial", 10, FontStyle.Bold);
+            lblTitle.TextAlign = ContentAlignment.MiddleCenter;
+            lblTitle.ForeColor = book.DaysOverdue > 3 ? Color.DarkRed : Color.Black;
+            lblTitle.BackColor = pnl.BackColor;
+            pnl.Controls.Add(lblTitle);
+
+            // Create due date label if overdue
+            if (book.DaysOverdue > 3)
+            {
+                Label lblDueDate = new Label();
+                lblDueDate.Text = $"Due: {book.ReturnDate:MM/dd/yyyy}\n{book.DaysOverdue} days overdue";
+                lblDueDate.AutoSize = false;
+                lblDueDate.Dock = DockStyle.Bottom;
+                lblDueDate.Height = 36;
+                lblDueDate.Font = new Font("Arial", 8, FontStyle.Bold);
+                lblDueDate.TextAlign = ContentAlignment.MiddleCenter;
+                lblDueDate.ForeColor = Color.DarkRed;
+                lblDueDate.BackColor = pnl.BackColor;
+                pnl.Controls.Add(lblDueDate);
+            }
+
+            // Add image after labels so it docks at the top
+            pnl.Controls.Add(pb);
+
+            flowAvailableBooks.Controls.Add(pnl);
         }
 
-        private void Dgv_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        private void CheckAndNotifyStudentOverdueBooks(List<BorrowedBookInfo> borrowedBooks)
         {
             try
             {
-                DataGridView dgv = sender as DataGridView;
-                if (dgv != null && e.RowIndex >= 0)
+                // Only show notification if enough time has passed since last notification
+                if ((DateTime.Now - lastStudentNotificationTime).TotalMinutes < StudentNotificationCooldownMinutes)
                 {
-                    // Check if the book is overdue
-                    if (dgv.Columns["days_overdue"] != null && e.ColumnIndex == dgv.Columns["days_overdue"].Index)
+                    return; // Skip notification if shown recently
+                }
+
+                var overdueBooks = new List<string>();
+                
+                foreach (var book in borrowedBooks)
+                {
+                    if (book.DaysOverdue > 3) // More than 3 days overdue
                     {
-                        if (e.Value != null && int.TryParse(e.Value.ToString(), out int daysOverdue))
-                        {
-                            if (daysOverdue > 0)
-                            {
-                                e.CellStyle.BackColor = Color.LightCoral;
-                                e.CellStyle.ForeColor = Color.DarkRed;
-                            }
-                            else
-                            {
-                                e.CellStyle.BackColor = Color.LightGreen;
-                                e.CellStyle.ForeColor = Color.DarkGreen;
-                            }
-                        }
+                        overdueBooks.Add($"• {book.Title} (Issue ID: {book.IssueId}) - {book.DaysOverdue} days overdue");
                     }
                 }
-            }
-            catch (Exception)
-            {
-                // Ignore formatting errors
-            }
-        }
-
-        public void ReturnSelectedBook()
-        {
-            try
-            {
-                if (this.Controls.Find("dataGridView1", true).FirstOrDefault() is DataGridView dgv)
+                
+                if (overdueBooks.Count > 0)
                 {
-                    if (dgv.CurrentRow == null)
-                    {
-                        MessageBox.Show("Please select a book to return.", "Error Message", 
-                            MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        return;
-                    }
-
-                    string issueId = dgv.CurrentRow.Cells["issue_id"].Value?.ToString();
-                    if (string.IsNullOrEmpty(issueId))
-                    {
-                        MessageBox.Show("Invalid book selection.", "Error Message", 
-                            MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        return;
-                    }
-
-                    // Confirm return
-                    DialogResult result = MessageBox.Show(
-                        "Are you sure you want to return this book?", 
-                        "Confirm Return", 
-                        MessageBoxButtons.YesNo, 
-                        MessageBoxIcon.Question);
-
-                    if (result == DialogResult.Yes)
-                    {
-                        ProcessBookReturn(issueId);
-                    }
+                    string message = $"⚠️ OVERDUE BOOK NOTIFICATION ⚠️\n\n";
+                    message += $"STUDENT ALERT: You have {overdueBooks.Count} overdue book(s) that are 3+ days past their return date.\n\n";
+                    message += "Please return these books as soon as possible to avoid penalties!\n\n";
+                    
+                    var notificationForm = new OverdueNotificationForm(
+                        "Overdue Books Alert - Student",
+                        message,
+                        overdueBooks
+                    );
+                    notificationForm.ShowDialog();
+                    
+                    // Update last notification time
+                    lastStudentNotificationTime = DateTime.Now;
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error returning book: " + ex.Message, "Error Message", 
+                System.Diagnostics.Debug.WriteLine($"Error checking student overdue books: {ex.Message}");
+            }
+        }
+
+        private void Pb_Click(object sender, EventArgs e)
+        {
+            PictureBox pb = sender as PictureBox;
+            if (pb != null && pb.Tag is BorrowedBookTag tag)
+            {
+                // Show book details and return option
+                ShowBorrowedBookInfo(tag);
+            }
+        }
+
+        private void ShowBorrowedBookInfo(BorrowedBookTag tag)
+        {
+            try
+            {
+                string message = $"Book Information:\n\n" +
+                    $"Title: {tag.Title}\n" +
+                    $"Author: {tag.Author}\n" +
+                    $"Issue ID: {tag.IssueId}\n";
+                
+                if (tag.IsOverdue)
+                {
+                    message += $"\n⚠️ WARNING: This book is {tag.DaysOverdue} days overdue!\n";
+                    message += "Please return it as soon as possible.";
+                }
+
+                var result = MessageBox.Show(
+                    message + "\n\nWould you like to return this book now?",
+                    "Borrowed Book Details",
+                    MessageBoxButtons.YesNo,
+                    tag.IsOverdue ? MessageBoxIcon.Warning : MessageBoxIcon.Information);
+
+                if (result == DialogResult.Yes)
+                {
+                    ProcessBookReturn(tag.IssueId);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error displaying book info: " + ex.Message, "Error Message",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -221,7 +312,7 @@ namespace LibraryManagementSystem.studentUser
                         MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                     // Refresh the borrowed books list
-                    LoadBorrowedBooks();
+                    LoadBorrowedBooksAsync();
                 }
             }
             catch (Exception ex)
@@ -320,7 +411,32 @@ namespace LibraryManagementSystem.studentUser
 
         public void RefreshBorrowedBooks()
         {
-            LoadBorrowedBooks();
+            LoadBorrowedBooksAsync();
+        }
+
+        // Helper classes
+        private class BorrowedBookInfo
+        {
+            public string IssueId { get; set; }
+            public int BookId { get; set; }
+            public string Title { get; set; }
+            public string Author { get; set; }
+            public string BlobName { get; set; }
+            public DateTime IssueDate { get; set; }
+            public DateTime ReturnDate { get; set; }
+            public string Status { get; set; }
+            public int DaysOverdue { get; set; }
+        }
+
+        private class BorrowedBookTag
+        {
+            public string IssueId { get; set; }
+            public int BookId { get; set; }
+            public string Title { get; set; }
+            public string Author { get; set; }
+            public string ImagePath { get; set; }
+            public int DaysOverdue { get; set; }
+            public bool IsOverdue { get; set; }
         }
     }
 }

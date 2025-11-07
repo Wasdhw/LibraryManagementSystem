@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using LibraryManagementSystem.Utils;
 
@@ -28,7 +29,7 @@ namespace LibraryManagementSystem.studentUser
             CheckBorrowingStatus();
         }
 
-        private void LoadBookDetails()
+        private async void LoadBookDetails()
         {
             try
             {
@@ -53,7 +54,7 @@ namespace LibraryManagementSystem.studentUser
                         if (reader.Read())
                         {
                             // Update UI controls with book information
-                            UpdateBookInfoUI(reader);
+                            await UpdateBookInfoUI(reader);
                         }
                     }
                 }
@@ -72,7 +73,7 @@ namespace LibraryManagementSystem.studentUser
             }
         }
 
-        private void UpdateBookInfoUI(SqlDataReader reader)
+        private async Task UpdateBookInfoUI(SqlDataReader reader)
         {
             try
             {
@@ -96,14 +97,34 @@ namespace LibraryManagementSystem.studentUser
                 if (this.Controls.Find("Availability", true).FirstOrDefault() is Label lblStatus)
                     lblStatus.Text = reader["status"].ToString();
 
-                // Update book image
-                string imagePath = reader["image"].ToString();
-                if (!string.IsNullOrEmpty(imagePath) && System.IO.File.Exists(imagePath))
+                // Update book image - download from Azure Blob Storage
+                string blobName = reader["image"]?.ToString();
+                if (!string.IsNullOrWhiteSpace(blobName))
+                {
+                    try
+                    {
+                        var cover = await BlobCovers.DownloadAsync(blobName);
+                        if (this.Controls.Find("pictureBox1", true).FirstOrDefault() is PictureBox pb)
+                        {
+                            pb.Image = cover;
+                            pb.SizeMode = PictureBoxSizeMode.Zoom;
+                        }
+                    }
+                    catch (Exception imgEx)
+                    {
+                        // Silently fail - just show no image
+                        System.Diagnostics.Debug.WriteLine($"Failed to load image {blobName}: {imgEx.Message}");
+                        if (this.Controls.Find("pictureBox1", true).FirstOrDefault() is PictureBox pb)
+                        {
+                            pb.Image = null;
+                        }
+                    }
+                }
+                else
                 {
                     if (this.Controls.Find("pictureBox1", true).FirstOrDefault() is PictureBox pb)
                     {
-                        pb.Image = Image.FromFile(imagePath);
-                        pb.SizeMode = PictureBoxSizeMode.Zoom;
+                        pb.Image = null;
                     }
                 }
 

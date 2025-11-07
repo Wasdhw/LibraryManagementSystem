@@ -119,6 +119,9 @@
     <Compile Include="ImageDownloadProgressForm.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="OverdueNotificationForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="MainformsUser\Accounts.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -201,8 +204,10 @@
     <Compile Include="MainformsUser\ReturnBooks.Designer.cs">
       <DependentUpon>ReturnBooks.cs</DependentUpon>
     </Compile>
+    <Compile Include="Utils\AutoRefreshService.cs" />
     <Compile Include="Utils\BlobCovers.cs" />
     <Compile Include="Utils\Database.cs" />
+    <Compile Include="Utils\RefreshServiceManager.cs" />
     <Compile Include="Utils\Security.cs" />
     <Compile Include="Utils\SessionManager.cs" />
     <Compile Include="MainformsUser\AvailBooks.cs">
