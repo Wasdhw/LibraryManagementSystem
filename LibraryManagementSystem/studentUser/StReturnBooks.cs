@@ -24,6 +24,17 @@ namespace LibraryManagementSystem.studentUser
             // Clear placeholder panels at startup
             flowAvailableBooks.Controls.Clear();
             this.Resize += StReturnBooks_Resize;
+            this.Load += StReturnBooks_Load;
+        }
+
+        private void StReturnBooks_Load(object sender, EventArgs e)
+        {
+            // Load books when control becomes visible
+            if (currentUserId == 0)
+            {
+                currentUserId = SessionManager.CurrentUserId > 0 ? SessionManager.CurrentUserId : 1;
+            }
+            LoadBorrowedBooksAsync();
         }
 
         public void LoadUserBorrowedBooks(int userId = 0)
@@ -51,7 +62,14 @@ namespace LibraryManagementSystem.studentUser
         {
             try
             {
-                flowAvailableBooks.Controls.Clear();
+                if (this.InvokeRequired)
+                {
+                    this.Invoke(new Action(() => { flowAvailableBooks.Controls.Clear(); }));
+                }
+                else
+                {
+                    flowAvailableBooks.Controls.Clear();
+                }
 
                 if (connect.State == ConnectionState.Closed)
                 {
@@ -77,14 +95,14 @@ namespace LibraryManagementSystem.studentUser
                     AND i.date_delete IS NULL
                     ORDER BY i.issue_date DESC";
 
+                var borrowedBooks = new List<BorrowedBookInfo>();
+
                 using (SqlCommand cmd = new SqlCommand(query, connect))
                 {
                     cmd.Parameters.AddWithValue("@userId", currentUserId);
                     
                     using (SqlDataReader reader = cmd.ExecuteReader())
                     {
-                        var borrowedBooks = new List<BorrowedBookInfo>();
-                        
                         while (reader.Read())
                         {
                             var bookInfo = new BorrowedBookInfo
@@ -101,16 +119,17 @@ namespace LibraryManagementSystem.studentUser
                             };
                             borrowedBooks.Add(bookInfo);
                         }
-
-                        // Check for overdue books and notify student
-                        CheckAndNotifyStudentOverdueBooks(borrowedBooks);
-
-                        // Create UI for each borrowed book
-                        foreach (var book in borrowedBooks)
-                        {
-                            await CreateBookPanel(book);
-                        }
                     }
+                }
+
+                // Check for overdue books and notify student
+                CheckAndNotifyStudentOverdueBooks(borrowedBooks);
+
+                // Create UI for each borrowed book
+                // Since LoadUserBorrowedBooks is called from UI thread, we should be on UI thread
+                foreach (var book in borrowedBooks)
+                {
+                    await CreateBookPanel(book);
                 }
             }
             catch (Exception ex)

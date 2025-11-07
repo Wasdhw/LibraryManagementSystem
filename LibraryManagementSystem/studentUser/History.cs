@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using LibraryManagementSystem.Utils;
 
@@ -17,6 +18,16 @@ namespace LibraryManagementSystem.studentUser
         public History()
         {
             InitializeComponent();
+            MakeFieldsReadOnly();
+        }
+
+        private void MakeFieldsReadOnly()
+        {
+            // Make all text fields read-only for view-only access
+            bookIssue_id.ReadOnly = true;
+            bookIssue_name.ReadOnly = true;
+            bookIssue_title.ReadOnly = true;
+            bookIssue_author.ReadOnly = true;
         }
 
         public void LoadUserHistory(int userId = 0)
@@ -48,8 +59,10 @@ namespace LibraryManagementSystem.studentUser
                     SELECT 
                         i.id,
                         i.issue_id,
+                        i.book_id,
                         b.book_title,
                         b.author,
+                        b.image,
                         i.issue_date,
                         i.return_date,
                         i.actual_return_date,
@@ -81,6 +94,10 @@ namespace LibraryManagementSystem.studentUser
                         {
                             dgv.DataSource = table;
                             FormatHistoryDataGridView(dgv);
+                            
+                            // Wire up CellClick event if not already done
+                            dgv.CellClick -= dataGridView1_CellClick;
+                            dgv.CellClick += dataGridView1_CellClick;
                         }
                     }
                 }
@@ -105,9 +122,13 @@ namespace LibraryManagementSystem.studentUser
             {
                 if (dgv.Columns.Count > 0)
                 {
-                    // Hide ID column
+                    // Hide ID and book_id columns
                     if (dgv.Columns["id"] != null)
                         dgv.Columns["id"].Visible = false;
+                    if (dgv.Columns["book_id"] != null)
+                        dgv.Columns["book_id"].Visible = false;
+                    if (dgv.Columns["image"] != null)
+                        dgv.Columns["image"].Visible = false;
                     
                     // Set column headers
                     if (dgv.Columns["issue_id"] != null)
@@ -207,8 +228,10 @@ namespace LibraryManagementSystem.studentUser
                     SELECT 
                         i.id,
                         i.issue_id,
+                        i.book_id,
                         b.book_title,
                         b.author,
+                        b.image,
                         i.issue_date,
                         i.return_date,
                         i.actual_return_date,
@@ -242,6 +265,10 @@ namespace LibraryManagementSystem.studentUser
                         {
                             dgv.DataSource = table;
                             FormatHistoryDataGridView(dgv);
+                            
+                            // Wire up CellClick event if not already done
+                            dgv.CellClick -= dataGridView1_CellClick;
+                            dgv.CellClick += dataGridView1_CellClick;
                         }
                     }
                 }
@@ -273,8 +300,10 @@ namespace LibraryManagementSystem.studentUser
                     SELECT 
                         i.id,
                         i.issue_id,
+                        i.book_id,
                         b.book_title,
                         b.author,
+                        b.image,
                         i.issue_date,
                         i.return_date,
                         i.actual_return_date,
@@ -308,6 +337,10 @@ namespace LibraryManagementSystem.studentUser
                         {
                             dgv.DataSource = table;
                             FormatHistoryDataGridView(dgv);
+                            
+                            // Wire up CellClick event if not already done
+                            dgv.CellClick -= dataGridView1_CellClick;
+                            dgv.CellClick += dataGridView1_CellClick;
                         }
                     }
                 }
@@ -406,6 +439,150 @@ namespace LibraryManagementSystem.studentUser
             {
                 LoadBorrowingHistory();
                 GetBorrowingStatistics();
+            }
+        }
+
+        private async void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            try
+            {
+                if (e.RowIndex < 0) return; // Header row clicked
+
+                DataGridView dgv = sender as DataGridView;
+                if (dgv == null || dgv.Rows.Count == 0 || e.RowIndex >= dgv.Rows.Count) return;
+
+                // Select the row first
+                dgv.Rows[e.RowIndex].Selected = true;
+                dgv.CurrentCell = dgv.Rows[e.RowIndex].Cells[e.ColumnIndex];
+
+                DataGridViewRow row = dgv.Rows[e.RowIndex];
+                
+                // Populate Issue ID directly from grid
+                if (row.Cells["issue_id"]?.Value != null)
+                {
+                    bookIssue_id.Text = row.Cells["issue_id"].Value.ToString();
+                }
+                else
+                {
+                    bookIssue_id.Text = "";
+                }
+
+                // Populate Book Title directly from grid
+                if (row.Cells["book_title"]?.Value != null)
+                {
+                    bookIssue_title.Text = row.Cells["book_title"].Value.ToString();
+                }
+                else
+                {
+                    bookIssue_title.Text = "";
+                }
+
+                // Populate Author directly from grid
+                if (row.Cells["author"]?.Value != null)
+                {
+                    bookIssue_author.Text = row.Cells["author"].Value.ToString();
+                }
+                else
+                {
+                    bookIssue_author.Text = "";
+                }
+
+                // Get user name and image from database (since name is not in the grid)
+                string issueId = row.Cells["issue_id"]?.Value?.ToString();
+                if (!string.IsNullOrEmpty(issueId))
+                {
+                    await LoadBookImageAndDetails(issueId);
+                }
+                else
+                {
+                    // Clear fields if no issue ID
+                    bookIssue_name.Text = "";
+                    bookIssue_picture.Image = null;
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error in CellClick: {ex.Message}");
+            }
+        }
+
+        private async Task LoadBookImageAndDetails(string issueId)
+        {
+            try
+            {
+                if (connect.State == ConnectionState.Closed)
+                {
+                    connect.Open();
+                }
+
+                string query = @"
+                    SELECT 
+                        i.issue_id,
+                        i.full_name,
+                        b.image
+                    FROM issues i
+                    INNER JOIN books b ON i.book_id = b.id
+                    WHERE i.issue_id = @issueId AND i.user_id = @userId AND i.date_delete IS NULL";
+
+                using (SqlCommand cmd = new SqlCommand(query, connect))
+                {
+                    cmd.Parameters.AddWithValue("@issueId", issueId);
+                    cmd.Parameters.AddWithValue("@userId", currentUserId);
+
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            // Populate name field
+                            if (reader["full_name"] != DBNull.Value)
+                            {
+                                bookIssue_name.Text = reader["full_name"].ToString();
+                            }
+                            else
+                            {
+                                bookIssue_name.Text = "";
+                            }
+
+                            // Load and display book image
+                            string blobName = reader["image"]?.ToString();
+                            if (!string.IsNullOrWhiteSpace(blobName))
+                            {
+                                try
+                                {
+                                    Image img = await BlobCovers.DownloadAsync(blobName);
+                                    bookIssue_picture.Image = img;
+                                    bookIssue_picture.SizeMode = PictureBoxSizeMode.StretchImage;
+                                }
+                                catch (Exception imgEx)
+                                {
+                                    System.Diagnostics.Debug.WriteLine($"Failed to load image {blobName}: {imgEx.Message}");
+                                    bookIssue_picture.Image = null;
+                                }
+                            }
+                            else
+                            {
+                                bookIssue_picture.Image = null;
+                            }
+                        }
+                        else
+                        {
+                            // Clear fields if no record found
+                            bookIssue_name.Text = "";
+                            bookIssue_picture.Image = null;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error loading book image and details: {ex.Message}");
+            }
+            finally
+            {
+                if (connect.State == ConnectionState.Open)
+                {
+                    connect.Close();
+                }
             }
         }
     }

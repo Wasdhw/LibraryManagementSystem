@@ -60,57 +60,52 @@ namespace LibraryManagementSystem.MainformsUser
         {
             try
             {
-                // Get current user ID (you'll need to pass this from the login)
-                // For now, we'll use a placeholder - in real implementation, get from session
                 int currentUserId = GetCurrentUserId();
                 
                 if (currentUserId == 0) return;
 
-                // Total books borrowed
-                string totalBorrowedQuery = @"
+                // Available Books (Total available in library)
+                string availableBooksQuery = @"
                     SELECT COUNT(*) 
-                    FROM issues 
-                    WHERE user_id = @userId AND date_delete IS NULL";
+                    FROM books 
+                    WHERE status = 'Available' AND date_delete IS NULL";
 
-                using (SqlCommand cmd = new SqlCommand(totalBorrowedQuery, connect))
+                using (SqlCommand cmd = new SqlCommand(availableBooksQuery, connect))
                 {
-                    cmd.Parameters.AddWithValue("@userId", currentUserId);
-                    int totalBorrowed = Convert.ToInt32(cmd.ExecuteScalar());
+                    int availableBooks = Convert.ToInt32(cmd.ExecuteScalar());
                     
-                    // Update UI - using actual control names
-                    if (this.Controls.Find("dashboard_AB", true).FirstOrDefault() is Label lblTotal)
-                        lblTotal.Text = totalBorrowed.ToString();
+                    if (this.Controls.Find("dashboard_AB", true).FirstOrDefault() is Label lblAB)
+                        lblAB.Text = availableBooks.ToString();
                 }
 
-                // Currently borrowed books
-                string currentBorrowedQuery = @"
+                // Issued Books (Currently borrowed by student)
+                string issuedBooksQuery = @"
                     SELECT COUNT(*) 
                     FROM issues 
                     WHERE user_id = @userId AND status = 'Not Return' AND date_delete IS NULL";
 
-                using (SqlCommand cmd = new SqlCommand(currentBorrowedQuery, connect))
+                using (SqlCommand cmd = new SqlCommand(issuedBooksQuery, connect))
                 {
                     cmd.Parameters.AddWithValue("@userId", currentUserId);
-                    int currentBorrowed = Convert.ToInt32(cmd.ExecuteScalar());
+                    int issuedBooks = Convert.ToInt32(cmd.ExecuteScalar());
                     
-                    if (this.Controls.Find("dashboard_IB", true).FirstOrDefault() is Label lblCurrent)
-                        lblCurrent.Text = currentBorrowed.ToString();
+                    if (this.Controls.Find("dashboard_IB", true).FirstOrDefault() is Label lblIB)
+                        lblIB.Text = issuedBooks.ToString();
                 }
 
-                // Overdue books
-                string overdueQuery = @"
+                // Returned Books (Total returned by student)
+                string returnedBooksQuery = @"
                     SELECT COUNT(*) 
                     FROM issues 
-                    WHERE user_id = @userId AND status = 'Not Return' 
-                    AND return_date < GETDATE() AND date_delete IS NULL";
+                    WHERE user_id = @userId AND status = 'Return' AND date_delete IS NULL";
 
-                using (SqlCommand cmd = new SqlCommand(overdueQuery, connect))
+                using (SqlCommand cmd = new SqlCommand(returnedBooksQuery, connect))
                 {
                     cmd.Parameters.AddWithValue("@userId", currentUserId);
-                    int overdue = Convert.ToInt32(cmd.ExecuteScalar());
+                    int returnedBooks = Convert.ToInt32(cmd.ExecuteScalar());
                     
-                    if (this.Controls.Find("dashboard_RB", true).FirstOrDefault() is Label lblOverdue)
-                        lblOverdue.Text = overdue.ToString();
+                    if (this.Controls.Find("dashboard_RB", true).FirstOrDefault() is Label lblRB)
+                        lblRB.Text = returnedBooks.ToString();
                 }
             }
             catch (Exception ex)
@@ -122,46 +117,7 @@ namespace LibraryManagementSystem.MainformsUser
 
         private void LoadRecentActivity()
         {
-            try
-            {
-                int currentUserId = GetCurrentUserId();
-                if (currentUserId == 0) return;
-
-                string recentActivityQuery = @"
-                    SELECT TOP 5 
-                        i.issue_id,
-                        b.book_title,
-                        b.author,
-                        i.issue_date,
-                        i.return_date,
-                        i.status
-                    FROM issues i
-                    INNER JOIN books b ON i.book_id = b.id
-                    WHERE i.user_id = @userId AND i.date_delete IS NULL
-                    ORDER BY i.date_insert DESC";
-
-                using (SqlCommand cmd = new SqlCommand(recentActivityQuery, connect))
-                {
-                    cmd.Parameters.AddWithValue("@userId", currentUserId);
-                    
-                    using (SqlDataAdapter adapter = new SqlDataAdapter(cmd))
-                    {
-                        DataTable table = new DataTable();
-                        adapter.Fill(table);
-                        
-                        // Update DataGridView if it exists
-                        if (this.Controls.Find("dataGridView1", true).FirstOrDefault() is DataGridView dgv)
-                        {
-                            dgv.DataSource = table;
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error loading recent activity: " + ex.Message, "Error Message", 
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            // Removed - matching admin dashboard structure which doesn't have recent activity table
         }
 
         private int GetCurrentUserId()

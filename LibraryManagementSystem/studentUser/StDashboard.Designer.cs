@@ -126,9 +126,9 @@
             this.label4.ForeColor = System.Drawing.Color.White;
             this.label4.Location = new System.Drawing.Point(86, 24);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(124, 19);
+            this.label4.Size = new System.Drawing.Size(102, 19);
             this.label4.TabIndex = 0;
-            this.label4.Text = "Borrowed Books";
+            this.label4.Text = "Issued Books";
             // 
             // panel2
             // 

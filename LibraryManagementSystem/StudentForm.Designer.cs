@@ -31,23 +31,23 @@
             this.label4 = new System.Windows.Forms.Label();
             this.greet_label = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.label2 = new System.Windows.Forms.Label();
-            this.panel3 = new System.Windows.Forms.Panel();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.stDashboard1 = new LibraryManagementSystem.MainformsUser.StDashboard();
-            this.stReturnBooks1 = new LibraryManagementSystem.studentUser.StReturnBooks();
-            this.history1 = new LibraryManagementSystem.studentUser.History();
-            this.stAvailbooks1 = new LibraryManagementSystem.studentUser.StAvailbooks();
             this.logout_btn = new System.Windows.Forms.Button();
             this.history_btn = new System.Windows.Forms.Button();
             this.avail_btn = new System.Windows.Forms.Button();
-            this.borrow_btn = new System.Windows.Forms.Button();
             this.dashboard_btn = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.panel3 = new System.Windows.Forms.Panel();
+            this.stAvailbooks1 = new LibraryManagementSystem.studentUser.StAvailbooks();
+            this.history1 = new LibraryManagementSystem.studentUser.History();
+            this.stReturnBooks1 = new LibraryManagementSystem.studentUser.StReturnBooks();
+            this.stDashboard1 = new LibraryManagementSystem.MainformsUser.StDashboard();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.borrow_btn = new System.Windows.Forms.Button();
             this.panel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panel3.SuspendLayout();
             this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // label4
@@ -90,71 +90,6 @@
             this.panel2.Size = new System.Drawing.Size(220, 675);
             this.panel2.TabIndex = 4;
             // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.ForeColor = System.Drawing.Color.White;
-            this.label2.Location = new System.Drawing.Point(13, 9);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(262, 18);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "Library Management System | Student";
-            // 
-            // panel3
-            // 
-            this.panel3.Controls.Add(this.stAvailbooks1);
-            this.panel3.Controls.Add(this.history1);
-            this.panel3.Controls.Add(this.stReturnBooks1);
-            this.panel3.Controls.Add(this.stDashboard1);
-            this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel3.Location = new System.Drawing.Point(0, 35);
-            this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(1330, 675);
-            this.panel3.TabIndex = 5;
-            // 
-            // panel1
-            // 
-            this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(14)))), ((int)(((byte)(128)))), ((int)(((byte)(87)))));
-            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel1.Controls.Add(this.label2);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel1.Location = new System.Drawing.Point(0, 0);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1330, 35);
-            this.panel1.TabIndex = 3;
-            // 
-            // stDashboard1
-            // 
-            this.stDashboard1.Location = new System.Drawing.Point(220, -7);
-            this.stDashboard1.Name = "stDashboard1";
-            this.stDashboard1.Size = new System.Drawing.Size(1110, 682);
-            this.stDashboard1.TabIndex = 0;
-            // 
-            // stReturnBooks1
-            // 
-            this.stReturnBooks1.Location = new System.Drawing.Point(220, 0);
-            this.stReturnBooks1.Name = "stReturnBooks1";
-            this.stReturnBooks1.Size = new System.Drawing.Size(1110, 682);
-            this.stReturnBooks1.TabIndex = 1;
-            this.stReturnBooks1.Visible = false;
-            // 
-            // history1
-            // 
-            this.history1.Location = new System.Drawing.Point(220, 0);
-            this.history1.Name = "history1";
-            this.history1.Size = new System.Drawing.Size(1110, 682);
-            this.history1.TabIndex = 2;
-            this.history1.Visible = false;
-            // 
-            // stAvailbooks1
-            // 
-            this.stAvailbooks1.Location = new System.Drawing.Point(220, 0);
-            this.stAvailbooks1.Name = "stAvailbooks1";
-            this.stAvailbooks1.Size = new System.Drawing.Size(1110, 675);
-            this.stAvailbooks1.TabIndex = 3;
-            this.stAvailbooks1.Visible = false;
-            // 
             // logout_btn
             // 
             this.logout_btn.Cursor = System.Windows.Forms.Cursors.Hand;
@@ -179,7 +114,7 @@
             this.history_btn.ForeColor = System.Drawing.Color.White;
             this.history_btn.Image = global::LibraryManagementSystem.Properties.Resources.clock_4_32;
             this.history_btn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.history_btn.Location = new System.Drawing.Point(11, 378);
+            this.history_btn.Location = new System.Drawing.Point(11, 340);
             this.history_btn.Name = "history_btn";
             this.history_btn.Size = new System.Drawing.Size(200, 45);
             this.history_btn.TabIndex = 4;
@@ -204,23 +139,6 @@
             this.avail_btn.Text = "BOOKS";
             this.avail_btn.UseVisualStyleBackColor = true;
             this.avail_btn.Click += new System.EventHandler(this.avail_btn_Click);
-            // 
-            // borrow_btn
-            // 
-            this.borrow_btn.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.borrow_btn.FlatAppearance.MouseDownBackColor = System.Drawing.Color.DarkSeaGreen;
-            this.borrow_btn.FlatAppearance.MouseOverBackColor = System.Drawing.Color.DarkSeaGreen;
-            this.borrow_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.borrow_btn.ForeColor = System.Drawing.Color.White;
-            this.borrow_btn.Image = global::LibraryManagementSystem.Properties.Resources.book_2_32;
-            this.borrow_btn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.borrow_btn.Location = new System.Drawing.Point(11, 327);
-            this.borrow_btn.Name = "borrow_btn";
-            this.borrow_btn.Size = new System.Drawing.Size(200, 45);
-            this.borrow_btn.TabIndex = 3;
-            this.borrow_btn.Text = "BORROWED";
-            this.borrow_btn.UseVisualStyleBackColor = true;
-            this.borrow_btn.Click += new System.EventHandler(this.borrow_btn_Click);
             // 
             // dashboard_btn
             // 
@@ -248,6 +166,89 @@
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.ForeColor = System.Drawing.Color.White;
+            this.label2.Location = new System.Drawing.Point(13, 9);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(262, 18);
+            this.label2.TabIndex = 1;
+            this.label2.Text = "Library Management System | Student";
+            // 
+            // panel3
+            // 
+            this.panel3.Controls.Add(this.stAvailbooks1);
+            this.panel3.Controls.Add(this.history1);
+            this.panel3.Controls.Add(this.stReturnBooks1);
+            this.panel3.Controls.Add(this.stDashboard1);
+            this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel3.Location = new System.Drawing.Point(0, 35);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(1330, 675);
+            this.panel3.TabIndex = 5;
+            // 
+            // stAvailbooks1
+            // 
+            this.stAvailbooks1.Location = new System.Drawing.Point(220, 0);
+            this.stAvailbooks1.Name = "stAvailbooks1";
+            this.stAvailbooks1.Size = new System.Drawing.Size(1110, 675);
+            this.stAvailbooks1.TabIndex = 3;
+            this.stAvailbooks1.Visible = false;
+            // 
+            // history1
+            // 
+            this.history1.Location = new System.Drawing.Point(220, 0);
+            this.history1.Name = "history1";
+            this.history1.Size = new System.Drawing.Size(1110, 682);
+            this.history1.TabIndex = 2;
+            this.history1.Visible = false;
+            // 
+            // stReturnBooks1
+            // 
+            this.stReturnBooks1.Location = new System.Drawing.Point(220, 0);
+            this.stReturnBooks1.Name = "stReturnBooks1";
+            this.stReturnBooks1.Size = new System.Drawing.Size(1110, 682);
+            this.stReturnBooks1.TabIndex = 1;
+            this.stReturnBooks1.Visible = false;
+            // 
+            // stDashboard1
+            // 
+            this.stDashboard1.Location = new System.Drawing.Point(220, -7);
+            this.stDashboard1.Name = "stDashboard1";
+            this.stDashboard1.Size = new System.Drawing.Size(1110, 682);
+            this.stDashboard1.TabIndex = 0;
+            // 
+            // panel1
+            // 
+            this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(14)))), ((int)(((byte)(128)))), ((int)(((byte)(87)))));
+            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(this.label2);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel1.Location = new System.Drawing.Point(0, 0);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(1330, 35);
+            this.panel1.TabIndex = 3;
+            // 
+            // borrow_btn
+            // 
+            this.borrow_btn.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.borrow_btn.FlatAppearance.MouseDownBackColor = System.Drawing.Color.DarkSeaGreen;
+            this.borrow_btn.FlatAppearance.MouseOverBackColor = System.Drawing.Color.DarkSeaGreen;
+            this.borrow_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.borrow_btn.ForeColor = System.Drawing.Color.White;
+            this.borrow_btn.Image = global::LibraryManagementSystem.Properties.Resources.book_2_32;
+            this.borrow_btn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.borrow_btn.Location = new System.Drawing.Point(11, 403);
+            this.borrow_btn.Name = "borrow_btn";
+            this.borrow_btn.Size = new System.Drawing.Size(200, 45);
+            this.borrow_btn.TabIndex = 3;
+            this.borrow_btn.Text = "BORROWED";
+            this.borrow_btn.UseVisualStyleBackColor = true;
+            this.borrow_btn.Visible = false;
+            this.borrow_btn.Click += new System.EventHandler(this.borrow_btn_Click);
+            // 
             // StudentForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -261,10 +262,10 @@
             this.Text = "Form2";
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.panel3.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -274,7 +275,6 @@
         private System.Windows.Forms.Button logout_btn;
         private System.Windows.Forms.Button history_btn;
         private System.Windows.Forms.Button avail_btn;
-        private System.Windows.Forms.Button borrow_btn;
         private System.Windows.Forms.Button dashboard_btn;
         private System.Windows.Forms.Label greet_label;
         private System.Windows.Forms.PictureBox pictureBox1;
@@ -286,5 +286,6 @@
         private MainformsUser.StDashboard stDashboard1;
         private studentUser.StAvailbooks stAvailbooks1;
         private studentUser.History history1;
+        private System.Windows.Forms.Button borrow_btn;
     }
 }

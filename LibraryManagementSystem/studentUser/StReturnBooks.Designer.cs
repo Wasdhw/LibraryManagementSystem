@@ -61,14 +61,10 @@
             // 
             this.flowAvailableBooks.AutoScroll = true;
             this.flowAvailableBooks.BackColor = System.Drawing.SystemColors.Control;
-            this.flowAvailableBooks.Controls.Add(this.panel1);
-            this.flowAvailableBooks.Controls.Add(this.panel2);
-            this.flowAvailableBooks.Controls.Add(this.panel3);
-            this.flowAvailableBooks.Controls.Add(this.panel4);
-            this.flowAvailableBooks.Controls.Add(this.panel5);
-            this.flowAvailableBooks.Location = new System.Drawing.Point(0, 4);
+            this.flowAvailableBooks.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flowAvailableBooks.Location = new System.Drawing.Point(0, 0);
             this.flowAvailableBooks.Name = "flowAvailableBooks";
-            this.flowAvailableBooks.Size = new System.Drawing.Size(1110, 675);
+            this.flowAvailableBooks.Size = new System.Drawing.Size(1110, 682);
             this.flowAvailableBooks.TabIndex = 1;
             // 
             // panel1
