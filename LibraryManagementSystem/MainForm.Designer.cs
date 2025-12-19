@@ -35,6 +35,8 @@ namespace LibraryManagementSystem
             this.label4 = new System.Windows.Forms.Label();
             this.greet_label = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.reservations1 = new LibraryManagementSystem.MainformsUser.Reservations();
+            this.fines1 = new LibraryManagementSystem.MainformsUser.Fines();
             this.availBooks2 = new LibraryManagementSystem.AvailBooks();
             this.returnBooks1 = new LibraryManagementSystem.ReturnBooks();
             this.issueBooks1 = new LibraryManagementSystem.IssueBooks();
@@ -42,6 +44,8 @@ namespace LibraryManagementSystem
             this.addBooks1 = new LibraryManagementSystem.AddBooks();
             this.accounts1 = new LibraryManagementSystem.MainformsUser.Accounts();
             this.logout_btn = new System.Windows.Forms.Button();
+            this.reservations_btn = new System.Windows.Forms.Button();
+            this.fines_btn = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.returnBooks_btn = new System.Windows.Forms.Button();
             this.issueBooks_btn = new System.Windows.Forms.Button();
@@ -84,6 +88,8 @@ namespace LibraryManagementSystem
             this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel2.Controls.Add(this.label4);
             this.panel2.Controls.Add(this.logout_btn);
+            this.panel2.Controls.Add(this.reservations_btn);
+            this.panel2.Controls.Add(this.fines_btn);
             this.panel2.Controls.Add(this.button1);
             this.panel2.Controls.Add(this.returnBooks_btn);
             this.panel2.Controls.Add(this.issueBooks_btn);
@@ -122,6 +128,8 @@ namespace LibraryManagementSystem
             // 
             // panel3
             // 
+            this.panel3.Controls.Add(this.reservations1);
+            this.panel3.Controls.Add(this.fines1);
             this.panel3.Controls.Add(this.availBooks2);
             this.panel3.Controls.Add(this.returnBooks1);
             this.panel3.Controls.Add(this.issueBooks1);
@@ -183,6 +191,22 @@ namespace LibraryManagementSystem
             this.accounts1.TabIndex = 5;
             this.accounts1.Visible = false;
             // 
+            // fines1
+            // 
+            this.fines1.Location = new System.Drawing.Point(0, 0);
+            this.fines1.Name = "fines1";
+            this.fines1.Size = new System.Drawing.Size(1110, 675);
+            this.fines1.TabIndex = 6;
+            this.fines1.Visible = false;
+            // 
+            // reservations1
+            // 
+            this.reservations1.Location = new System.Drawing.Point(0, 0);
+            this.reservations1.Name = "reservations1";
+            this.reservations1.Size = new System.Drawing.Size(1110, 675);
+            this.reservations1.TabIndex = 7;
+            this.reservations1.Visible = false;
+            // 
             // logout_btn
             // 
             this.logout_btn.Cursor = System.Windows.Forms.Cursors.Hand;
@@ -197,6 +221,40 @@ namespace LibraryManagementSystem
             this.logout_btn.TabIndex = 6;
             this.logout_btn.UseVisualStyleBackColor = true;
             this.logout_btn.Click += new System.EventHandler(this.logout_btn_Click);
+            // 
+            // reservations_btn
+            // 
+            this.reservations_btn.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.reservations_btn.FlatAppearance.MouseDownBackColor = System.Drawing.Color.DarkSeaGreen;
+            this.reservations_btn.FlatAppearance.MouseOverBackColor = System.Drawing.Color.DarkSeaGreen;
+            this.reservations_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.reservations_btn.ForeColor = System.Drawing.Color.White;
+            this.reservations_btn.Image = global::LibraryManagementSystem.Properties.Resources.clock_4_32;
+            this.reservations_btn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.reservations_btn.Location = new System.Drawing.Point(8, 494);
+            this.reservations_btn.Name = "reservations_btn";
+            this.reservations_btn.Size = new System.Drawing.Size(200, 45);
+            this.reservations_btn.TabIndex = 7;
+            this.reservations_btn.Text = "RESERVATIONS";
+            this.reservations_btn.UseVisualStyleBackColor = true;
+            this.reservations_btn.Click += new System.EventHandler(this.reservations_btn_Click);
+            // 
+            // fines_btn
+            // 
+            this.fines_btn.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.fines_btn.FlatAppearance.MouseDownBackColor = System.Drawing.Color.DarkSeaGreen;
+            this.fines_btn.FlatAppearance.MouseOverBackColor = System.Drawing.Color.DarkSeaGreen;
+            this.fines_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.fines_btn.ForeColor = System.Drawing.Color.White;
+            this.fines_btn.Image = global::LibraryManagementSystem.Properties.Resources.clock_4_32;
+            this.fines_btn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.fines_btn.Location = new System.Drawing.Point(8, 545);
+            this.fines_btn.Name = "fines_btn";
+            this.fines_btn.Size = new System.Drawing.Size(200, 45);
+            this.fines_btn.TabIndex = 6;
+            this.fines_btn.Text = "FINES";
+            this.fines_btn.UseVisualStyleBackColor = true;
+            this.fines_btn.Click += new System.EventHandler(this.fines_btn_Click);
             // 
             // button1
             // 
@@ -353,5 +411,9 @@ namespace LibraryManagementSystem
         private AvailBooks availBooks2;
         private System.Windows.Forms.Button button1;
         private LibraryManagementSystem.MainformsUser.Accounts accounts1;
+        private System.Windows.Forms.Button fines_btn;
+        private LibraryManagementSystem.MainformsUser.Fines fines1;
+        private System.Windows.Forms.Button reservations_btn;
+        private LibraryManagementSystem.MainformsUser.Reservations reservations1;
     }
 }

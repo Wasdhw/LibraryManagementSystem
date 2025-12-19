@@ -38,11 +38,13 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.label2 = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.stRenewBooks1 = new LibraryManagementSystem.studentUser.StRenewBooks();
             this.stAvailbooks1 = new LibraryManagementSystem.studentUser.StAvailbooks();
             this.history1 = new LibraryManagementSystem.studentUser.History();
             this.stReturnBooks1 = new LibraryManagementSystem.studentUser.StReturnBooks();
             this.stDashboard1 = new LibraryManagementSystem.MainformsUser.StDashboard();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.renew_btn = new System.Windows.Forms.Button();
             this.borrow_btn = new System.Windows.Forms.Button();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -79,6 +81,7 @@
             this.panel2.Controls.Add(this.label4);
             this.panel2.Controls.Add(this.logout_btn);
             this.panel2.Controls.Add(this.history_btn);
+            this.panel2.Controls.Add(this.renew_btn);
             this.panel2.Controls.Add(this.avail_btn);
             this.panel2.Controls.Add(this.borrow_btn);
             this.panel2.Controls.Add(this.dashboard_btn);
@@ -114,7 +117,7 @@
             this.history_btn.ForeColor = System.Drawing.Color.White;
             this.history_btn.Image = global::LibraryManagementSystem.Properties.Resources.clock_4_32;
             this.history_btn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.history_btn.Location = new System.Drawing.Point(11, 340);
+            this.history_btn.Location = new System.Drawing.Point(11, 385);
             this.history_btn.Name = "history_btn";
             this.history_btn.Size = new System.Drawing.Size(200, 45);
             this.history_btn.TabIndex = 4;
@@ -179,6 +182,7 @@
             // 
             // panel3
             // 
+            this.panel3.Controls.Add(this.stRenewBooks1);
             this.panel3.Controls.Add(this.stAvailbooks1);
             this.panel3.Controls.Add(this.history1);
             this.panel3.Controls.Add(this.stReturnBooks1);
@@ -188,6 +192,14 @@
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(1330, 675);
             this.panel3.TabIndex = 5;
+            // 
+            // stRenewBooks1
+            // 
+            this.stRenewBooks1.Location = new System.Drawing.Point(220, 0);
+            this.stRenewBooks1.Name = "stRenewBooks1";
+            this.stRenewBooks1.Size = new System.Drawing.Size(1110, 675);
+            this.stRenewBooks1.TabIndex = 4;
+            this.stRenewBooks1.Visible = false;
             // 
             // stAvailbooks1
             // 
@@ -230,6 +242,23 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(1330, 35);
             this.panel1.TabIndex = 3;
+            // 
+            // renew_btn
+            // 
+            this.renew_btn.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.renew_btn.FlatAppearance.MouseDownBackColor = System.Drawing.Color.DarkSeaGreen;
+            this.renew_btn.FlatAppearance.MouseOverBackColor = System.Drawing.Color.DarkSeaGreen;
+            this.renew_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.renew_btn.ForeColor = System.Drawing.Color.White;
+            this.renew_btn.Image = global::LibraryManagementSystem.Properties.Resources.clock_4_32;
+            this.renew_btn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.renew_btn.Location = new System.Drawing.Point(11, 340);
+            this.renew_btn.Name = "renew_btn";
+            this.renew_btn.Size = new System.Drawing.Size(200, 45);
+            this.renew_btn.TabIndex = 5;
+            this.renew_btn.Text = "RENEW";
+            this.renew_btn.UseVisualStyleBackColor = true;
+            this.renew_btn.Click += new System.EventHandler(this.renew_btn_Click);
             // 
             // borrow_btn
             // 
@@ -287,5 +316,7 @@
         private studentUser.StAvailbooks stAvailbooks1;
         private studentUser.History history1;
         private System.Windows.Forms.Button borrow_btn;
+        private System.Windows.Forms.Button renew_btn;
+        private studentUser.StRenewBooks stRenewBooks1;
     }
 }

@@ -45,9 +45,14 @@
             this.label4 = new System.Windows.Forms.Label();
             this.pictureBox5 = new System.Windows.Forms.PictureBox();
             this.searchPanel = new System.Windows.Forms.Panel();
+            this.sortOrderComboBox = new System.Windows.Forms.ComboBox();
+            this.sortOrderLabel = new System.Windows.Forms.Label();
+            this.sortFieldComboBox = new System.Windows.Forms.ComboBox();
+            this.sortFieldLabel = new System.Windows.Forms.Label();
             this.searchLabel = new System.Windows.Forms.Label();
             this.searchTextBox = new System.Windows.Forms.TextBox();
             this.flowAvailableBooks.SuspendLayout();
+            this.searchPanel.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.panel2.SuspendLayout();
@@ -62,6 +67,10 @@
             // 
             // searchPanel
             // 
+            this.searchPanel.Controls.Add(this.sortOrderComboBox);
+            this.searchPanel.Controls.Add(this.sortOrderLabel);
+            this.searchPanel.Controls.Add(this.sortFieldComboBox);
+            this.searchPanel.Controls.Add(this.sortFieldLabel);
             this.searchPanel.Controls.Add(this.searchLabel);
             this.searchPanel.Controls.Add(this.searchTextBox);
             this.searchPanel.Dock = System.Windows.Forms.DockStyle.Top;
@@ -87,6 +96,46 @@
             this.searchTextBox.Name = "searchTextBox";
             this.searchTextBox.Size = new System.Drawing.Size(300, 23);
             this.searchTextBox.TabIndex = 1;
+            // 
+            // sortFieldLabel
+            // 
+            this.sortFieldLabel.AutoSize = true;
+            this.sortFieldLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.sortFieldLabel.Location = new System.Drawing.Point(390, 15);
+            this.sortFieldLabel.Name = "sortFieldLabel";
+            this.sortFieldLabel.Size = new System.Drawing.Size(68, 17);
+            this.sortFieldLabel.TabIndex = 2;
+            this.sortFieldLabel.Text = "Sort By:";
+            // 
+            // sortFieldComboBox
+            // 
+            this.sortFieldComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.sortFieldComboBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.sortFieldComboBox.FormattingEnabled = true;
+            this.sortFieldComboBox.Location = new System.Drawing.Point(464, 12);
+            this.sortFieldComboBox.Name = "sortFieldComboBox";
+            this.sortFieldComboBox.Size = new System.Drawing.Size(120, 24);
+            this.sortFieldComboBox.TabIndex = 3;
+            // 
+            // sortOrderLabel
+            // 
+            this.sortOrderLabel.AutoSize = true;
+            this.sortOrderLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.sortOrderLabel.Location = new System.Drawing.Point(600, 15);
+            this.sortOrderLabel.Name = "sortOrderLabel";
+            this.sortOrderLabel.Size = new System.Drawing.Size(45, 17);
+            this.sortOrderLabel.TabIndex = 4;
+            this.sortOrderLabel.Text = "Order:";
+            // 
+            // sortOrderComboBox
+            // 
+            this.sortOrderComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.sortOrderComboBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.sortOrderComboBox.FormattingEnabled = true;
+            this.sortOrderComboBox.Location = new System.Drawing.Point(651, 12);
+            this.sortOrderComboBox.Name = "sortOrderComboBox";
+            this.sortOrderComboBox.Size = new System.Drawing.Size(120, 24);
+            this.sortOrderComboBox.TabIndex = 5;
             // 
             // flowAvailableBooks
             // 
@@ -316,5 +365,9 @@
         private System.Windows.Forms.Panel searchPanel;
         private System.Windows.Forms.Label searchLabel;
         private System.Windows.Forms.TextBox searchTextBox;
+        private System.Windows.Forms.Label sortFieldLabel;
+        private System.Windows.Forms.ComboBox sortFieldComboBox;
+        private System.Windows.Forms.Label sortOrderLabel;
+        private System.Windows.Forms.ComboBox sortOrderComboBox;
     }
 }

@@ -32,6 +32,8 @@ namespace LibraryManagementSystem
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.conditionComboBox = new System.Windows.Forms.ComboBox();
+            this.label9 = new System.Windows.Forms.Label();
             this.bookIssue_issueDate = new System.Windows.Forms.DateTimePicker();
             this.label1 = new System.Windows.Forms.Label();
             this.returnBooks_clearBtn = new System.Windows.Forms.Button();
@@ -56,6 +58,8 @@ namespace LibraryManagementSystem
             // 
             this.panel1.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(this.conditionComboBox);
+            this.panel1.Controls.Add(this.label9);
             this.panel1.Controls.Add(this.bookIssue_issueDate);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Controls.Add(this.returnBooks_clearBtn);
@@ -74,6 +78,33 @@ namespace LibraryManagementSystem
             this.panel1.Size = new System.Drawing.Size(278, 640);
             this.panel1.TabIndex = 0;
             this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
+            // 
+            // conditionComboBox
+            // 
+            this.conditionComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.conditionComboBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.conditionComboBox.FormattingEnabled = true;
+            this.conditionComboBox.Items.AddRange(new object[] {
+            "New",
+            "Good",
+            "Fair",
+            "Poor",
+            "Damaged"});
+            this.conditionComboBox.Location = new System.Drawing.Point(92, 360);
+            this.conditionComboBox.Name = "conditionComboBox";
+            this.conditionComboBox.Size = new System.Drawing.Size(169, 24);
+            this.conditionComboBox.TabIndex = 21;
+            this.conditionComboBox.SelectedIndex = 1;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label9.Location = new System.Drawing.Point(6, 363);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(67, 16);
+            this.label9.TabIndex = 20;
+            this.label9.Text = "Condition:";
             // 
             // bookIssue_issueDate
             // 
@@ -292,5 +323,7 @@ namespace LibraryManagementSystem
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.DateTimePicker bookIssue_issueDate;
+        private System.Windows.Forms.ComboBox conditionComboBox;
+        private System.Windows.Forms.Label label9;
     }
 }

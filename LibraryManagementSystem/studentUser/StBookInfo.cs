@@ -236,48 +236,120 @@ namespace LibraryManagementSystem.studentUser
                     connect.Open();
                 }
 
-                // Get user details for the issue record
-                string userQuery = "SELECT name, idcode FROM users WHERE id = @userId";
-                string userName = "";
-                string userContact = "";
+                SqlTransaction transaction = connect.BeginTransaction();
 
-                using (SqlCommand cmd = new SqlCommand(userQuery, connect))
+                try
                 {
-                    cmd.Parameters.AddWithValue("@userId", currentUserId);
-                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    // Check book availability before issuing
+                    string checkAvailabilityQuery = "SELECT quantity, status FROM books WHERE id = @book_id AND date_delete IS NULL";
+                    int currentQuantity = 0;
+                    string bookStatus = "";
+                    
+                    using (SqlCommand checkCmd = new SqlCommand(checkAvailabilityQuery, connect, transaction))
                     {
-                        if (reader.Read())
+                        checkCmd.Parameters.AddWithValue("@book_id", currentBookId);
+                        using (SqlDataReader reader = checkCmd.ExecuteReader())
                         {
-                            userName = reader["name"].ToString();
-                            userContact = reader["idcode"].ToString();
+                            if (reader.Read())
+                            {
+                                currentQuantity = Convert.ToInt32(reader["quantity"]);
+                                bookStatus = reader["status"].ToString();
+                            }
+                            else
+                            {
+                                throw new Exception("Book not found.");
+                            }
                         }
                     }
-                }
 
-                // Create issue record using stored procedure
-                using (SqlCommand cmd = new SqlCommand("sp_IssueBook", connect))
-                {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@user_id", currentUserId);
-                    cmd.Parameters.AddWithValue("@book_id", currentBookId);
-                    cmd.Parameters.AddWithValue("@full_name", userName);
-                    cmd.Parameters.AddWithValue("@contact", userContact);
-                    cmd.Parameters.AddWithValue("@issue_date", DateTime.Today);
-                    cmd.Parameters.AddWithValue("@return_date", DateTime.Today.AddDays(14)); // 14 days borrowing period
-
-                    SqlParameter outIssue = new SqlParameter("@issue_id", SqlDbType.NVarChar, 50)
+                    // Validate availability
+                    if (currentQuantity <= 0)
                     {
-                        Direction = ParameterDirection.Output
-                    };
-                    cmd.Parameters.Add(outIssue);
+                        transaction.Rollback();
+                        MessageBox.Show("This book is not available. Quantity is 0.", "Error Message", 
+                            MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
 
-                    cmd.ExecuteNonQuery();
+                    if (bookStatus != "Available")
+                    {
+                        transaction.Rollback();
+                        MessageBox.Show("This book is not available. Status: " + bookStatus, "Error Message", 
+                            MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
 
-                    MessageBox.Show("Book borrowed successfully! Issue ID: " + outIssue.Value.ToString(), 
+                    // Get user details for the issue record
+                    string userQuery = "SELECT name, idcode FROM users WHERE id = @userId";
+                    string userName = "";
+                    string userContact = "";
+
+                    using (SqlCommand cmd = new SqlCommand(userQuery, connect, transaction))
+                    {
+                        cmd.Parameters.AddWithValue("@userId", currentUserId);
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                userName = reader["name"].ToString();
+                                userContact = reader["idcode"].ToString();
+                            }
+                        }
+                    }
+
+                    // Create issue record using stored procedure
+                    string issueId = "";
+                    using (SqlCommand cmd = new SqlCommand("sp_IssueBook", connect, transaction))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@user_id", currentUserId);
+                        cmd.Parameters.AddWithValue("@book_id", currentBookId);
+                        cmd.Parameters.AddWithValue("@full_name", userName);
+                        cmd.Parameters.AddWithValue("@contact", userContact);
+                        cmd.Parameters.AddWithValue("@issue_date", DateTime.Today);
+                        cmd.Parameters.AddWithValue("@return_date", DateTime.Today.AddDays(14)); // 14 days borrowing period
+
+                        SqlParameter outIssue = new SqlParameter("@issue_id", SqlDbType.NVarChar, 50)
+                        {
+                            Direction = ParameterDirection.Output
+                        };
+                        cmd.Parameters.Add(outIssue);
+
+                        cmd.ExecuteNonQuery();
+                        issueId = outIssue.Value?.ToString() ?? "";
+                    }
+
+                    // Decrement book quantity
+                    string updateQuantityQuery = "UPDATE books SET quantity = quantity - 1 WHERE id = @book_id";
+                    using (SqlCommand updateCmd = new SqlCommand(updateQuantityQuery, connect, transaction))
+                    {
+                        updateCmd.Parameters.AddWithValue("@book_id", currentBookId);
+                        updateCmd.ExecuteNonQuery();
+                    }
+
+                    // Update book status if quantity reaches 0
+                    string updateStatusQuery = "UPDATE books SET status = CASE WHEN quantity - 1 <= 0 THEN 'Not Available' ELSE status END WHERE id = @book_id";
+                    using (SqlCommand statusCmd = new SqlCommand(updateStatusQuery, connect, transaction))
+                    {
+                        statusCmd.Parameters.AddWithValue("@book_id", currentBookId);
+                        statusCmd.ExecuteNonQuery();
+                    }
+
+                    transaction.Commit();
+
+                    // Log audit action
+                    AuditLogger.LogBookIssue(issueId, currentBookId, currentUserId);
+
+                    MessageBox.Show("Book borrowed successfully! Issue ID: " + issueId, 
                         "Success Message", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                     // Refresh book info
                     LoadBookDetails();
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                    throw;
                 }
             }
             catch (Exception ex)
@@ -298,6 +370,11 @@ namespace LibraryManagementSystem.studentUser
         {
             try
             {
+                if (connect.State == ConnectionState.Closed)
+                {
+                    connect.Open();
+                }
+
                 // Check current borrowing count for user
                 string countQuery = @"
                     SELECT COUNT(*) 
@@ -310,8 +387,44 @@ namespace LibraryManagementSystem.studentUser
                     int currentBorrowed = Convert.ToInt32(cmd.ExecuteScalar());
                     
                     // Maximum 5 books per user (you can adjust this limit)
-                    return currentBorrowed < 5;
+                    if (currentBorrowed >= 5)
+                    {
+                        return false;
+                    }
                 }
+
+                // Check book availability
+                if (currentBookId > 0)
+                {
+                    string availabilityQuery = @"
+                        SELECT quantity, status 
+                        FROM books 
+                        WHERE id = @bookId AND date_delete IS NULL";
+
+                    using (SqlCommand cmd = new SqlCommand(availabilityQuery, connect))
+                    {
+                        cmd.Parameters.AddWithValue("@bookId", currentBookId);
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                int quantity = Convert.ToInt32(reader["quantity"]);
+                                string status = reader["status"].ToString();
+                                
+                                if (quantity <= 0 || status != "Available")
+                                {
+                                    return false;
+                                }
+                            }
+                            else
+                            {
+                                return false; // Book not found
+                            }
+                        }
+                    }
+                }
+
+                return true;
             }
             catch (Exception ex)
             {

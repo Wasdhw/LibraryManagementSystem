@@ -64,14 +64,53 @@ namespace LibraryManagementSystem
 
             if (connect.State != ConnectionState.Open)
             {
+                SqlTransaction transaction = null;
                 try
                 {
                     connect.Open();
+                    transaction = connect.BeginTransaction();
 
                     int selectedBookId = Convert.ToInt32(((DataRowView)bookIssue_bookTitle.SelectedItem)["id"]);
                     int userId = Convert.ToInt32(((DataRowView)name_of_student.SelectedItem)["id"]);
                     string userName = ((DataRowView)name_of_student.SelectedItem)["name"].ToString();
                     string userContact = ((DataRowView)name_of_student.SelectedItem)["idcode"].ToString();
+
+                    // Check book availability before issuing
+                    string checkAvailabilityQuery = "SELECT quantity, status FROM books WHERE id = @book_id AND date_delete IS NULL";
+                    int currentQuantity = 0;
+                    string bookStatus = "";
+                    
+                    using (SqlCommand checkCmd = new SqlCommand(checkAvailabilityQuery, connect, transaction))
+                    {
+                        checkCmd.Parameters.AddWithValue("@book_id", selectedBookId);
+                        using (SqlDataReader reader = checkCmd.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                currentQuantity = Convert.ToInt32(reader["quantity"]);
+                                bookStatus = reader["status"].ToString();
+                            }
+                            else
+                            {
+                                throw new Exception("Book not found.");
+                            }
+                        }
+                    }
+
+                    // Validate availability
+                    if (currentQuantity <= 0)
+                    {
+                        transaction.Rollback();
+                        MessageBox.Show("This book is not available. Quantity is 0.", "Error Message", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
+
+                    if (bookStatus != "Available")
+                    {
+                        transaction.Rollback();
+                        MessageBox.Show("This book is not available. Status: " + bookStatus, "Error Message", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
 
                     // Generate unique issue ID
                     string issueId = GenerateUniqueIssueId();
@@ -84,7 +123,7 @@ namespace LibraryManagementSystem
                     string insertQuery = "INSERT INTO issues (issue_id, user_id, book_id, book_title, author, full_name, contact, issue_date, return_date, status, date_insert) " +
                         "VALUES (@issue_id, @user_id, @book_id, @book_title, @author, @full_name, @contact, @issue_date, @return_date, 'Not Return', @date_insert)";
                     
-                    using (SqlCommand cmd = new SqlCommand(insertQuery, connect))
+                    using (SqlCommand cmd = new SqlCommand(insertQuery, connect, transaction))
                     {
                         cmd.Parameters.AddWithValue("@issue_id", issueId);
                         cmd.Parameters.AddWithValue("@user_id", userId);
@@ -98,19 +137,48 @@ namespace LibraryManagementSystem
                         cmd.Parameters.AddWithValue("@date_insert", DateTime.Today);
 
                         cmd.ExecuteNonQuery();
-
-                        displayBookIssueData();
-                        MessageBox.Show("Issued successfully! Issue ID: " + issueId, "Information Message", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        clearFields();
                     }
+
+                    // Decrement book quantity
+                    string updateQuantityQuery = "UPDATE books SET quantity = quantity - 1 WHERE id = @book_id";
+                    using (SqlCommand updateCmd = new SqlCommand(updateQuantityQuery, connect, transaction))
+                    {
+                        updateCmd.Parameters.AddWithValue("@book_id", selectedBookId);
+                        updateCmd.ExecuteNonQuery();
+                    }
+
+                    // Update book status if quantity reaches 0
+                    string updateStatusQuery = "UPDATE books SET status = CASE WHEN quantity - 1 <= 0 THEN 'Not Available' ELSE status END WHERE id = @book_id";
+                    using (SqlCommand statusCmd = new SqlCommand(updateStatusQuery, connect, transaction))
+                    {
+                        statusCmd.Parameters.AddWithValue("@book_id", selectedBookId);
+                        statusCmd.ExecuteNonQuery();
+                    }
+
+                    transaction.Commit();
+
+                    // Log audit action
+                    AuditLogger.LogBookIssue(issueId, selectedBookId, userId);
+
+                    displayBookIssueData();
+                    DataBookTitle(); // Refresh book list to reflect quantity changes
+                    MessageBox.Show("Issued successfully! Issue ID: " + issueId, "Information Message", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    clearFields();
                 }
                 catch (Exception ex)
                 {
+                    if (transaction != null)
+                    {
+                        transaction.Rollback();
+                    }
                     MessageBox.Show("Error: " + ex.Message, "Error Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 finally
                 {
-                    connect.Close();
+                    if (connect.State == ConnectionState.Open)
+                    {
+                        connect.Close();
+                    }
                 }
             }
         }
@@ -186,7 +254,8 @@ namespace LibraryManagementSystem
                 try
                 {
                     connect.Open();
-                    string selectData = "SELECT id, book_title FROM books WHERE status = 'Available' AND date_delete IS NULL";
+                    // Only show books that are available and have quantity > 0
+                    string selectData = "SELECT id, book_title FROM books WHERE status = 'Available' AND quantity > 0 AND date_delete IS NULL";
 
                     using (SqlCommand cmd = new SqlCommand(selectData, connect))
                     {

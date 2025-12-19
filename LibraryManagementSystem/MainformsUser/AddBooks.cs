@@ -22,8 +22,26 @@ namespace LibraryManagementSystem
             InitializeComponent();
 
             displayBooks();
+            LoadCategories();
+        }
 
-         
+        private void LoadCategories()
+        {
+            try
+            {
+                var categories = CategoryManager.GetAllCategories();
+                if (this.Controls.Find("categoryComboBox", true).FirstOrDefault() is ComboBox categoryCombo)
+                {
+                    categoryCombo.DataSource = categories;
+                    categoryCombo.DisplayMember = "Name";
+                    categoryCombo.ValueMember = "Id";
+                    categoryCombo.SelectedIndex = -1; // No selection by default
+                }
+            }
+            catch
+            {
+                // Categories table may not exist yet
+            }
         }
 
 
@@ -78,9 +96,16 @@ namespace LibraryManagementSystem
                     {
                         DateTime today = DateTime.Today;
                         connect.Open();
+                        // Get category if available
+                        int? categoryId = null;
+                        if (this.Controls.Find("categoryComboBox", true).FirstOrDefault() is ComboBox categoryCombo && categoryCombo.SelectedValue != null)
+                        {
+                            categoryId = Convert.ToInt32(categoryCombo.SelectedValue);
+                        }
+
                         string insertData = "INSERT INTO books " +
-                            "(book_title, author, published_date,quantity,status, image, date_insert) " +
-                            "VALUES(@bookTitle, @author, @published_date, @quantity, @status, @image, @dateInsert)";
+                            "(book_title, author, published_date, quantity, status, image, isbn, publisher, edition, language, pages, category_id, date_insert) " +
+                            "VALUES(@bookTitle, @author, @published_date, @quantity, @status, @image, @isbn, @publisher, @edition, @language, @pages, @category_id, @dateInsert)";
 
                         // Upload cover to Azure Blob and store blob name in DB
                         string blobName = BlobCovers.GenerateBlobName(Guid.NewGuid().ToString("N"));
@@ -101,6 +126,20 @@ namespace LibraryManagementSystem
                             cmd.Parameters.AddWithValue("@quantity", Convert.ToInt32(addBooks_quantity.Value));
                             cmd.Parameters.AddWithValue("@status", addBooks_status.Text.Trim());
                             cmd.Parameters.AddWithValue("@image", blobName);
+                            
+                            // Enhanced metadata (optional fields)
+                            string isbn = this.Controls.Find("isbnTextBox", true).FirstOrDefault() is TextBox isbnTb ? isbnTb.Text.Trim() : "";
+                            string publisher = this.Controls.Find("publisherTextBox", true).FirstOrDefault() is TextBox pubTb ? pubTb.Text.Trim() : "";
+                            string edition = this.Controls.Find("editionTextBox", true).FirstOrDefault() is TextBox edTb ? edTb.Text.Trim() : "";
+                            string language = this.Controls.Find("languageTextBox", true).FirstOrDefault() is TextBox langTb ? langTb.Text.Trim() : "";
+                            int pages = this.Controls.Find("pagesNumeric", true).FirstOrDefault() is NumericUpDown pagesNum ? (int)pagesNum.Value : 0;
+                            
+                            cmd.Parameters.AddWithValue("@isbn", string.IsNullOrEmpty(isbn) ? DBNull.Value : (object)isbn);
+                            cmd.Parameters.AddWithValue("@publisher", string.IsNullOrEmpty(publisher) ? DBNull.Value : (object)publisher);
+                            cmd.Parameters.AddWithValue("@edition", string.IsNullOrEmpty(edition) ? DBNull.Value : (object)edition);
+                            cmd.Parameters.AddWithValue("@language", string.IsNullOrEmpty(language) ? DBNull.Value : (object)language);
+                            cmd.Parameters.AddWithValue("@pages", pages > 0 ? (object)pages : DBNull.Value);
+                            cmd.Parameters.AddWithValue("@category_id", categoryId.HasValue ? (object)categoryId.Value : DBNull.Value);
                             cmd.Parameters.AddWithValue("@dateInsert", today);
 
                             cmd.ExecuteNonQuery();

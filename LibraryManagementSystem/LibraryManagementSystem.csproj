@@ -119,6 +119,36 @@
     <Compile Include="ImageDownloadProgressForm.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="MainformsUser\AuditLog.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MainformsUser\AuditLog.Designer.cs">
+      <DependentUpon>AuditLog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MainformsUser\Fines.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MainformsUser\Fines.Designer.cs">
+      <DependentUpon>Fines.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MainformsUser\Reports.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MainformsUser\Reports.Designer.cs">
+      <DependentUpon>Reports.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MainformsUser\Reservations.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MainformsUser\Reservations.Designer.cs">
+      <DependentUpon>Reservations.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MainformsUser\Settings.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MainformsUser\Settings.Designer.cs">
+      <DependentUpon>Settings.cs</DependentUpon>
+    </Compile>
     <Compile Include="OverdueNotificationForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -133,6 +163,18 @@
     </Compile>
     <Compile Include="studentUser\History.Designer.cs">
       <DependentUpon>History.cs</DependentUpon>
+    </Compile>
+    <Compile Include="studentUser\StRenewBooks.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="studentUser\StRenewBooks.Designer.cs">
+      <DependentUpon>StRenewBooks.cs</DependentUpon>
+    </Compile>
+    <Compile Include="studentUser\StReservations.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="studentUser\StReservations.Designer.cs">
+      <DependentUpon>StReservations.cs</DependentUpon>
     </Compile>
     <Compile Include="studentUser\StReturninfo.cs">
       <SubType>UserControl</SubType>
@@ -204,10 +246,22 @@
     <Compile Include="MainformsUser\ReturnBooks.Designer.cs">
       <DependentUpon>ReturnBooks.cs</DependentUpon>
     </Compile>
+    <Compile Include="Utils\AppSettings.cs" />
+    <Compile Include="Utils\AuditLogger.cs" />
     <Compile Include="Utils\AutoRefreshService.cs" />
     <Compile Include="Utils\BlobCovers.cs" />
+    <Compile Include="Utils\CategoryManager.cs" />
     <Compile Include="Utils\Database.cs" />
+    <Compile Include="Utils\FineCalculator.cs" />
+    <Compile Include="Utils\LoadingSpinner.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Utils\LoadingSpinner.Designer.cs">
+      <DependentUpon>LoadingSpinner.cs</DependentUpon>
+    </Compile>
     <Compile Include="Utils\RefreshServiceManager.cs" />
+    <Compile Include="Utils\ReportGenerator.cs" />
+    <Compile Include="Utils\ReservationManager.cs" />
     <Compile Include="Utils\Security.cs" />
     <Compile Include="Utils\SessionManager.cs" />
     <Compile Include="MainformsUser\AvailBooks.cs">
@@ -234,6 +288,8 @@
     <Compile Include="studentUser\StReturnBooks.Designer.cs">
       <DependentUpon>StReturnBooks.cs</DependentUpon>
     </Compile>
+    <Compile Include="Utils\ThemeManager.cs" />
+    <Compile Include="Utils\TooltipHelper.cs" />
     <EmbeddedResource Include="MainformsUser\Accounts.resx">
       <DependentUpon>Accounts.cs</DependentUpon>
     </EmbeddedResource>

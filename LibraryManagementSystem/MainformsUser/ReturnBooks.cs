@@ -26,6 +26,12 @@ namespace LibraryManagementSystem
             
             // Set up cell formatting for overdue highlighting
             dataGridView1.CellFormatting += DataGridView1_CellFormatting;
+
+            // Initialize condition ComboBox
+            if (conditionComboBox != null)
+            {
+                conditionComboBox.SelectedIndex = 1; // Default to "Good"
+            }
         }
 
         public void refreshData()
@@ -59,32 +65,123 @@ namespace LibraryManagementSystem
 
                     if(check == DialogResult.Yes)
                     {
+                        SqlTransaction transaction = null;
                         try
                         {
                             connect.Open();
+                            transaction = connect.BeginTransaction();
 
-                            // Update the issue status to 'Return' and set return date
-                            string updateQuery = "UPDATE issues SET status = 'Return', return_date = @returnDate WHERE issue_id = @issue_id";
+                            string issueId = returnBooks_issueID.Text.Trim();
+
+                            // Get book_id from the issue record
+                            string getBookIdQuery = "SELECT book_id FROM issues WHERE issue_id = @issue_id";
+                            int bookId = 0;
                             
-                            using (SqlCommand cmd = new SqlCommand(updateQuery, connect))
+                            using (SqlCommand getCmd = new SqlCommand(getBookIdQuery, connect, transaction))
                             {
-                                cmd.Parameters.AddWithValue("@issue_id", returnBooks_issueID.Text.Trim());
-                                cmd.Parameters.AddWithValue("@returnDate", DateTime.Today);
+                                getCmd.Parameters.AddWithValue("@issue_id", issueId);
+                                object result = getCmd.ExecuteScalar();
+                                if (result != null)
+                                {
+                                    bookId = Convert.ToInt32(result);
+                                }
+                                else
+                                {
+                                    throw new Exception("Issue record not found.");
+                                }
+                            }
+
+                            // Get user_id for fine calculation
+                            string getUserIdQuery = "SELECT user_id FROM issues WHERE issue_id = @issue_id";
+                            int userId = 0;
+                            using (SqlCommand getUserIdCmd = new SqlCommand(getUserIdQuery, connect, transaction))
+                            {
+                                getUserIdCmd.Parameters.AddWithValue("@issue_id", issueId);
+                                object userIdResult = getUserIdCmd.ExecuteScalar();
+                                if (userIdResult != null)
+                                {
+                                    userId = Convert.ToInt32(userIdResult);
+                                }
+                            }
+
+                            // Calculate fine before updating return status
+                            var (fineAmount, daysOverdue) = FineCalculator.CalculateFineForIssue(issueId);
+
+                            // Get condition from UI if available, default to "Good"
+                            string condition = "Good"; // Default condition
+                            if (conditionComboBox != null && conditionComboBox.SelectedItem != null)
+                            {
+                                condition = conditionComboBox.SelectedItem.ToString();
+                            }
+
+                            // Update the issue status to 'Return' and set actual_return_date (not return_date)
+                            string updateQuery = @"
+                                UPDATE issues 
+                                SET status = 'Return', 
+                                    actual_return_date = @actualReturnDate,
+                                    condition = @condition
+                                WHERE issue_id = @issue_id";
+                            
+                            using (SqlCommand cmd = new SqlCommand(updateQuery, connect, transaction))
+                            {
+                                cmd.Parameters.AddWithValue("@issue_id", issueId);
+                                cmd.Parameters.AddWithValue("@actualReturnDate", DateTime.Today);
+                                cmd.Parameters.AddWithValue("@condition", condition);
 
                                 cmd.ExecuteNonQuery();
+                            }
+
+                            // Create fine record if overdue
+                            if (fineAmount > 0 && userId > 0)
+                            {
+                                FineCalculator.CreateFineRecord(issueId, userId, fineAmount, daysOverdue);
+                            }
+
+                            // Increment book quantity
+                            if (bookId > 0)
+                            {
+                                string updateQuantityQuery = "UPDATE books SET quantity = quantity + 1 WHERE id = @book_id";
+                                using (SqlCommand updateCmd = new SqlCommand(updateQuantityQuery, connect, transaction))
+                                {
+                                    updateCmd.Parameters.AddWithValue("@book_id", bookId);
+                                    updateCmd.ExecuteNonQuery();
+                                }
+
+                            // Update book status to Available if it was Not Available
+                            string updateStatusQuery = "UPDATE books SET status = 'Available' WHERE id = @book_id AND status = 'Not Available'";
+                            using (SqlCommand statusCmd = new SqlCommand(updateStatusQuery, connect, transaction))
+                            {
+                                statusCmd.Parameters.AddWithValue("@book_id", bookId);
+                                statusCmd.ExecuteNonQuery();
+                            }
+
+                            // Check for reservations when book becomes available
+                            ReservationManager.CheckAndNotifyAvailableReservations(bookId);
+                            }
+
+                            transaction.Commit();
+
+                            // Log audit action
+                            AuditLogger.LogBookReturn(issueId, bookId, userId);
 
                                 displayIssuedBooksData();
                                 MessageBox.Show("Returned successfully!", "Information Message", MessageBoxButtons.OK, MessageBoxIcon.Information);
                                 clearFields();
-                            }
                         }
                         catch (Exception ex)
                         {
-                            MessageBox.Show("Error: " + ex, "Error Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            if (transaction != null)
+                            {
+                                transaction.Rollback();
+                            }
+                            MessageBox.Show("Error: " + ex.Message, "Error Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
                         finally
                         {
+                            if (connect.State == ConnectionState.Open)
+                        {
                             connect.Close();
+                            }
                         }
                     }
                     
@@ -260,6 +357,10 @@ namespace LibraryManagementSystem
             returnBooks_bookTitle.Text = "";
             returnBooks_author.Text = "";
             bookIssue_issueDate.Value = DateTime.Today;
+            if (conditionComboBox != null)
+            {
+                conditionComboBox.SelectedIndex = 1; // Reset to "Good"
+            }
         }
 
         private void returnBooks_clearBtn_Click(object sender, EventArgs e)

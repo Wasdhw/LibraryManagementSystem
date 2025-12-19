@@ -36,8 +36,12 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.buttonPanel = new System.Windows.Forms.Panel();
+            this.reserveBtn = new System.Windows.Forms.Button();
+            this.cancelReserveBtn = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.buttonPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // Title
@@ -140,12 +144,55 @@
             this.pictureBox1.TabIndex = 1;
             this.pictureBox1.TabStop = false;
             // 
+            // buttonPanel
+            // 
+            this.buttonPanel.Controls.Add(this.reserveBtn);
+            this.buttonPanel.Controls.Add(this.cancelReserveBtn);
+            this.buttonPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.buttonPanel.Location = new System.Drawing.Point(0, 586);
+            this.buttonPanel.Name = "buttonPanel";
+            this.buttonPanel.Size = new System.Drawing.Size(477, 50);
+            this.buttonPanel.TabIndex = 4;
+            // 
+            // reserveBtn
+            // 
+            this.reserveBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(150)))), ((int)(((byte)(243)))));
+            this.reserveBtn.FlatAppearance.BorderSize = 0;
+            this.reserveBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.reserveBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.reserveBtn.ForeColor = System.Drawing.Color.White;
+            this.reserveBtn.Location = new System.Drawing.Point(100, 10);
+            this.reserveBtn.Name = "reserveBtn";
+            this.reserveBtn.Size = new System.Drawing.Size(120, 35);
+            this.reserveBtn.TabIndex = 0;
+            this.reserveBtn.Text = "Reserve Book";
+            this.reserveBtn.UseVisualStyleBackColor = false;
+            this.reserveBtn.Visible = false;
+            this.reserveBtn.Click += new System.EventHandler(this.ReserveBtn_Click);
+            // 
+            // cancelReserveBtn
+            // 
+            this.cancelReserveBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(244)))), ((int)(((byte)(67)))), ((int)(((byte)(54)))));
+            this.cancelReserveBtn.FlatAppearance.BorderSize = 0;
+            this.cancelReserveBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cancelReserveBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cancelReserveBtn.ForeColor = System.Drawing.Color.White;
+            this.cancelReserveBtn.Location = new System.Drawing.Point(100, 10);
+            this.cancelReserveBtn.Name = "cancelReserveBtn";
+            this.cancelReserveBtn.Size = new System.Drawing.Size(150, 35);
+            this.cancelReserveBtn.TabIndex = 1;
+            this.cancelReserveBtn.Text = "Cancel Reservation";
+            this.cancelReserveBtn.UseVisualStyleBackColor = false;
+            this.cancelReserveBtn.Visible = false;
+            this.cancelReserveBtn.Click += new System.EventHandler(this.CancelReserveBtn_Click);
+            // 
             // BookInfoForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
             this.ClientSize = new System.Drawing.Size(477, 636);
+            this.Controls.Add(this.buttonPanel);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.Author);
@@ -159,6 +206,7 @@
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            this.buttonPanel.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -174,5 +222,8 @@
         private System.Windows.Forms.Label Availability;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Panel buttonPanel;
+        private System.Windows.Forms.Button reserveBtn;
+        private System.Windows.Forms.Button cancelReserveBtn;
     }
 }
